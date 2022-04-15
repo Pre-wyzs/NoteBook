@@ -2077,7 +2077,7 @@ bug原因：
 
 
 
-# 36、为网页添加加载页面
+# 36、需求思路（添加加载动画）
 
 https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139&spm_id_from=333.337.0.0
 
@@ -2101,7 +2101,7 @@ https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139
 
 
 
-# 37、登出困难BUG
+# 37、BUG（退出困难）
 
 **当时我对这个bug十分不解，现在忽然相到了...**
 
@@ -2510,6 +2510,18 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
+主要就是使用SpringBoot的配置类：
+
+![image-20220415163238709](Typora_images/开发思路与BUG集合/image-20220415163238709.png)
+
+**主要就是boot配置类的对象的生成过程要提一下，就是首先SpringBoot会读取配置类，然后通过配置类的无参构造方法生成一个配置对象，然后才会从yaml配置文件中读取对应的属性的值并注入，当属性值注入完成的时候，调用被@PostConstruct注解的方法。**
+
+
+
+
+
+
+
 
 
 
@@ -2679,13 +2691,17 @@ https://blog.csdn.net/weixin_44147688/article/details/122052434
 
 
 
-## 43.1、时间比较的错误
+## 43.1、时间比较
 
 mysql数据库中的时间是 TIME类型的，如果直接转换成java中的Date类型，你猜会怎么着？
 
 ![image-20220413135534446](Typora_images/开发思路与BUG集合/image-20220413135534446.png)
 
 **好家伙！直接穿越回1970年，巨牛逼！！！**
+
+
+
+**在java中如果将一个HH:mm:ss的字符串转成Date类型，它的日期也是1970那一天。**
 
 
 
@@ -2795,6 +2811,7 @@ String currentTime = sdf.format(systemTime);
     camera.start();
     console.log('摄像头已开启');
 
+    //拍摄一张照片。
     function takeAPhoto(){
         let picture = camera.snap();
         document.querySelector('a').href = picture;
@@ -2808,7 +2825,7 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 
 
-## 43.7、小bug
+## 43.7、bug
 
 ```js
             const webCamDom = this.$refs.webCam;
@@ -2826,21 +2843,16 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 如果用$refs来获取dom对象，对于new Webcam对象来说会构造不出来的，所以只能使用document.getElementById才行。
 
+"推翻上述结论！"
+
+**这个完全是可以的，vue中简便获取dom对象的方式完全是没有问题的，至于为什么当时会爆那个bug我也确实不清楚。。。**
+
+
+
+
+
 **<font color='purple'>使用setTimeOut的方式和setInterval的方式进行延迟摄影都是不可以的，必须实现摄像机自己定时拍摄才行内。<font color='red'>不是,这个是可行的，但是因为刚开始加载并开启摄像头的时候，需要一定的时间，看起来是setTimeout是摄像头展示延时了，其实只是加载的慢而已...把setTimeOut的时间延长就可以了比如10s钟；</font></font>**
 
-
-
-
-
-## 43.8、又是一个小bug
-
-   <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-sm-1" style="background-color: red;">第一列</div>
-            <div class="col-sm-1" style="background-color:purple">第二列</div>
-            <div class="col-sm-1" style="background-color: blue;">第三列</div>
-        </div>
-    </div>
 
 
 
@@ -2857,7 +2869,9 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 **<font color='purple'>不是函数这个bug我们之前不是已经遇到很多次了吗，首先看函数名有没有写对，然后再看方法有没有写在methods域中，最后也是最常见的就是this.fun()，的this指针有没有搞错！（这里确实是这个操作引发的）</font>**
 
-# 45、时间BUG
+# 45、BUG31
+
+**描述：前端时间写入到数据库后，时间变了**
 
 ![image-20220414163524530](Typora_images/开发思路与BUG集合/image-20220414163524530.png)
 
@@ -2935,11 +2949,9 @@ url: jdbc:mysql://localhost:3306/vuespringboot?serverTimezone=UTC&useUnicode=tru
 
 
 
-# 46、经验封装
+# 46、需求思路
 
-**<font color='purple'>一定要封装最核心的，不会变的那些代码，这样才能灵活应用于各种场景！！</font>**
-
-
+描述：在做人脸识别模块的时候，我要把百度提供的人脸识别API封装到utils包下，然后供其他类调用，但发现很难用，因为我的封装方式有问题，**<font color='purple'>一定要封装最核心的，不会变的那些代码，这样才能灵活应用于各种场景！！</font>**
 
 ```java
     public String faceSearch(byte[] bytes){
@@ -2958,17 +2970,189 @@ url: jdbc:mysql://localhost:3306/vuespringboot?serverTimezone=UTC&useUnicode=tru
     }
 ```
 
-**<font color='purple'>像这种代码，最核心的明明是client.search()方法，你向这样封装起来的话，那它只能接收bytes了，不能接收base64的字符串了，何必呢？？？</font>**
-
-**就像我在代码中发现，js好像不能直接向服务器传递文件对象，所以只能把base64的编码传过去了，那你用这个方法，不是用不了了吗？...最后还要改**
-
-**<font color='purple'>万变不离其宗，在封装方法的时候一定要注意，只有恒常不变的那部分才能被封装起来！！！</font>**
+**<font color='purple'>像这种代码，最核心的明明是client.search()方法，你向这样封装起来的话，那它只能接收bytes了，不能接收base64的字符串了，何必呢？？？就像我在代码中发现，js好像不能直接在代码中构造一个file对象传递给后端服务器，所以只能把base64的编码传过去了，那你用这个方法，不是用不了了吗？...最后还要改</font>**
 
 
 
+**<font color='red'>万变不离其宗，在封装方法的时候一定要注意，只有恒常不变的那部分才能被封装起来！！！</font>**
 
 
 
+## 46.1、需求思路（合理封装示例）
+
+```java
+   //核心的方法封装
+    public String faceSearchByBase64(String imgBase64){
+        JSONObject object = client.search(imgBase64,imageType,groupId,null);
+        if(object.getInt("error_code") == 0){
+            JSONObject subObj = object.getJSONObject("result");
+            JSONArray userList = subObj.getJSONArray("user_list");
+            if(userList.length() > 0){
+                JSONObject aUser = userList.getJSONObject(0);
+                Double score = aUser.getDouble("score");
+                return score > 80?aUser.getString("user_id"):null;
+            }
+        }
+        return null;
+    }
+
+    //加一层封装
+    public String faceSearchByBytes(byte[] bytes){
+        String imgBase64 = Base64Util.encode(bytes);
+        return faceSearchByBase64(imgBase64);
+    }
+
+    //再加一层封装
+    public String faceSearchByOrigin(String origin){
+        try{
+            byte[] bytes = Files.readAllBytes(Paths.get(origin));
+            return faceSearchByBytes(bytes);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String faceSearchByFile(MultipartFile file){
+        try{
+            byte[] bytes = file.getBytes();
+            return faceSearchByBytes(bytes);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+```
+
+**<font color='purple'>上面的代码中 faceSearchByBase64就是对百度人脸识别接口的最底层封装，那如果传进来的是一张图片的字节数据，那就可以调用faceSearchByBytes，先把字节数据转成base64编码的字符串然后再调用底层接口就行了；同样的传进来的是一张图片的本地原始路径，就可以使用faceSerachByOrigin先转成字节数组再调用ByBytes方法，这样写多清晰，哈哈。</font>**
 
 
+
+## 46.2、背景知识
+
+### 46.2.1、base64编码方式
+
+**Base64 就是一种基于 64 个可打印字符来表示二进制数据的表示方法**。
+
+![image-20220415145030798](Typora_images/开发思路与BUG集合/image-20220415145030798.png)
+
+参考博文：https://blog.csdn.net/kexuanxiu1163/article/details/97717969
+
+**一张被base64编码过的图片可以通过以下方式在浏览器中访问：**
+
+**data:image/png;base64,后面跟上base64的编码，这串东西就能在url中浏览了**
+
+### 46.2.2、MultipartFile对象
+
+![image-20220415145800657](Typora_images/开发思路与BUG集合/image-20220415145800657.png)
+
+在项目中，我前端使用element ui的文件上传组件上传图片 给后端服务器的，然后下面是后端的代码：
+
+```java
+    /**
+     * 通过文件路径把获取multipartFile对象的方法
+     * */
+    public MultipartFile getMultipartFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        FileInputStream fileInputStream = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(),
+                "application/sql", fileInputStream);
+
+        return multipartFile;
+    }
+
+    /**
+     * 因为上传文件到服务器的接口不能直接在另一个函数中调用，所以直接copy一份，调用这个接口就行了。
+     * */
+    public Result imgFileUpload(MultipartFile file){
+
+        String originName = file.getOriginalFilename(); //获取上传上来的文件的原始文件名
+        if(!originName.endsWith(".jpg")){  //如果不是：以.jpg结尾，那就直接返回上传的格式有问题
+            return Result.error("-1,","图片格式不正确!");
+        }
+
+        String ProjectPath = System.getProperty("user.dir");
+        String savePath = ProjectPath.substring(0,ProjectPath.lastIndexOf('\\')+1)+"FileStorage";
+        File folder = new File(savePath);
+        if(!folder.exists()){
+            folder.mkdirs();
+        }
+        String newName = UUID.randomUUID().toString() + ".jpg";
+        try{
+            /**1、最核心的函数就是这个*/
+            file.transferTo(new File(folder,newName));
+            String realPath = savePath+"\\"+newName;
+            return  Result.success(realPath);
+        }catch (IOException e){
+            e.printStackTrace();
+            return  Result.error("-1",e.getMessage());  //异常居然还有这个函数，哈哈挺好用的学到了
+        }
+    }
+
+
+    //图片上传接口：参考教程:https://www.bilibili.com/video/BV1ei4y1M7Kf/?spm_id_from=333.788.recommend_more_video.-1
+    @PostMapping("/upload")
+    @CrossOrigin
+    public Result fileUpload(MultipartFile file,HttpServletRequest req){
+        return imgFileUpload(file);
+    }
+```
+
+**==对于文件的一些操作我也只能学到皮毛，这里有两个函数，教你怎么把文件路径转换成multipartFile对象，还有就是使用MultipartFile对象的transferTo方法把文件保存到目标文件夹下==**
+
+参考教程：https://www.bilibili.com/video/BV1ei4y1M7Kf/?
+
+
+
+### 46.2.3、java操作JSON对象
+
+```java
+        JSONObject object = client.search(imgBase64,imageType,groupId,null);
+        if(object.getInt("error_code") == 0){
+            JSONObject subObj = object.getJSONObject("result");
+            JSONArray userList = subObj.getJSONArray("user_list");
+            if(userList.length() > 0){
+                JSONObject aUser = userList.getJSONObject(0);
+                Double score = aUser.getDouble("score");
+                return score > 80?aUser.getString("user_id"):null;
+            }
+        }
+```
+
+**在java中JSON对象的类型为JSONObject，获取到它的实例后，其实就是使用键值对的方式取出一个键对应的值就行了，比如json.getInt("键名")，如果一个键对应的是一个json对象，可以用json.getJSONObject("键名")获取，如果一个键对应的是一个json数组则可以用json.getJSONArray("键名")来获取。**
+
+
+
+### 46.2.4、前端上传文件
+
+方式一：element ui
+
+```html
+                    <el-upload action="http://localhost:8080/api/worker/info/upload"
+                                :limit="1" 
+                                accept=".jpg"
+                                :on-success="handleSuccess"
+                                :file-list="fileList"
+                                list-type="picture"
+
+                    ><!--最多允许上传一个-->
+                        <el-button size="small" type="primary">点击上传</el-button>
+                    </el-upload>
+```
+
+**具体的每个属性的含义可以参考官方文档，这个就是点击 “点击上传” 按钮然后就会弹出资源管理器，让你选择一个文件，选中后就会将文件以form-data file的参数形式传递给后端接口。**
+
+
+
+方式二：input type="file"
+
+![image-20220415154957579](Typora_images/开发思路与BUG集合/image-20220415154957579.png)
+
+
+
+**通过input输入框，然后监听它的change事件，选中弹出的资源管理器中的文件后监听函数就被触发了，然后可以通过dom.files[0]在js中获取到那个文件的对象，然后可以通过axios post方法把文件传给后端接口上去**
+
+
+
+**现在都什么年代了，千万不要再用什么form取提交了,form能完成的axios一定能完成，而且更加强大！！！**
 
