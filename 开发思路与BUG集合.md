@@ -6,7 +6,7 @@
 
 **==<font color='red'>问题描述：在methods中写好的函数在调用时候出bug：表示该函数不是一个函数....</font>==**
 
-
+![image-20220415130626699](Typora_images/开发思路与BUG集合/image-20220415130626699.png)
 
 
 
