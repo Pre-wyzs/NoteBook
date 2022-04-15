@@ -1,4 +1,4 @@
-# 开发思路与BUG集合
+开发思路与BUG集合
 
 
 
@@ -6,13 +6,17 @@
 
 **==<font color='red'>问题描述：在methods中写好的函数在调用时候出bug：表示该函数不是一个函数....</font>==**
 
-![image-20220311173420517](E:\Typora\Typora Install\Typora_images\image-20220311173420517.png)
+
+
+
+
+![image-20220311173420517](.\Typora_images\image-20220311173420517.png)
 
 ## 1.1、bug原因
 
 **==在一个组件中定义了两个methods，所以,asyncGetUsers函数识别不到了...==**
 
-![image-20220311173459828](E:\Typora\Typora Install\Typora_images\image-20220311173459828.png)
+![image-20220311173459828](.\Typora_images\image-20220311173459828.png)
 
 
 
@@ -20,15 +24,15 @@
 
 **==<font color='red'>问题描述：在axios中调用函数时表示：这个函数没有定义...</font>==**
 
-![image-20220311175810214](E:\Typora\Typora Install\Typora_images\image-20220311175810214.png)
+![image-20220311175810214](.\Typora_images\image-20220311175810214.png)
 
 ## 2.1、问题解决：
 
-![image-20220311180008602](E:\Typora\Typora Install\Typora_images\image-20220311180008602.png)
+![image-20220311180008602](.\Typora_images\image-20220311180008602.png)
 
 **==<font color='red'>在axios的回调函数中调用组件中的方法时候要注意：这时候this指的是axios而不是组件本身！！！操了</font>==**
 
-![image-20220311180228221](E:\Typora\Typora Install\Typora_images\image-20220311180228221.png)
+![image-20220311180228221](.\Typora_images\image-20220311180228221.png)
 
 **外层添加一个that就行了**
 
@@ -36,7 +40,7 @@
 
 **==<font color='red'>想在这个地方显示当前的页码：</font>==**
 
-![image-20220311180957692](E:\Typora\Typora Install\Typora_images\image-20220311180957692.png)
+![image-20220311180957692](.\Typora_images\image-20220311180957692.png)
 
 
 
@@ -44,7 +48,7 @@
 
 **==<font color='red'>点击具体页码的时候会触发 一个函数，在这个函数中我们可以拿到当前页码，然后就可以在组件里设置一个变量接收它，然后再把这个变量通过{{var}}显示到页面上就可以了</font>==**
 
-![image-20220311182447375](E:\Typora\Typora Install\Typora_images\image-20220311182447375.png)
+![image-20220311182447375](.\Typora_images\image-20220311182447375.png)
 
 
 
@@ -52,7 +56,7 @@
 
 **==<font color='red'>点击两边的按钮实现翻转到上一页和下一页的效果，并且不能超出范围，而且当前页数也会随之改变</font>==**
 
-![image-20220311184710248](E:\Typora\Typora Install\Typora_images\image-20220311184710248.png)
+![image-20220311184710248](.\Typora_images\image-20220311184710248.png)
 
 
 
@@ -62,7 +66,7 @@
 
 **<font color='red'>通过判断后再给子组件传递上一页或者下一页的数据就行了。</font>**
 
-![image-20220311185803493](E:\Typora\Typora Install\Typora_images\image-20220311185803493.png)
+![image-20220311185803493](.\Typora_images\image-20220311185803493.png)
 
 
 
@@ -70,7 +74,7 @@
 
 **==完成单个查询和交叉查询...：失策了，我现在后端只做了单个的接口查询，完成没做交叉查询，这个很致命。。。<font color='red'>难怪先出图后写后端，果然先后不能乱啊</font>==**
 
-![image-20220311210908654](E:\Typora\Typora Install\Typora_images\image-20220311210908654.png)
+![image-20220311210908654](.\Typora_images\image-20220311210908654.png)
 
 
 
@@ -78,11 +82,11 @@
 
 flex布局位置可以被margin改变的原因：
 
-![image-20220311211520143](E:\Typora\Typora Install\Typora_images\image-20220311211520143.png)
+![image-20220311211520143](.\Typora_images\image-20220311211520143.png)
 
 
 
-![image-20220311211603306](E:\Typora\Typora Install\Typora_images\image-20220311211603306.png)
+![image-20220311211603306](.\Typora_images\image-20220311211603306.png)
 
 
 
@@ -204,13 +208,13 @@ export default createStore({
 - **<font color='purple'>我们要知道,vuex中的所有方法都不会自动的执行，所以需要调用执行，在第一步完成后，我们在vue目标组件中的created钩子函数中调用vuex的异步axios方法，然后，在vue组件中访问vuex中的变量，这样就能在vue组件完成挂载渲染页面前拿到从后台取得的数据了，渲染的时候就能出现从后台来的数据很方便</font>**
 - **核心：created函数**
 
-![image-20220311223249060](E:\Typora\Typora Install\Typora_images\image-20220311223249060.png)
+![image-20220311223249060](.\Typora_images\image-20220311223249060.png)
 
 - **<font color='purple'>vue组件完成渲染后，和用户交互的过程中往往需要重新访问接口从后台拿到新的数据，这时候只要把axios引入到vue组件中，然后在自己的methods中定义一个方法，让这个方法去访问得到后端接口的数据，然后更新自己的变量就行了；不过这样做有一个问题就是，vue组件的数据源不一致了，这会产生很多的问题的！，所以在vue组件拿到后端数据后还是调用vuex同步方法去更新state中的数据就行了</font>**
 
 
 
-![image-20220311223359853](E:\Typora\Typora Install\Typora_images\image-20220311223359853.png)
+![image-20220311223359853](.\Typora_images\image-20220311223359853.png)
 
 
 
@@ -220,7 +224,7 @@ export default createStore({
 
 
 
-![image-20220312101703243](E:\Typora\Typora Install\Typora_images\image-20220312101703243.png)
+![image-20220312101703243](.\Typora_images\image-20220312101703243.png)
 
 
 
@@ -234,32 +238,32 @@ export default createStore({
 
 ### 10.1.2、示例：正常打印对象
 
-![image-20220312102558048](E:\Typora\Typora Install\Typora_images\image-20220312102558048.png)
+![image-20220312102558048](.\Typora_images\image-20220312102558048.png)
 
 控制台输出：
-![image-20220312102819870](E:\Typora\Typora Install\Typora_images\image-20220312102819870.png)
+![image-20220312102819870](.\Typora_images\image-20220312102819870.png)
 
 
 
 ### 10.1.3、错误打印对象
 
-![image-20220312102939012](E:\Typora\Typora Install\Typora_images\image-20220312102939012.png)
+![image-20220312102939012](.\Typora_images\image-20220312102939012.png)
 
 控制台：
-![image-20220312103010364](E:\Typora\Typora Install\Typora_images\image-20220312103010364.png)
+![image-20220312103010364](.\Typora_images\image-20220312103010364.png)
 
 对象信息就出不来了，妈的真的服了...
 
 ## 10.2、子bug2
 
-![image-20220312103159998](E:\Typora\Typora Install\Typora_images\image-20220312103159998.png)
+![image-20220312103159998](.\Typora_images\image-20220312103159998.png)
 
 **==<font color='red'>这个bug和v-for的渲染机制有关，这里如果powerConvert是一个对象的话，你猜会怎么着？</font>==**
 
 **<font color='purple'>如果powerConvert是一个这样的对象{id:2,name:'章子唯',power:2}，那么在v-for的眼中它就是一个数组，然后渲染三个tr了...所以一定要注意，把一个对象处理为数组，也就是两边加上[]就行了</font>**
 
 处理：
-![image-20220312103931830](E:\Typora\Typora Install\Typora_images\image-20220312103931830.png)
+![image-20220312103931830](.\Typora_images\image-20220312103931830.png)
 
 
 
@@ -267,19 +271,19 @@ export default createStore({
 
 **==<font color='red'>就是输入ID查询用户对吧</font>==**
 
-![image-20220312114358114](E:\Typora\Typora Install\Typora_images\image-20220312114358114.png)
+![image-20220312114358114](.\Typora_images\image-20220312114358114.png)
 
 
 
 不能谋全局者不能谋一时，不能谋万世者不能谋一时！对于开发来说也是如此啊！如果我们重新写一个接口，在点击查询的时候触发这个接口然后从后端获取数据，更新state仓库虽然实现了功能，但有一些问题：
 
-1、![image-20220312115146302](E:\Typora\Typora Install\Typora_images\image-20220312115146302.png)
+1、![image-20220312115146302](.\Typora_images\image-20220312115146302.png)
 
 所以点击后就会出现原来的数据了。。。
 
 2、解决：**==不要新写一个接口，还是调用原来的函数接口，只不过条件不一样了，然后改变axios访问的后端接口就行了==**
 
-![image-20220312115901197](E:\Typora\Typora Install\Typora_images\image-20220312115901197.png)
+![image-20220312115901197](.\Typora_images\image-20220312115901197.png)
 
 ## 11.1、子问题
 
@@ -287,7 +291,7 @@ export default createStore({
 
 **<font color='purple'>解决：如果用户不存在，首先要给用户前端一个提示：这里用alert()就行了，然后，因为用户不存在，后端不会返回任何数据，这时候就没有必要去更新vuex库了，同时因为用户不存在了，页码也不用改变了。</font>**
 
-![image-20220312120803522](E:\Typora\Typora Install\Typora_images\image-20220312120803522.png)
+![image-20220312120803522](.\Typora_images\image-20220312120803522.png)
 
 
 
@@ -295,7 +299,7 @@ export default createStore({
 
 **==先把大局观列出来比较好==**
 
-![image-20220312133542990](E:\Typora\Typora Install\Typora_images\image-20220312133542990.png)
+![image-20220312133542990](.\Typora_images\image-20220312133542990.png)
 
 **==<font color='red'>情形一：</font>==**
 
@@ -309,7 +313,7 @@ export default createStore({
 
 当ID不为空的时候
 
-![image-20220312134331841](E:\Typora\Typora Install\Typora_images\image-20220312134331841-16470638149001.png)
+![image-20220312134331841](.\Typora_images\image-20220312134331841-16470638149001.png)
 
 **<font color='purple'>当点击查询的时候自然获取到相关的数据，并且当前的页码框也必须如图所示，并且点击后页面的数据不会有任何的变化。当点击其他按钮的时候，连带着id的信息传递给后端的接口</font>**
 
@@ -362,13 +366,13 @@ bug2：
 
 **<font color='red'>在url参数中传递power,namesure,namefuzzy为-1的时候，上面的判断没有执行。。。就尼玛的离谱...</font>**
 
-![image-20220312163348958](E:\Typora\Typora Install\Typora_images\image-20220312163348958.png)
+![image-20220312163348958](.\Typora_images\image-20220312163348958.png)
 
 ==可见在java中，字符串的比较不能直接用\=\= 的==
 
 解决办法：使用compareTo函数判断比较即可
 
-![image-20220312171553075](E:\Typora\Typora Install\Typora_images\image-20220312171553075.png)
+![image-20220312171553075](.\Typora_images\image-20220312171553075.png)
 
 
 
@@ -416,7 +420,7 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 ==需求描述：实现用户登录的效果；==
 
-![image-20220312211555506](E:\Typora\Typora Install\Typora_images\image-20220312211555506.png)
+![image-20220312211555506](.\Typora_images\image-20220312211555506.png)
 
 **<font color='purple'>点击登录后，一定会调用一个函数接口，然后调用axios连带用户名和密码访问后端的接口；后端有这样的一个接口，接受这两个参数，然后调用userMapper查找这个用户是否在数据库中存在，如果存在就返回给前端一个token，获取到token后再去跳转路由进入主页，然后别忘了在跳转前存储一下用户名，方便主页显示。（这里没有必要用到vuex，因为登录组件自己本身就能拿到返回的token了）</font>**
 
@@ -432,11 +436,11 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 **==<font color='red'>bug描述：用这段代码去请求后端的接口报400...无效的请求???</font>==**
 
-![image-20220313082659000](E:\Typora\Typora Install\Typora_images\image-20220313082659000.png)
+![image-20220313082659000](.\Typora_images\image-20220313082659000.png)
 
 使用postman测试后端的端口发现后端已经正常工作了...
 
-![image-20220313082949852](E:\Typora\Typora Install\Typora_images\image-20220313082949852.png)
+![image-20220313082949852](.\Typora_images\image-20220313082949852.png)
 
 解决：了解了axios的post的两种传参方式就行了参考：https://www.bilibili.com/video/BV1Gk4y117CP?from=search&seid=16751696230498215511&spm_id_from=333.337.0.0
 
@@ -448,21 +452,21 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 后端接受json串的方法：https://www.bilibili.com/video/BV11q4y1A7Kw?from=search&seid=8951071532682592715&spm_id_from=333.337.0.0
 
-![image-20220313100845540](E:\Typora\Typora Install\Typora_images\image-20220313100845540.png)
+![image-20220313100845540](.\Typora_images\image-20220313100845540.png)
 
 **==<font color='red'>像这种的后端post接口，前端只能通过form表单数据的提交方式，后端才能接受到：在postman中进行测试</font>==**
 
-![image-20220313101129725](E:\Typora\Typora Install\Typora_images\image-20220313101129725.png)
+![image-20220313101129725](.\Typora_images\image-20220313101129725.png)
 
 **==<font color='red'>后端要想接受json串，那就要把接受的参数进行封装，然后使用@RequestBody注解接受json串，再然后使用get方法就可以访问json串中的内容了</font>==**
 
 
 
-![image-20220313101838339](E:\Typora\Typora Install\Typora_images\image-20220313101838339.png)
+![image-20220313101838339](.\Typora_images\image-20220313101838339.png)
 
 - postman测试一下
 
-![image-20220313103224525](E:\Typora\Typora Install\Typora_images\image-20220313103224525.png)
+![image-20220313103224525](.\Typora_images\image-20220313103224525.png)
 
 
 
@@ -490,14 +494,14 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 ## 16.1、bug（SpringBoot启动失败了...）
 
-![image-20220313161940587](E:\Typora\Typora Install\Typora_images\image-20220313161940587.png)
+![image-20220313161940587](.\Typora_images\image-20220313161940587.png)
 
 
 
 就是.yaml文件和scr文件中的编码格式不一致引起的。
 
 解决：
-![image-20220313162128735](E:\Typora\Typora Install\Typora_images\image-20220313162128735.png)
+![image-20220313162128735](.\Typora_images\image-20220313162128735.png)
 
 - 都改成UTF-8就行了。
 
@@ -505,7 +509,7 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 ## 16.2、bug Jwt报错
 
-![image-20220313162708941](E:\Typora\Typora Install\Typora_images\image-20220313162708941.png)
+![image-20220313162708941](.\Typora_images\image-20220313162708941.png)
 
 
 
@@ -581,27 +585,27 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 点击-》视频监控-》实时监控后，应该能在main组件中路由到视频展示的组件：
 
-![image-20220314092417953](E:\Typora\Typora Install\Typora_images\image-20220314092417953.png)
+![image-20220314092417953](.\Typora_images\image-20220314092417953.png)
 
 我希望在main组件中出现如下的效果：
 
-![image-20220314092516087](E:\Typora\Typora Install\Typora_images\image-20220314092516087.png)
+![image-20220314092516087](.\Typora_images\image-20220314092516087.png)
 
 <font color='purple'>**1：**首先是整个大屏展示3x3的点位监控，**2：**然后在底部有分页的页码条，点击页码条可以跳转到下一个页面看其余的点位视频（页码条不要求实现指定页面的跳转，因为总共也就2、3页的样子，不过上一页下一页以及显示当前是第几页的功能依然是要实现的），**3：**然后再在视频监控的左上角显示当前的位置名，**4：**最后点击一个视频后可以进行全屏的观看</font>
 
 点击全屏观看后展示的效果应该如下图所示：
 
-![image-20220314093530917](E:\Typora\Typora Install\Typora_images\image-20220314093530917.png)
+![image-20220314093530917](.\Typora_images\image-20220314093530917.png)
 
 <font color='purple'>默认开启录制功能，每隔24个小时就保存一次录制好的视频内容存放到本地的一个文件夹下面，然后可以通过历史记录来访问：</font>
 
-![QQ截图20220314094507](E:\Typora\Typora Install\Typora_images\QQ截图20220314094507.png)
+![QQ截图20220314094507](.\Typora_images\QQ截图20220314094507.png)
 
 
 
 ## 17.2、用户管理模块
 
-![image-20220314095639265](E:\Typora\Typora Install\Typora_images\image-20220314095639265.png)
+![image-20220314095639265](.\Typora_images\image-20220314095639265.png)
 
 **<font color='purple'>点击管理员信息后，这个弹框就不要消失了；然后把面包蟹这个垃圾模块去除掉，然后点击我的弹出修改框（就是修改头像，用户名，密码）点击设置可以切换主题；超级管理可以对任意用户进行增删改，普通管理只能对非超级用户进行增删改普通用户只能对自己进行修改操作。。。</font>**
 
@@ -619,7 +623,7 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 2、数组和字符串的转换：https://www.cnblogs.com/windok/p/15599258.html
 
-![image-20220314131848619](E:\Typora\Typora Install\Typora_images\image-20220314131848619.png)
+![image-20220314131848619](.\Typora_images\image-20220314131848619.png)
 
 这个源头去思考问题，会比较好。
 
@@ -627,11 +631,11 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 # 18、bug4
 
-![image-20220314121829927](E:\Typora\Typora Install\Typora_images\image-20220314121829927.png)
+![image-20220314121829927](.\Typora_images\image-20220314121829927.png)
 
 - 但是subItems明明有在Props中出现啊！！！
 - **报错原因：箭头函数无法被识别：改成普通的函数就行了，服了什么错误都有，真的一坨屎山不要去改动他里面的代码，再在上面拉一坨走人就行了，艹**
-  ![image-20220314121949925](E:\Typora\Typora Install\Typora_images\image-20220314121949925.png)
+  ![image-20220314121949925](.\Typora_images\image-20220314121949925.png)
 
 
 
@@ -643,7 +647,7 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 # 19、bug5
 
-![image-20220314214353579](E:\Typora\Typora Install\Typora_images\image-20220314214353579.png)
+![image-20220314214353579](.\Typora_images\image-20220314214353579.png)
 
 - 我把一个input框的value绑定了 props属性，然后还把v-model绑定了id变量，结果就报错了...什么情况？？？
 
@@ -671,11 +675,11 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 **==<font color='red'>描述：通过路由对象（是$route不是$router哦）访问路径参数出错</font>==**
 
-![image-20220314222527870](E:\Typora\Typora Install\Typora_images\image-20220314222527870.png)
+![image-20220314222527870](.\Typora_images\image-20220314222527870.png)
 
 
 
-![image-20220314222549764](E:\Typora\Typora Install\Typora_images\image-20220314222549764.png)
+![image-20220314222549764](.\Typora_images\image-20220314222549764.png)
 
 - 问题解决：
 
@@ -689,19 +693,19 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 ## 20.3、bug
 
-![image-20220315083814122](E:\Typora\Typora Install\Typora_images\image-20220315083814122.png)
+![image-20220315083814122](.\Typora_images\image-20220315083814122.png)
 
 **解决：因为调用的时候函数名写错了捏....就离大谱**
 
 ## 20.4、bug（逻辑bug）
 
-![image-20220315090605483](E:\Typora\Typora Install\Typora_images\image-20220315090605483.png)
+![image-20220315090605483](.\Typora_images\image-20220315090605483.png)
 
 
 
 
 
-![image-20220315090626264](E:\Typora\Typora Install\Typora_images\image-20220315090626264.png)
+![image-20220315090626264](.\Typora_images\image-20220315090626264.png)
 
 
 
@@ -715,13 +719,13 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 **<font color='purple'>解决：主要有两种思路：1->把这段路由的代码直接改成：location.reload();重新加载整个页面，但是这样做的话相当于重新加载整个dom文档树，这就很麻烦了，效率太低了。2-》直接使用获取表格的异步代码，局部刷新表格就行了</font>**
 
-![image-20220315092725682](E:\Typora\Typora Install\Typora_images\image-20220315092725682.png)
+![image-20220315092725682](.\Typora_images\image-20220315092725682.png)
 
 - **<font color='purple'>这里有个小问题，就是当删除了数据之后，就重新回到了第一页，可如果用户是在第4页删除的数据呢？所以这里重新向服务器发起请求的时候应该携带上之前页面状态的参数才对捏</font>**
 
 - 解决：
 
-  ![image-20220322192224837](E:\Typora\Typora Install\Typora_images\image-20220322192224837.png)
+  ![image-20220322192224837](.\Typora_images\image-20220322192224837.png)
 
 
 
@@ -735,13 +739,13 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 **<font color='purple'>从大局的角度上来说，一个项目要实现很多的功能，那就要编写很多的代码，那代码的行数可能有十万行甚至几十万行，难道要把这些代码都编写在一个文件中吗？所以必定要模块化划分文件便于于开发人员编写，然后通过编译器进行编译链接把这些模块文件连在一起再放到内存中给cpu执行吧，模块块化的开发方式在vue中的实现方式如下：</font>**
 
-![image-20220315121633335](E:\Typora\Typora Install\Typora_images\image-20220315121633335-16473177955351.png)
+![image-20220315121633335](.\Typora_images\image-20220315121633335-16473177955351.png)
 
 - **<font color='red'>导入一个对象，导出一个对象（{}在js中就是一个对象了）,注册导入的对象。在template中使用导入的对象。</font>**
 
 **<font color='purple'>在java中的实现方式如下</font>**
 
-![image-20220315122440755](E:\Typora\Typora Install\Typora_images\image-20220315122440755.png)
+![image-20220315122440755](.\Typora_images\image-20220315122440755.png)
 
 - **<font color="red">在java中就直接导入一个类，实例化一个对象或从srping中自动注入一个对象，然后调用该对象的方法</font>**
 
@@ -751,7 +755,7 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 **<font color='purple'>在java中可以使用构造函数给自己的变量初始化数据，而在vue中，可以使用props属性定义变量来接受外部的参数，并且可以直接在\<template>中使用这些变量，也可以通过如下的方式给vue对象自己的变量初始化。</font>**
 
-![image-20220315124427967](E:\Typora\Typora Install\Typora_images\image-20220315124427967.png)
+![image-20220315124427967](.\Typora_images\image-20220315124427967.png)
 
 - **==注意初始化后my的值就不会随着isShrink的值改变而改变了，所以其实这东西对vue来说没有什么用的。==**
 
@@ -773,7 +777,7 @@ http://localhost:8080/api/admin/general?id=&power=&nameSure=&nameFuzzy=&pageNum=
 
 **404页面配置出错了...**
 
-![image-20220317162553212](E:\Typora\Typora Install\Typora_images\image-20220317162553212.png)
+![image-20220317162553212](.\Typora_images\image-20220317162553212.png)
 
 
 
@@ -815,13 +819,13 @@ https://blog.csdn.net/Dawnchen1/article/details/116742166
 
 **现在先把不需要图标的设备管理模块给搞好先，大致的页面应该如下图所示：**
 
-![image-20220317165742070](E:\Typora\Typora Install\Typora_images\image-20220317165742070.png)
+![image-20220317165742070](.\Typora_images\image-20220317165742070.png)
 
 - **<font color='purple'>权限的控制我想由前端来实现，这样可以减少服务器的压力，传输效率可以提高，当然如果是为了安全，最好还是也把后端的权限控制写一下，设备信息页面大概就这么多，还有历史记录的页面。等下，差点忘了，在查询的时候还要添加上一个下拉列表，里面选项分别是查询所有，查询在线，查询离线</font>**
 
 - 历史记录的页面大概如下：
 
-![image-20220317174136205](E:\Typora\Typora Install\Typora_images\image-20220317174136205.png)
+![image-20220317174136205](.\Typora_images\image-20220317174136205.png)
 
 - **<font color='purple'>我这么设计这个界面的话，其实比较好的做法是什么，是只有一个日期查询输入框，然后再加上一个状态选择，要么在线，要么离线，要么全选，日期+状态就能知道这个设备在这个时间点是开启还是关闭了捏。</font>**
 
@@ -841,11 +845,11 @@ https://blog.csdn.net/Dawnchen1/article/details/116742166
 
 **bug描述，传递get的参数报空指针异常**
 
-![image-20220317201744415](E:\Typora\Typora Install\Typora_images\image-20220317201744415.png)
+![image-20220317201744415](.\Typora_images\image-20220317201744415.png)
 
 - **<font color='red'>解决：这是因为我在postman里面只传递了一个参数，其他的参数还没有传。（不过有默认值的就可以不用传了捏，哈哈!!）</font>**
 
-![image-20220317201843694](E:\Typora\Typora Install\Typora_images\image-20220317201843694.png)
+![image-20220317201843694](.\Typora_images\image-20220317201843694.png)
 
 
 
@@ -898,7 +902,7 @@ SELECT * FROM k_student WHERE create_time  between '2019-07-25 00:00:33' and '20
 - http://localhost:8080/api/deviceHistory/general?nameSure=水&nameFuzzy=水&startDate=&endDate=&status=&pageNum=&pageSize=
 - 这样的一个请求报400了,我也不清楚为什么？？？
 
-![image-20220318084502266](E:\Typora\Typora Install\Typora_images\image-20220318084502266.png)
+![image-20220318084502266](.\Typora_images\image-20220318084502266.png)
 
 - **<font color='red'>解决：因为在请求参数中有Date类型的参数，所以就会报400坏的请求，我看看能不能在get请求中接受Date类型的参数。</font>**
 
@@ -906,7 +910,7 @@ SELECT * FROM k_student WHERE create_time  between '2019-07-25 00:00:33' and '20
 
 其实很简单，这样传就行了,
 
-![image-20220318090533183](E:\Typora\Typora Install\Typora_images\image-20220318090533183.png)
+![image-20220318090533183](.\Typora_images\image-20220318090533183.png)
 
 - **<font color='purple'>意思就是说，把传进来是这样形式的字符串当做一个Date接受起来就可以了，如果没有传时间的话，那么在java中startDate就是null，而不是""!</font>**
 
@@ -948,7 +952,7 @@ http://localhost:8080/api/deviceInfo/general?nameSure=&nameFuzzy=&status=&pageNu
 
 **后端接收情况**
 
-![image-20220322200321697](E:\Typora\Typora Install\Typora_images\image-20220322200321697.png)
+![image-20220322200321697](.\Typora_images\image-20220322200321697.png)
 
 - String类型为""；Integer类型为null；
 
@@ -974,7 +978,7 @@ http://localhost:8080/api/deviceInfo/general?nameSure=''&nameFuzzy=''&status=&pa
 
 **后端接收情况**
 
-![image-20220322202034359](E:\Typora\Typora Install\Typora_images\image-20220322202034359.png)
+![image-20220322202034359](.\Typora_images\image-20220322202034359.png)
 
 
 
@@ -984,7 +988,7 @@ http://localhost:8080/api/deviceInfo/general?nameSure=''&nameFuzzy=''&status=&pa
 http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&nameFuzzy=&status=
 ```
 
-![image-20220322203936494](E:\Typora\Typora Install\Typora_images\image-20220322203936494.png)
+![image-20220322203936494](.\Typora_images\image-20220322203936494.png)
 
 
 
@@ -1004,11 +1008,11 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 ## 22.5、bug（设计bug，无报错）
 
-![image-20220318102929069](E:\Typora\Typora Install\Typora_images\image-20220318102929069.png)
+![image-20220318102929069](.\Typora_images\image-20220318102929069.png)
 
 - **<font color='red'>bug原因</font>**
 
-![image-20220318103009841](E:\Typora\Typora Install\Typora_images\image-20220318103009841.png)
+![image-20220318103009841](.\Typora_images\image-20220318103009841.png)
 
 
 
@@ -1031,7 +1035,7 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 - **<font color='red'>我们知道在v-for的情况下，div中的class做了绑定，但是其实还是访问不到item.status的，怎么解决这个问题呢？</font>**
 
-![image-20220318184517398](E:\Typora\Typora Install\Typora_images\image-20220318184517398.png)
+![image-20220318184517398](.\Typora_images\image-20220318184517398.png)
 
 - **<font color='purple'>解决：很简单，直接使用index访问数组中的某一个对象就行了，哈哈</font>**
 
@@ -1041,7 +1045,7 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 ## 22.9、bug10（逻辑bug，无报错）
 
-![image-20220318210256335](E:\Typora\Typora Install\Typora_images\image-20220318210256335.png)
+![image-20220318210256335](.\Typora_images\image-20220318210256335.png)
 
 - **<font color='red'>请找出框框中有误的地方....因为把框框去掉后调用接口可以正常获取所有的数据，现在调用同样的接口获取的记录数为0...不知道为什么。</font>**
 
@@ -1051,15 +1055,15 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 - **<font color='red'>解决：其实上面的地方并没有错误。。。错误在Controller层的这两段代码：</font>**
 
-![image-20220318211144269](E:\Typora\Typora Install\Typora_images\image-20220318211144269.png)
+![image-20220318211144269](.\Typora_images\image-20220318211144269.png)
 
-![image-20220318211221547](E:\Typora\Typora Install\Typora_images\image-20220318211221547.png)
+![image-20220318211221547](.\Typora_images\image-20220318211221547.png)
 
 - **<font color='red'>也就是当startDate和endDate传进来的时候为空，但是在map中设置的时候"startDate"就是不null了，而是一段空的字符串""，"endDate"也一样的，所以mybatis中就会多加上没有用的日期比较查询条件，只要把第一段代码改成如下的代码就行了。</font>**
 
 
 
-![image-20220318211524163](E:\Typora\Typora Install\Typora_images\image-20220318211524163.png)
+![image-20220318211524163](.\Typora_images\image-20220318211524163.png)
 
 
 
@@ -1071,17 +1075,17 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 **<font color='red'>bug描述：莫名其妙的vuex中的属性和其他的函数就读取不出来了...</font>**
 
-![image-20220318221629021](E:\Typora\Typora Install\Typora_images\image-20220318221629021.png)
+![image-20220318221629021](.\Typora_images\image-20220318221629021.png)
 
 
 
 - **<font color='red'>解决：是因为webpack的语法错误了...</font>**
 
-![image-20220318221751957](E:\Typora\Typora Install\Typora_images\image-20220318221751957.png)
+![image-20220318221751957](.\Typora_images\image-20220318221751957.png)
 
 - **<font color='red'>导出模块的时候加上一个{}...</font>**
 
-![image-20220318221842435](E:\Typora\Typora Install\Typora_images\image-20220318221842435.png)
+![image-20220318221842435](.\Typora_images\image-20220318221842435.png)
 
 - **<font color='red'>导入模块的时候又加上了一个{}...就很离谱</font>**
 
@@ -1099,7 +1103,7 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 **<font color='red'>需求描述：如何在vue中传递option选项的值捏？</font>**
 
-![image-20220319095306938](E:\Typora\Typora Install\Typora_images\image-20220319095306938.png)
+![image-20220319095306938](.\Typora_images\image-20220319095306938.png)
 
 **<font color='purple'>在select标签中使用v-mode就可以把选项的value值和vue组件的变量进行一个绑定了，使用@change事件就可以触发响应的函数了，而不是@clikc事件</font>**
 
@@ -1109,11 +1113,11 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 - 最全面的处理函数 ：https://blog.csdn.net/frontend_frank/article/details/109759709
 - url中的特殊字符处理：https://blog.csdn.net/u013991521/article/details/52442115
 
-![image-20220322194149362](E:\Typora\Typora Install\Typora_images\image-20220322194149362.png)
+![image-20220322194149362](.\Typora_images\image-20220322194149362.png)
 
 ## 24.2、bug12（逻辑bug，无报错）
 
-![image-20220319152939177](E:\Typora\Typora Install\Typora_images\image-20220319152939177.png)
+![image-20220319152939177](.\Typora_images\image-20220319152939177.png)
 
 - **<font color='red'>我设置的起始日期是2022-3-18 15:00:00，也就是说时间戳要大于这个才行啊，为什么会出现这个东西呢？这个就很离谱了</font>**
 
@@ -1121,7 +1125,7 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 然后我到数据库中查看一个下，发现这条记录的时间是
 
-![image-20220319153319559](E:\Typora\Typora Install\Typora_images\image-20220319153319559.png)
+![image-20220319153319559](.\Typora_images\image-20220319153319559.png)
 
 - **前端和后端的数据怎么会对不上呢？？？**
 
@@ -1131,7 +1135,7 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 
 
-![image-20220319164557136](E:\Typora\Typora Install\Typora_images\image-20220319164557136.png)
+![image-20220319164557136](.\Typora_images\image-20220319164557136.png)
 
 - **<font color='red'>在数据库属性中配置UTC没有用的，艹了，给我真不会了...这种Bug搞起来真的很耗费时间啊。</font>**
 
@@ -1228,7 +1232,7 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 **主要是要解决后端数据变化后，前端实时的展示，这个东西是整个项目的精髓所在。**
 
-![image-20220320140958212](E:\Typora\Typora Install\Typora_images\image-20220320140958212.png)
+![image-20220320140958212](.\Typora_images\image-20220320140958212.png)
 
 
 
@@ -1254,13 +1258,13 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 ## 25.3、bug13（批量删除逻辑报错）
 
-![image-20220321222050770](E:\Typora\Typora Install\Typora_images\image-20220321222050770.png)
+![image-20220321222050770](.\Typora_images\image-20220321222050770.png)
 
 
 
 **<font color='red'>问题描述：就是删除一页的全部内容后，该页的内容会重新从数据库中获取的对吧，而重新获取到的内容再次选中删除后就报错了，就是上面的那个错，不知道为什么???</font>**
 
-![image-20220322075635830](E:\Typora\Typora Install\Typora_images\image-20220322075635830.png)
+![image-20220322075635830](.\Typora_images\image-20220322075635830.png)
 
 
 
@@ -1270,15 +1274,15 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 - **<font color='purple'>解决，是前端的问题</font>**
 
-![image-20220322081150243](E:\Typora\Typora Install\Typora_images\image-20220322081150243-16479079121931.png)
+![image-20220322081150243](.\Typora_images\image-20220322081150243-16479079121931.png)
 
 **<font color='purple'>前端每次发送的时候，ids都没有重新清空过，这就导致ids被发送到后端的时候，还携带上一次的数据和token信息（第二个框框），所以后端处理不了了就报错了。</font>**
 
-![image-20220322081434048](E:\Typora\Typora Install\Typora_images\image-20220322081434048.png)
+![image-20220322081434048](.\Typora_images\image-20220322081434048.png)
 
 **<font color='purple'>只要每次发送批量删除的请求后，再次进行重置ids中的所有内容就行了</font>**
 
-![image-20220322082451278](E:\Typora\Typora Install\Typora_images\image-20220322082451278.png)
+![image-20220322082451278](.\Typora_images\image-20220322082451278.png)
 
 
 
@@ -1292,7 +1296,7 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 原因：
 
-![image-20220322093510151](E:\Typora\Typora Install\Typora_images\image-20220322093510151.png)
+![image-20220322093510151](.\Typora_images\image-20220322093510151.png)
 
 **你这样写不就执行了两次增加吗？？？**
 
@@ -1306,7 +1310,7 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 ## 25.5、bug15、websocket关闭报错
 
-![image-20220322090521571](E:\Typora\Typora Install\Typora_images\image-20220322090521571.png)
+![image-20220322090521571](.\Typora_images\image-20220322090521571.png)
 
 - **<font color='purple'>原因：这个是因为，客户端的WebSocket对象已经关闭了，而对应的服务端的endPoints对象还存在，这时候让服务端的endPoints对象去传数据给客户端的sokcet对象，服务端当然报找不到喽...</font>**
 
@@ -1378,13 +1382,13 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 
 
-![image-20220325125701255](E:\Typora\Typora Install\Typora_images\image-20220325125701255.png)
+![image-20220325125701255](.\Typora_images\image-20220325125701255.png)
 
 **历史记录这里要写一些什么捏？因为在尾气检测这里就可以查看所有历史的图表了，所以历史记录就和以前一样使用使用查找的那个模板就行了，也比较简单。**
 
 基本上就是这样的：
 
-![image-20220325130123093](E:\Typora\Typora Install\Typora_images\image-20220325130123093.png)
+![image-20220325130123093](.\Typora_images\image-20220325130123093.png)
 
 只不过是表的字段改一下，改成和实时检测表一样的就行了。
 
@@ -1421,7 +1425,7 @@ import * as echarts from 'echarts'
 
 **<font color='purple'>在mounted钩子函数中去进行图标的绘制，因为只有在mounted钩子函数中才能获取到页面上的dom元素的</font>**
 
-![image-20220326131813149](E:\Typora\Typora Install\Typora_images\image-20220326131813149.png)
+![image-20220326131813149](.\Typora_images\image-20220326131813149.png)
 
 
 
@@ -1449,11 +1453,11 @@ import * as echarts from 'echarts'
 
 **<font color='purple'>我原以为F11后图表的大小没有重新绘制改变是因为window.onresize捕获不到F11...但其实是可以捕获到的，那为什么图表没有重新绘制成对应的比例内？因为获取的宽和高有莫名其妙的问题，</font>**
 
-![image-20220326132514208](E:\Typora\Typora Install\Typora_images\image-20220326132514208.png)
+![image-20220326132514208](.\Typora_images\image-20220326132514208.png)
 
 **<font color='purple'>按道理来说，在页面大小改变的时候，我去获取图表绑定div容器的宽和高，然后在resize的时候重新传递给exhasutChart对吧，那页面大小改变后图表的比例应该也是正确的呀</font>**
 
-![image-20220326132845243](E:\Typora\Typora Install\Typora_images\image-20220326132845243.png)
+![image-20220326132845243](.\Typora_images\image-20220326132845243.png)
 
 **<font color='purple'>可是当我F11的时候，发现获取到的div容器的宽度没问题（所以图表宽度是对应比例的），但是获取到的图表的高度有很大的问题？？？更本就不是一个值了？？这是为什么捏？</font>**
 
@@ -1465,7 +1469,7 @@ import * as echarts from 'echarts'
 
 **<font color='red'>退而求其次的解决办法</font>**
 
-![image-20220331191526487](E:\Typora\Typora Install\Typora_images\image-20220331191526487.png)
+![image-20220331191526487](.\Typora_images\image-20220331191526487.png)
 
 **<font color='purple'>添加一个函数，在这个函数里面resize一下吧，发现图表情况不对劲就手动再改一下就行了，因为window.resize对f11和窗口放大缩小的功能做得很不好，漏洞很大，所以只能手动一下了</font>**
 
@@ -1477,7 +1481,7 @@ import * as echarts from 'echarts'
 
 
 
-![image-20220327103305414](E:\Typora\Typora Install\Typora_images\image-20220327103305414.png)
+![image-20220327103305414](.\Typora_images\image-20220327103305414.png)
 
 
 
@@ -1485,7 +1489,7 @@ import * as echarts from 'echarts'
 
 
 
-![image-20220327104227639](E:\Typora\Typora Install\Typora_images\image-20220327104227639.png)
+![image-20220327104227639](.\Typora_images\image-20220327104227639.png)
 
 
 
@@ -1509,7 +1513,7 @@ C6H6：#FD0100
 
 
 
-![image-20220327103722774](E:\Typora\Typora Install\Typora_images\image-20220327103722774.png)
+![image-20220327103722774](.\Typora_images\image-20220327103722774.png)
 
 
 
@@ -1527,7 +1531,7 @@ C6H6：#FD0100
 
 **<font color='red'>需求描述：把legend的每一项的文本的颜色和每一项数据的颜色搭配起来，就是如下的效果</font>**
 
-![image-20220328093651445](E:\Typora\Typora Install\Typora_images\image-20220328093651445.png)
+![image-20220328093651445](.\Typora_images\image-20220328093651445.png)
 
 
 
@@ -1631,7 +1635,7 @@ exhaustChart.on("updateAxisPointer", function (event) {
 
 
 
-![image-20220328185742689](E:\Typora\Typora Install\Typora_images\image-20220328185742689.png)
+![image-20220328185742689](.\Typora_images\image-20220328185742689.png)
 
 
 
@@ -1649,10 +1653,10 @@ exhaustChart.on("updateAxisPointer", function (event) {
 
 postman
 
-![image-20220329100844943](E:\Typora\Typora Install\Typora_images\image-20220329100844943.png)
+![image-20220329100844943](.\Typora_images\image-20220329100844943.png)
 
 Controller层：
-![image-20220329100950659](E:\Typora\Typora Install\Typora_images\image-20220329100950659.png)
+![image-20220329100950659](.\Typora_images\image-20220329100950659.png)
 
 
 
@@ -1662,13 +1666,13 @@ Controller层：
 
 改成小写...
 
-![image-20220329113817915](E:\Typora\Typora Install\Typora_images\image-20220329113817915.png)
+![image-20220329113817915](.\Typora_images\image-20220329113817915.png)
 
 **<font color='red'>服务器中entity的大小写没有影响，主要就是传递的JSON数据的键，它的首字母必须小写捏</font>**
 
 
 
-![image-20220329113936397](E:\Typora\Typora Install\Typora_images\image-20220329113936397.png)
+![image-20220329113936397](.\Typora_images\image-20220329113936397.png)
 
 
 
@@ -1700,15 +1704,15 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-![image-20220329132037286](E:\Typora\Typora Install\Typora_images\image-20220329132037286.png)
+![image-20220329132037286](.\Typora_images\image-20220329132037286.png)
 
 **<font color='red'>因为这个standardValue代表的是标准值，不用每次都从外边获取的，所以我就想设置它的默认值，这样每次增加里面的记录的时候然后就可以自动生成设置好的标准数值了捏</font>**
 
-![image-20220329132442812](E:\Typora\Typora Install\Typora_images\image-20220329132442812.png)
+![image-20220329132442812](.\Typora_images\image-20220329132442812.png)
 
 ## 29.8、需求思路
 
-![image-20220329154445945](E:\Typora\Typora Install\Typora_images\image-20220329154445945.png)
+![image-20220329154445945](.\Typora_images\image-20220329154445945.png)
 
 **<font color='purple'>把这部分数据放到vuex中的getters中，因为可以从数据库获取到exhausts的所有记录，然后再用vuex Getters把这些数据进行处理包装成上面的四个数据，然后再用map辅助函数拿到这些数据就行了</font>**
 
@@ -1736,7 +1740,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 **==<font color='red'>如何在vue中拿到一个dom的对象，？？不用再使用document了，用下面的方法就好了</font>==**
 
-![image-20220330094306674](E:\Typora\Typora Install\Typora_images\image-20220330094306674.png)
+![image-20220330094306674](.\Typora_images\image-20220330094306674.png)
 
 **<font color='purple'>只要给一个元素加上ref属性然后使用this.$ref.ref名称就行了，多美妙啊，我去</font>**
 
@@ -1748,11 +1752,11 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-![image-20220330094556554](E:\Typora\Typora Install\Typora_images\image-20220330094556554.png)
+![image-20220330094556554](.\Typora_images\image-20220330094556554.png)
 
 **<font color='purple'>在async中使用axios更新vuex仓库中的所有数据，但是，因为是异步的方法，所以this.exhausts还是只有原来的那一个...包括在mounted钩子函数中也是这样的，我原以为只是数据还没有获取到，等待一段时间就可以了，于是有了下面的代码，</font>**
 
-![image-20220330094944267](E:\Typora\Typora Install\Typora_images\image-20220330094944267.png)
+![image-20220330094944267](.\Typora_images\image-20220330094944267.png)
 
 **==<font color='red'>这个挺诡异的，我也搞不懂是为什么，好像只有整个vue组件完全加载完成后，在template中使用vuex中的数据才是真正从后端获取到的，这个我真的不懂，为什么？？</font>==**
 
@@ -1760,7 +1764,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 ## 解决：换技术方案
 
-![image-20220330130852553](E:\Typora\Typora Install\Typora_images\image-20220330130852553.png)
+![image-20220330130852553](.\Typora_images\image-20220330130852553.png)
 
 **<font color='red'>使用这个函数直接获取到后端返回的数据初始化给本地数据。</font>**
 
@@ -1770,7 +1774,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-![image-20220330131424070](E:\Typora\Typora Install\Typora_images\image-20220330131424070.png)
+![image-20220330131424070](.\Typora_images\image-20220330131424070.png)
 
 
 
@@ -1780,7 +1784,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 **<font color='red'>第二个bug的解决：</font>**
 
-![image-20220330132639289](E:\Typora\Typora Install\Typora_images\image-20220330132639289.png)
+![image-20220330132639289](.\Typora_images\image-20220330132639289.png)
 
 
 
@@ -1800,25 +1804,25 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 **<font color='purple'>如果在一个vue component组件对象中，有一个方法A改变了变量a的值，那么在函数B中去访问变量a，a的值有没有被改变呢</font>**
 
-![image-20220331151110474](E:\Typora\Typora Install\Typora_images\image-20220331151110474.png)
+![image-20220331151110474](.\Typora_images\image-20220331151110474.png)
 
 **<font color='purple'>在getData函数中更新本地变量 this.\_exhausts的值对吧，然后再mounted函数中执行这个函数，看看this._exhausts的值有没有改变。</font>**
 
 
 
-![image-20220331151556724](E:\Typora\Typora Install\Typora_images\image-20220331151556724.png)
+![image-20220331151556724](.\Typora_images\image-20220331151556724.png)
 
 **<font color='red'>结果如下所示：就是获取不到...</font>**
 
 
 
-![image-20220331151533585](E:\Typora\Typora Install\Typora_images\image-20220331151533585.png)
+![image-20220331151533585](.\Typora_images\image-20220331151533585.png)
 
 
 
 **==<font color='red'>进一步想一下，如果把console.log(this._exhausts)封装成一个函数的话，那么在函数A中改变变量的值，在函数B中是获取不到的...那什么时候可以获取到最新的值呢？有两种情况，一是在template模板中结合vue指令可以获取到最新的值，还有一种就是在改变变量的函数作用域内部可以获取到最新的值。比如如下所示：</font>==**
 
-![image-20220331161901852](E:\Typora\Typora Install\Typora_images\image-20220331161901852.png)
+![image-20220331161901852](.\Typora_images\image-20220331161901852.png)
 
 
 
@@ -1832,23 +1836,23 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 2. **<font color='red'>之前的代码都是从后端获取数据改变仓储数据（和本地变量没有区别）然后显示在template模板中，这时候模板中的这些数据都是最新的，然后还有一种情况就是在template模板中触发函数，在函数中获取到的数据也是最新的，就比如下面的例子。</font>**
 
 准备一个test变量：
-![image-20220331154134075](E:\Typora\Typora Install\Typora_images\image-20220331154134075.png)
+![image-20220331154134075](.\Typora_images\image-20220331154134075.png)
 
 随便在一个函数中改变这个变量的值
 
-![image-20220331154211021](E:\Typora\Typora Install\Typora_images\image-20220331154211021.png)
+![image-20220331154211021](.\Typora_images\image-20220331154211021.png)
 
 在钩子函数中调用该函数
 
-![image-20220331154251335](E:\Typora\Typora Install\Typora_images\image-20220331154251335.png)
+![image-20220331154251335](.\Typora_images\image-20220331154251335.png)
 
 写一个testClickt打印this.test变量，并在template中使用click事件触发这个函数。
 
-![image-20220331154315432](E:\Typora\Typora Install\Typora_images\image-20220331154315432.png)
+![image-20220331154315432](.\Typora_images\image-20220331154315432.png)
 
 结果：获取到的数据是最新的。
 
-![image-20220331154427948](E:\Typora\Typora Install\Typora_images\image-20220331154427948.png)
+![image-20220331154427948](.\Typora_images\image-20220331154427948.png)
 
 
 
@@ -1864,7 +1868,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 ### 3、开启监听函数
 
-![image-20220331163319967](E:\Typora\Typora Install\Typora_images\image-20220331163319967.png)
+![image-20220331163319967](.\Typora_images\image-20220331163319967.png)
 
 **==<font color='red'>我们都知道函数一般在 *钩子中被调用*或者在 *触发事件（模板中@click...）的时候被调用*，当然这两者没有任何区别只不过被调用的时机不同而已，现在又有一种新的方式，就是开启一个监听函数，就是函数执行到框框中的内容时，框框中的函数并不会被立即调用而是给一个事件赋值了一个函数，当这个事件触发的时候，该函数就会被执行了。</font>==**
 
@@ -1874,11 +1878,11 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 因为元素堆叠的问题，选取不到退出选项了。
 
-![image-20220331193314100](E:\Typora\Typora Install\Typora_images\image-20220331193314100.png)
+![image-20220331193314100](.\Typora_images\image-20220331193314100.png)
 
 ==解决：设置z-index就可以了==
 
-![image-20220331193424216](E:\Typora\Typora Install\Typora_images\image-20220331193424216.png)
+![image-20220331193424216](.\Typora_images\image-20220331193424216.png)
 
 
 
@@ -1886,7 +1890,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 ## 31.1、一个粗心的BUG
 
-![image-20220331210617925](E:\Typora\Typora Install\Typora_images\image-20220331210617925.png)
+![image-20220331210617925](.\Typora_images\image-20220331210617925.png)
 
 **==<font color='red'>order by语句必须要写在where标签的外边才行不然的话如果所有的都没有的就会变成错误提示里面的语句，多了一个where语句怎么查的出来。</font>==**
 
@@ -1896,11 +1900,11 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 ## 31.2：BUG21
 
-![image-20220401093805432](E:\Typora\Typora Install\Typora_images\image-20220401093805432.png)
+![image-20220401093805432](.\Typora_images\image-20220401093805432.png)
 
 
 
-![image-20220401093915600](E:\Typora\Typora Install\Typora_images\image-20220401093915600.png)
+![image-20220401093915600](.\Typora_images\image-20220401093915600.png)
 
 **==///???==**
 
@@ -1919,7 +1923,7 @@ https://www.cnblogs.com/--cainiao/p/9999170.html  （教你如何import对象）
 
 代码部分：
 
-![image-20220402111651986](E:\Typora\Typora Install\Typora_images\image-20220402111651986.png)
+![image-20220402111651986](.\Typora_images\image-20220402111651986.png)
 
 
 
@@ -1937,18 +1941,18 @@ https://www.cnblogs.com/--cainiao/p/9999170.html  （教你如何import对象）
 
 
 
-![image-20220402145225883](E:\Typora\Typora Install\Typora_images\image-20220402145225883.png)
+![image-20220402145225883](.\Typora_images\image-20220402145225883.png)
 
 **<font color='purple'>这里本来应该是五个分页才对啊，怎么变成10个了？？？</font>**
 
 **<font color='purple'>解决：这里函数用错了：是slice而不是splice函数！！！</font>**
 
-![image-20220402155117926](E:\Typora\Typora Install\Typora_images\image-20220402155117926.png)
+![image-20220402155117926](.\Typora_images\image-20220402155117926.png)
 
 
 
 改成slice函数就行了：
-![image-20220402155231973](E:\Typora\Typora Install\Typora_images\image-20220402155231973.png)
+![image-20220402155231973](.\Typora_images\image-20220402155231973.png)
 
 
 
@@ -1964,7 +1968,7 @@ https://echarts.apache.org/examples/zh/editor.html?c=pictorialBar-dotted
 
 
 
-![image-20220403092038713](E:\Typora\Typora Install\Typora_images\image-20220403092038713.png)
+![image-20220403092038713](.\Typora_images\image-20220403092038713.png)
 
 **这图用来做考勤的模块挺好的。**
 
@@ -1972,11 +1976,11 @@ https://echarts.apache.org/examples/zh/editor.html?c=pictorialBar-dotted
 
 
 
-![image-20220403103130107](E:\Typora\Typora Install\Typora_images\image-20220403103130107.png)
+![image-20220403103130107](.\Typora_images\image-20220403103130107.png)
 
 
 
-![image-20220403104016264](E:\Typora\Typora Install\Typora_images\image-20220403104016264.png)
+![image-20220403104016264](.\Typora_images\image-20220403104016264.png)
 
 **和原来的数据不同的是，这两张报表的数据来源是不一致的...可以说两者的关系几乎没有什么关系，不像原来的那个，右边的表是从左边的表中的超标数据提取出来的。所以上面的操作的框中的内容也是不一样的，应该也是要分两个。左边有左边的操作框，右边有右边的操作框，然后查询框也是不一样的，左边的AQI报表应该只有根据时间戳和严重程度来查询的功能，右边的报表，**
 
@@ -1990,28 +1994,28 @@ https://echarts.apache.org/examples/zh/editor.html?c=pictorialBar-dotted
 
 当backgroud的url变为参数时候，就获取不到正确的图片了...
 
-![image-20220404121043380](E:\Typora\Typora Install\Typora_images\image-20220404121043380.png)
+![image-20220404121043380](.\Typora_images\image-20220404121043380.png)
 
 
 
 css属性值的变量化：
 
-![image-20220404121310151](E:\Typora\Typora Install\Typora_images\image-20220404121310151.png)
+![image-20220404121310151](.\Typora_images\image-20220404121310151.png)
 
 这个路径是获取不到的。
 
-![image-20220404121334763](E:\Typora\Typora Install\Typora_images\image-20220404121334763.png)
+![image-20220404121334763](.\Typora_images\image-20220404121334763.png)
 
 这些也都不行啊。。。给我个理由.
 
 
 
 **解决：用下面的路径就行了：**
-![image-20220404140533069](E:\Typora\Typora Install\Typora_images\image-20220404140533069.png)
+![image-20220404140533069](.\Typora_images\image-20220404140533069.png)
 
 **<font color='purple'>因为webpack会打包编译整个项目文件的，所以原来的路径就找不到了，看看跑起来的项目中的打包后的路径：</font>**
 
-![image-20220404140749304](E:\Typora\Typora Install\Typora_images\image-20220404140749304.png)
+![image-20220404140749304](.\Typora_images\image-20220404140749304.png)
 
 
 
@@ -2023,13 +2027,13 @@ css属性值的变量化：
 
 # 34、BUG22
 
-![image-20220404140947039](E:\Typora\Typora Install\Typora_images\image-20220404140947039.png)
+![image-20220404140947039](.\Typora_images\image-20220404140947039.png)
 
 
 
 bug原因：
 
-![image-20220404141011590](E:\Typora\Typora Install\Typora_images\image-20220404141011590.png)
+![image-20220404141011590](.\Typora_images\image-20220404141011590.png)
 
 
 
@@ -2063,11 +2067,11 @@ bug原因：
 
 # 35、需求思路
 
-![image-20220405091131425](E:\Typora\Typora Install\Typora_images\image-20220405091131425.png)
+![image-20220405091131425](.\Typora_images\image-20220405091131425.png)
 
 **<font color='purple'>点击背景的切换时，会闪过一片的白的然后才完成图片的加载对吧，这个太刺眼了，所以只要把背景颜色的白色改成灰色就行了，就会柔和一点。</font>**
 
-![image-20220405091315930](E:\Typora\Typora Install\Typora_images\image-20220405091315930.png)
+![image-20220405091315930](.\Typora_images\image-20220405091315930.png)
 
 
 
@@ -2077,7 +2081,7 @@ bug原因：
 
 https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139&spm_id_from=333.337.0.0
 
-![image-20220405170544378](E:\Typora\Typora Install\Typora_images\image-20220405170544378.png)
+![image-20220405170544378](.\Typora_images\image-20220405170544378.png)
 
 
 
@@ -2085,7 +2089,7 @@ https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139
 
 ### 优化一：
 
-![image-20220405213345311](E:\Typora\Typora Install\Typora_images\image-20220405213345311.png)
+![image-20220405213345311](.\Typora_images\image-20220405213345311.png)
 
 **<font color='purple'>在一开始就给接口函数添加上了有关日期的判断，使得点击页面跳转而无法带上日期参数的情况解决了</font>**
 
@@ -2101,11 +2105,11 @@ https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139
 
 **当时我对这个bug十分不解，现在忽然相到了...**
 
-![image-20220405215904366](E:\Typora\Typora Install\Typora_images\image-20220405215904366.png)
+![image-20220405215904366](.\Typora_images\image-20220405215904366.png)
 
 **我把这个事件写在了这个小框框当中。。。**
 
-![image-20220405215944951](E:\Typora\Typora Install\Typora_images\image-20220405215944951.png)
+![image-20220405215944951](.\Typora_images\image-20220405215944951.png)
 
 **而这一整个的范围是li标签啊，真是服了。。。范围这么小点个屁啊，现在我终于知道了！**
 
@@ -2119,7 +2123,7 @@ https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139
 
 ## 38.1、分页模块的设计思路
 
-![image-20220407125818828](E:\Typora\Typora Install\Typora_images\image-20220407125818828.png)
+![image-20220407125818828](.\Typora_images\image-20220407125818828.png)
 
 
 
@@ -2236,7 +2240,7 @@ template部分：
 
 公司的参建类型才会有：总包单位，材料单位，运输单位这些东西，班组主要就是管理班组和劳务班组，管理班组和劳务班组中又会子类就是工种：
 
-![image-20220407204226203](E:\Typora\Typora Install\Typora_images\image-20220407204226203.png)
+![image-20220407204226203](.\Typora_images\image-20220407204226203.png)
 
 
 
@@ -2296,15 +2300,15 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 ## 38.4、删除的逻辑BUG
 
-![image-20220409184948224](E:\Typora\Typora Install\Typora_images\image-20220409184948224.png)
+![image-20220409184948224](.\Typora_images\image-20220409184948224.png)
 
 **<font color='red'>这时候删除这条记录，如果还保留原来的页码去访问后端的话就会出bug的！，所以还是增加和修改一样，直接回到第一页不就行了，这么折磨干什么呢？</font>**
 
-![image-20220409185509622](E:\Typora\Typora Install\Typora_images\image-20220409185509622.png)
+![image-20220409185509622](.\Typora_images\image-20220409185509622.png)
 
 **直接重新刷新然后更新页码就行了。**
 
-![image-20220409193838761](E:\Typora\Typora Install\Typora_images\image-20220409193838761.png)
+![image-20220409193838761](.\Typora_images\image-20220409193838761.png)
 
 **<font color='purple'>感觉这样比较合理哦，就是所有的查询条件还是要带上的，但是页码直接重新刷为1就行了。如果有页组数的话也重新刷为1就行了。</font>**
 
@@ -2397,7 +2401,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 # 39、Bug23
 
-![image-20220410151025671](E:\Typora\Typora Install\Typora_images\image-20220410151025671.png)
+![image-20220410151025671](.\Typora_images\image-20220410151025671.png)
 
 
 
@@ -2411,11 +2415,11 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 ## 39.1、bug24
 
-![image-20220410163726338](E:\Typora\Typora Install\Typora_images\image-20220410163726338.png)
+![image-20220410163726338](.\Typora_images\image-20220410163726338.png)
 
 **<font color='purle'>原因：因为这个input输入框的类型是file类型的，然后你把value设置成一个字符串，当然会报错啊！</font>**
 
-![image-20220410163856128](E:\Typora\Typora Install\Typora_images\image-20220410163856128.png)
+![image-20220410163856128](.\Typora_images\image-20220410163856128.png)
 
 
 
@@ -2442,7 +2446,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 ## 39.4、SpringBoot一个类中不能调用其他接口的问题
 
-![image-20220411083915436](E:\Typora\Typora Install\Typora_images\image-20220411083915436.png)
+![image-20220411083915436](.\Typora_images\image-20220411083915436.png)
 
 **<font color='purple'>我想在其他接口中调用fileUpload函数是不行的，因为这就是他们规定好的，很烦人，那如果又重新写一份的话，不是显得很冗余吗，所以我想到一个办法就是把这个接口提取出来成为一个普通的方法，然后再这个/upload接口中再用函数封装一下就行了，封装的艺术哈哈</font>**
 
@@ -2450,7 +2454,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
-![image-20220411084504319](E:\Typora\Typora Install\Typora_images\image-20220411084504319.png)
+![image-20220411084504319](.\Typora_images\image-20220411084504319.png)
 
 **这样写真的简单多了。**
 
@@ -2516,13 +2520,13 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
-![image-20220412144151312](E:\Typora\Typora Install\Typora_images\image-20220412144151312.png)
+![image-20220412144151312](.\Typora_images\image-20220412144151312.png)
 
 
 
 **==<font color='red'>前端bug</font>==**
 
-![image-20220412144403298](E:\Typora\Typora Install\Typora_images\image-20220412144403298.png)
+![image-20220412144403298](.\Typora_images\image-20220412144403298.png)
 
 **==<font color='red'>我们发现在前端的员工更新页面中，点击照片上传后，在后端服务器指定的FileStorage中没有该图片，说明后端上传该图片是失败的...可是按道理来说的话，后端的图片上传接口是没有问题的呀，说明前端点击按钮可能有问题。。。</font>==**
 
@@ -2530,18 +2534,18 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 **==<font color='red'>因为ele的文件上传组件有错误的钩子，所以我们可以配置一个文件上传错误时候的钩子然后看看文件上传是不是发生了什么错误？</font>==**
 
-![image-20220412145940116](E:\Typora\Typora Install\Typora_images\image-20220412145940116.png)
+![image-20220412145940116](.\Typora_images\image-20220412145940116.png)
 
-![image-20220412150007164](E:\Typora\Typora Install\Typora_images\image-20220412150007164.png)
+![image-20220412150007164](.\Typora_images\image-20220412150007164.png)
 
 
 
 结果：
-![image-20220412150024328](E:\Typora\Typora Install\Typora_images\image-20220412150024328.png)
+![image-20220412150024328](.\Typora_images\image-20220412150024328.png)
 
 **<font color='purple'>原来是.jpg大写了，我草！！！</font>**
 
-![image-20220412150149407](E:\Typora\Typora Install\Typora_images\image-20220412150149407.png)
+![image-20220412150149407](.\Typora_images\image-20220412150149407.png)
 
 
 
@@ -2565,7 +2569,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 ## 设置考勤时间
 
-![image-20220412171641421](E:\Typora\Typora Install\Typora_images\image-20220412171641421.png)
+![image-20220412171641421](.\Typora_images\image-20220412171641421.png)
 
 
 
@@ -2575,14 +2579,14 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 ## 42.1、Bug
 
-![image-20220412181030680](E:\Typora\Typora Install\Typora_images\image-20220412181030680.png)
+![image-20220412181030680](.\Typora_images\image-20220412181030680.png)
 
 
 
 **<font color='red'>最近请求报错的情况很多，我真的应该好好反思一下为什么会有这么多的请求报错了。。。明明已经很熟悉了但还是漏洞百出，不太应该的。。。</font>**
 
 解决：
-![image-20220412181547027](E:\Typora\Typora Install\Typora_images\image-20220412181547027.png)
+![image-20220412181547027](.\Typora_images\image-20220412181547027.png)
 
 **<font color='purple'>因为我这里是时分秒的格式，而前端是时分的格式，所以格式错误，就会发生bad request了</font>**
 
@@ -2612,7 +2616,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 **<font color='purple'>原来文件也是可以直接上传到接口的参数中的，这个虽然在之前的uploadfile的中有使用过，但没有得到足够的重视！可以通过post请求的formdata的file类型来向服务器传递一个MutipartFile对象，哈哈。。。</font>**
 
-![image-20220412204632808](E:\Typora\Typora Install\Typora_images\image-20220412204632808.png)
+![image-20220412204632808](.\Typora_images\image-20220412204632808.png)
 
 
 
@@ -2644,9 +2648,9 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 **<font color='purple'>还有我发现对文件的操作很喜欢用到getBytes这样的方法，把文件打散成最原始的bytes字节然后再进行其他的操作，就比如下面的代码。</font>**
 
-![image-20220412210645688](E:\Typora\Typora Install\Typora_images\image-20220412210645688.png)
+![image-20220412210645688](.\Typora_images\image-20220412210645688.png)
 
-![image-20220412211658398](E:\Typora\Typora Install\Typora_images\image-20220412211658398.png)
+![image-20220412211658398](.\Typora_images\image-20220412211658398.png)
 
 
 
@@ -2654,7 +2658,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 ## 42.4、需求思路
 
-![image-20220413094952328](E:\Typora\Typora Install\Typora_images\image-20220413094952328.png)
+![image-20220413094952328](.\Typora_images\image-20220413094952328.png)
 
 **<font color='purple'>点击入场签到后，应该跳转到落地页，然后通过摄像头拍摄照片，并且把出入场的code（入场是1，出场是2）传输给后端的接口，后端根据这个code确定添加的记录是入场或者是出场，然后再对签到状态进行判断，通过获取config数据库中的记录确定，对进场或出场的时间戳进行比对，比对结果有三种（签到成功，迟到，早退）</font>**
 
@@ -2662,7 +2666,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 # 43、项目经验
 
-![image-20220413102243597](E:\Typora\Typora Install\Typora_images\image-20220413102243597.png)
+![image-20220413102243597](.\Typora_images\image-20220413102243597.png)
 
 **==<font color='blue'>之前我只是知道有get请求的requestParam参数接受方式，还有其他请求的ReqeustBody接收json串的方式，现在又有了post的form-data方式，也是用的@ReqeustParam注解，还可以传输文件</font>==**
 
@@ -2679,7 +2683,7 @@ https://blog.csdn.net/weixin_44147688/article/details/122052434
 
 mysql数据库中的时间是 TIME类型的，如果直接转换成java中的Date类型，你猜会怎么着？
 
-![image-20220413135534446](E:\Typora\Typora Install\Typora_images\image-20220413135534446.png)
+![image-20220413135534446](.\Typora_images\image-20220413135534446.png)
 
 **好家伙！直接穿越回1970年，巨牛逼！！！**
 
@@ -2700,13 +2704,13 @@ String currentTime = sdf.format(systemTime);
 
 ## 43.3、Mybatis BUG
 
-![image-20220413151727438](E:\Typora\Typora Install\Typora_images\image-20220413151727438.png)
+![image-20220413151727438](.\Typora_images\image-20220413151727438.png)
 
 **<font color='red'>像这样子的报错一定是mybatis.xml配置文件中的sql语句出错了。。。</font>**
 
 **解决：原来是字段的大小写处错了捏...说明数据库对字段的大小写是敏感的！！！**
 
-![image-20220413151828152](E:\Typora\Typora Install\Typora_images\image-20220413151828152.png)
+![image-20220413151828152](.\Typora_images\image-20220413151828152.png)
 
 
 
@@ -2714,13 +2718,13 @@ String currentTime = sdf.format(systemTime);
 
 ## 43.4、BUG
 
-![image-20220413153120585](E:\Typora\Typora Install\Typora_images\image-20220413153120585.png)
+![image-20220413153120585](.\Typora_images\image-20220413153120585.png)
 
 **看不懂捏？？**
 
 **解决**
 
-![image-20220413153328999](E:\Typora\Typora Install\Typora_images\image-20220413153328999.png)
+![image-20220413153328999](.\Typora_images\image-20220413153328999.png)
 
 
 
@@ -2738,13 +2742,13 @@ String currentTime = sdf.format(systemTime);
 
 **控制面板->设备管理器->摄像机**
 
-![image-20220413185307033](E:\Typora\Typora Install\Typora_images\image-20220413185307033.png)
+![image-20220413185307033](.\Typora_images\image-20220413185307033.png)
 
 **这个设备要能正常运转才行！**
 
 ==如果这里显示摄像头是禁用的状态，可以通过 驱动程序选项卡，启用摄像头==
 
-![image-20220413185517775](E:\Typora\Typora Install\Typora_images\image-20220413185517775.png)
+![image-20220413185517775](.\Typora_images\image-20220413185517775.png)
 
 
 
@@ -2843,7 +2847,7 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 # 44、经典的bug
 
-![image-20220414162336517](E:\Typora\Typora Install\Typora_images\image-20220414162336517.png)
+![image-20220414162336517](.\Typora_images\image-20220414162336517.png)
 
 **==<font color='purple'>我们之前遇到bug的时候就很烦很难受，这是不和道理的，正确的做法应该是谋定而后动，看到bug要先回想一下这个bug我之前是不是遇到过？引发这个bug的错误操作有哪些？然后有一个大致的方向之后才去进行挑错，改正，如果一个bug你之前从来都没有遇到过，那更应该找出这个bug的诱因，然后记录到脑袋库中才对！！！</font>==**
 
@@ -2851,7 +2855,7 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 # 45、时间BUG
 
-![image-20220414163524530](E:\Typora\Typora Install\Typora_images\image-20220414163524530.png)
+![image-20220414163524530](.\Typora_images\image-20220414163524530.png)
 
 **<font color='red'>时间戳又TM的错误了...</font>**
 
@@ -2861,7 +2865,7 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 解决：
 
-![image-20220414164547044](E:\Typora\Typora Install\Typora_images\image-20220414164547044.png)
+![image-20220414164547044](.\Typora_images\image-20220414164547044.png)
 
 **<font color='purple'>直接new Date()就行了，不需要从系统秒数来获取当前的时间了。。。</font>**
 
