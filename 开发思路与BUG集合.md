@@ -2847,7 +2847,11 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 # 44、经典的bug
 
-![image-20220414162336517](Typora_images/开发思路与BUG集合/image-20220414162336517.png)
+
+
+
+
+![image-20220415133613279](Typora_images/开发思路与BUG集合/image-20220415133613279.png)
 
 **==<font color='purple'>我们之前遇到bug的时候就很烦很难受，这是不和道理的，正确的做法应该是谋定而后动，看到bug要先回想一下这个bug我之前是不是遇到过？引发这个bug的错误操作有哪些？然后有一个大致的方向之后才去进行挑错，改正，如果一个bug你之前从来都没有遇到过，那更应该找出这个bug的诱因，然后记录到脑袋库中才对！！！</font>==**
 
