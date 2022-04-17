@@ -853,6 +853,16 @@ width:300px;  /*2、当把鼠标移动到该元素上的时候，width为300px�
 
 
 
+## 2.3、网页加载过渡
+
+参考教程：https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139&spm_id_from=333.337.0.0
+
+![image-20220405170544378](Typora_images/Echart数据可视化静态项目教程/image-20220405170544378.png)
+
+
+
+
+
 # 2、ECharts教程
 
 ## 2.1、基础使用
@@ -3887,6 +3897,16 @@ float-*-left：float-md-left、float-sm-right等
 
 ![image-20220317144742854](Typora_images/Echart数据可视化静态项目教程/image-20220317144742854.png)
 
+### 4.6.5、input输入框
+
+不知道为什么，之前的课堂上老师忽略了这个组件，好像官网上也没有特别强调，不过现在我把他单独提取出来了，其实就是
+
+- form-control 这个类用一下，就挺好看的了。
+
+```html
+<input type="text" class="form-control myInput" v-model="searchArg.name">
+```
+
 
 
 
@@ -3898,6 +3918,76 @@ float-*-left：float-md-left、float-sm-right等
 - **<font color='purple'>其实学了一点bootstrap框架后，发现几乎所有的功能都能通过bootstrap提供的组件、样式、特效来实现的，所以直接去用就行；想要实现自己的想法要稍微熟悉一下bootstrap的语法，基本上是一个组件对应一个封装好的样式类：nav ， dropdown，等，然后每一个组件都有配套的很多其他的样式，比如nav-group ,等；最后还有js特效的实现，一般要通过data-toggle来实现一些动效，其他没有什么的，查手册就行了。</font>**
 
 
+
+# 5、高德地图API
+
+基本上注册了高德的用户以后就可以创建一个新的用例的，反正创建一个地图的用例就行了。
+
+看一下示例的教程：
+
+选择这个选项:
+
+![image-20220417093631562](Typora_images/Echart数据可视化静态项目教程/image-20220417093631562.png)
+
+
+
+然后有教程示例，好好看看教程
+![image-20220417093801275](Typora_images/Echart数据可视化静态项目教程/image-20220417093801275.png)
+
+
+
+## 5.1、bug
+
+```html
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <title>地图显示</title>
+    <style>
+        html,
+        body,
+        #container {
+          width: 100%;
+          height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<!-- 加载地图JSAPI脚本 -->
+
+<script src="https://webapi.amap.com/maps?v=2.0&key=56c2974c4afe2151f154da7bb35df852"></script>
+
+<script>
+    var map = new AMap.Map('container', {
+        viewMode: '2D', // 默认使用 2D 模式，如果希望使用带有俯仰角的 3D 模式，请设置 viewMode: '3D',
+        zoom:11, //初始化地图层级
+        center: [116.397428, 39.90923] //初始化地图中心点
+    });
+</script>
+</body>
+</html>
+```
+
+但是出现了Bug...
+
+![image-20220417095027602](Typora_images/Echart数据可视化静态项目教程/image-20220417095027602.png)
+
+
+
+这个我还真不知道是什么错误...??
+
+
+
+
+
+## 5.2、vue3 set up函数了解
+
+https://blog.csdn.net/m0_46613429/article/details/121775122
 
 
 

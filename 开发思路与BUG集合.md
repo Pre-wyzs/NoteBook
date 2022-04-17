@@ -6,8 +6,6 @@
 
 **==<font color='red'>问题描述：在methods中写好的函数在调用时候出bug：表示该函数不是一个函数....</font>==**
 
-![image-20220415130626699](Typora_images/开发思路与BUG集合/image-20220415130626699.png)
-
 
 
 ![image-20220311173420517](Typora_images/开发思路与BUG集合/image-20220311173420517.png)
@@ -253,6 +251,24 @@ export default createStore({
 ![image-20220312103010364](Typora_images/开发思路与BUG集合/image-20220312103010364.png)
 
 对象信息就出不来了，妈的真的服了...
+
+### 10.1.4、打印的解决办法
+
+用这个方法就可以了捏：
+
+```js
+console.log('setup',this);
+```
+
+
+
+​	
+
+
+
+
+
+
 
 ## 10.2、子bug2
 

@@ -3142,6 +3142,8 @@ server.listen('3000',() => {
 
 # 16、后端实现刷脸登录
 
+参考教程：https://www.bilibili.com/video/BV1mJ411k7nD?spm_id_from=333.999.0.0
+
 ## 16.1、百度云人脸识别的包
 
 ```xml
