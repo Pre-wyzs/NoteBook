@@ -3990,9 +3990,16 @@ float-*-left：float-md-left、float-sm-right等
 https://blog.csdn.net/m0_46613429/article/details/121775122
 
 
-
-
-
+## 5.3、bug
+	  
+![image](https://user-images.githubusercontent.com/63641166/165226998-e81f9e0e-77a6-4bf0-89ca-3b15be44953f.png)
+**下面的那个table明明是一个bootstarp的table应该是自适应的，为什么右边会多出来一个mrgin-right?不是很清楚。**
+解决：
+.mainbox .bottom_module .module_plgl .content .data table {
+  width: 100%;
+}
+	    
+**解决：我还以为是哪里增加了margin-right呢,结果只是因为table原来的宽度就是不太够的，因为字体大小的原因吗，所以直接把table的宽度改成100%就行了。	** 
 
 
 

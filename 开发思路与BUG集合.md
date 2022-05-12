@@ -1,6 +1,4 @@
-开发思路与BUG集合
-
-
+# 开发思路与BUG合集
 
 # 1、bug1
 
@@ -1055,7 +1053,7 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 - **<font color='purple'>解决：很简单，直接使用index访问数组中的某一个对象就行了，哈哈</font>**
 
-
+- **==2022年5月3日，这个待定，因为好像直接使用item是可以的==**
 
 
 
@@ -1115,7 +1113,7 @@ http://localhost:8080/api/deviceHistory/general?startDate=&endDate=&nameSure=&na
 
 
 
-# 24、需求思路
+# 24、需求思路【\<select>元素】
 
 **<font color='red'>需求描述：如何在vue中传递option选项的值捏？</font>**
 
@@ -1244,7 +1242,7 @@ https://www.cnblogs.com/youryida/p/9275615.html
         
   ```
 
-# 25、实时的数据展示
+# 25、需求分析【websocket双向通信】
 
 **主要是要解决后端数据变化后，前端实时的展示，这个东西是整个项目的精髓所在。**
 
@@ -1260,19 +1258,13 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 
 
-
-
-
-
-
-
 ## 25.2、需求分析
 
 **<font color='purple'>上一个需求已经基本做完了，现在想要实现通过webSocket的前端页面数据的实时更新，我现在的想法就是在vue created钩子函数调用从后端获取到数据的接口时就与后端建立一个websokect接口，然后写好监听事件的回调函数，在open回调中把自己这个连接的名字发送给后端，然后在后端的message回调函数中存储该名字和endPoint对象就行了</font>**
 
 
 
-## 25.3、bug13（批量删除逻辑报错）
+## 25.3、bug（logic:批量删除报错）
 
 ![image-20220321222050770](Typora_images/开发思路与BUG集合/image-20220321222050770.png)
 
@@ -1281,10 +1273,6 @@ https://www.cnblogs.com/youryida/p/9275615.html
 **<font color='red'>问题描述：就是删除一页的全部内容后，该页的内容会重新从数据库中获取的对吧，而重新获取到的内容再次选中删除后就报错了，就是上面的那个错，不知道为什么???</font>**
 
 ![image-20220322075635830](Typora_images/开发思路与BUG集合/image-20220322075635830.png)
-
-
-
-
 
 
 
@@ -1304,11 +1292,7 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 
 
-
-
-
-
-## 25.4、bug14（设备更新时，历史记录一次增加两条的逻辑错误）
+## 25.4、bug（logic:设备更新后,历史记录一次增加两条的逻辑错误）
 
 原因：
 
@@ -1322,9 +1306,7 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 
 
-
-
-## 25.5、bug15、websocket关闭报错
+## 25.5、bug（websocket关闭报错）
 
 ![image-20220322090521571](Typora_images/开发思路与BUG集合/image-20220322090521571.png)
 
@@ -1346,7 +1328,7 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 
 
-# 26、需求思路
+# 26、需求思路【vue数据传递】
 
 ## 26.1、数据传递（vue组件）
 
@@ -1380,15 +1362,7 @@ https://www.cnblogs.com/youryida/p/9275615.html
 
 
 
-
-
-
-
-
-
-
-
-# 27、需求分析
+# 27、需求分析【echart导入项目】
 
 **<font color='purple'>对于图表的实时数据展示，从大局来看，还是得先熟悉Ecahrt图，尤其是柱状图和折线图的所有内容，基本上，所有的图表数据都可以由这两种图标解决的，这两种图表先学精吧。然后就是设备模拟的vue化，如果不vue化，又用原来的javascript的话，基本会更难的，最后是UI设计，一个图表（肯定得用折线图，因为雷达图解决不了时间的问题。。。也许可以但成本太高了...），然后指标超标的报警记录得用表格实现。</font>**
 
@@ -1447,10 +1421,6 @@ import * as echarts from 'echarts'
 
 
 
-
-
-
-
 ## 27.4、需求分析
 
 **<font color='red'>需要实现网格的大小随着窗口的改变而改变。我们发现,F11和点击最大化最小化按钮的时候，窗口的大小不能发生改变的...就很离谱，一定要把这个问题给彻底解决掉！</font>**
@@ -1459,11 +1429,7 @@ import * as echarts from 'echarts'
 
 
 
-
-
-
-
-# 28、未解决BUg
+# 28、bug未解决【echart图表缩放】
 
 **<font color='purple'>那个啥，27.4的问题解决不掉了...</font>**
 
@@ -1493,7 +1459,7 @@ import * as echarts from 'echarts'
 
 
 
-# 29、需求思路
+# 29、需求思路【echart图表联动】
 
 
 
@@ -1525,10 +1491,6 @@ C6H6：#FD0100
 
 
 
-
-
-
-
 ![image-20220327103722774](Typora_images/开发思路与BUG集合/image-20220327103722774.png)
 
 
@@ -1539,11 +1501,7 @@ C6H6：#FD0100
 
 
 
-
-
-
-
-## 29.1、需求思路
+## 29.1、需求思路（echart富文本）
 
 **<font color='red'>需求描述：把legend的每一项的文本的颜色和每一项数据的颜色搭配起来，就是如下的效果</font>**
 
@@ -1611,7 +1569,7 @@ legend:{
 
 
 
-## 29.2、需求思路
+## 29.2、需求思路（图表联动实现）
 
 对于第二的需求的实现：核心就是用到了下面的函数：
 
@@ -1663,7 +1621,7 @@ exhaustChart.on("updateAxisPointer", function (event) {
 
 
 
-## 29.5、BUG16
+## 29.5、BUG（grammar:json键值错误）
 
 **<font color='red'>传递的json数据为空？</font>**
 
@@ -1704,7 +1662,7 @@ Controller层：
 
 
 
-## 29.6、获取一个月前的时间实现
+## 29.6、需求思路（java获取一个月前时间）
 
 https://www.cnblogs.com/yccmelody/p/8398290.html
 
@@ -1736,23 +1694,9 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-‘
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 30、需求思路
+# 30、需求思路【vue-ref属性】
 
 **==<font color='red'>如何在vue中拿到一个dom的对象，？？不用再使用document了，用下面的方法就好了</font>==**
 
@@ -1762,9 +1706,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-## 30.1、BUG17（函数和函数的数据交互用传参啊）
-
-
+## 30.1、BUG（vue钩子修改data数据后,访问data数据没有任何改变1）
 
 
 
@@ -1786,7 +1728,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-## 30.2、BUG18
+## 30.2、BUG（vue钩子修改data数据后,访问data数据没有任何改变2）
 
 
 
@@ -1812,11 +1754,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-
-
-
-
-## 30.3、BUG19（BUG17和BUG18的完全解决思路）
+## 30.3、BUG（vue钩子修改data数据后,访问data数据没有任何改变3）
 
 **<font color='purple'>如果在一个vue component组件对象中，有一个方法A改变了变量a的值，那么在函数B中去访问变量a，a的值有没有被改变呢</font>**
 
@@ -1890,7 +1828,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-# 31、BUG20
+# 31、BUG【css元素堆叠】
 
 因为元素堆叠的问题，选取不到退出选项了。
 
@@ -1904,7 +1842,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-## 31.1、一个粗心的BUG
+## 31.1、BUG（grammar:mybatis XML错误）
 
 ![image-20220331210617925](Typora_images/开发思路与BUG集合/image-20220331210617925.png)
 
@@ -1914,7 +1852,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-## 31.2：BUG21
+## 31.2、BUG（单词拼写错误）
 
 ![image-20220401093805432](Typora_images/开发思路与BUG集合/image-20220401093805432.png)
 
@@ -1928,7 +1866,7 @@ https://www.cnblogs.com/yccmelody/p/8398290.html
 
 
 
-## 31.3、需求思路
+## 31.3、需求思路（json转Excel）
 
 **<font color='red'>需求描述：如何把所有的历史数据都导出呢？因为之前使用的插件是根据表格的id导出数据的，所以只能导出一部分数据，所以想到导出全部数据的话，我就自然的想到了json转excel，把从后端获取的数据接受为json串，然后把这个json串转成excel就行了，简单明了。</font>**
 
@@ -1953,7 +1891,7 @@ https://www.cnblogs.com/--cainiao/p/9999170.html  （教你如何import对象）
 
 
 
-## 31.4、BUG22（逻辑bug无报错）
+## 31.4、BUG22（logic:slice函数与splice函数区别）
 
 
 
@@ -1978,7 +1916,7 @@ https://www.cnblogs.com/--cainiao/p/9999170.html  （教你如何import对象）
 
 
 
-# 32、需求思路（扬尘模块）
+# 32、需求思路
 
 https://echarts.apache.org/examples/zh/editor.html?c=pictorialBar-dotted
 
@@ -2006,7 +1944,7 @@ https://echarts.apache.org/examples/zh/editor.html?c=pictorialBar-dotted
 
 
 
-# 33、BUG21
+# 33、BUG【webpack图片获取】
 
 当backgroud的url变为参数时候，就获取不到正确的图片了...
 
@@ -2041,7 +1979,7 @@ css属性值的变量化：
 
 
 
-# 34、BUG22
+# 34、BUG【logic:背景切换】
 
 ![image-20220404140947039](Typora_images/开发思路与BUG集合/image-20220404140947039.png)
 
@@ -2093,7 +2031,7 @@ bug原因：
 
 
 
-# 36、需求思路（添加加载动画）
+# 36、需求思路【html加载动画】
 
 https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139&spm_id_from=333.337.0.0
 
@@ -2101,7 +2039,7 @@ https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139
 
 
 
-## 36.1、优化说明
+## 36.1、优化
 
 ### 优化一：
 
@@ -2117,7 +2055,7 @@ https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139
 
 
 
-# 37、BUG（退出困难）
+# 37、BUG【html元素覆盖】
 
 **当时我对这个bug十分不解，现在忽然相到了...**
 
@@ -2131,7 +2069,7 @@ https://www.bilibili.com/video/BV1at411G7Gu?from=search&seid=9285956438980348139
 
 
 
-# 38、需求分析
+# 38、需求分析【bootstarp分页改进】
 
 **<font color='red'>终于到了员工考勤模块的分析，这个模块我是这么考虑的，首先还是要先把用户权限的标志位颜色改一下，然后是把分页的跳转联动效果给做出来并且同一所有的分页都在右下方的位置；把这两个优化做好后，再去考虑这个员工考勤模块，把原来的该删的删除掉，提炼出必要的字段，然后再去网上把刷脸认证的接口找出来，把刷脸打卡机的设备模拟出来就行了</font>**
 
@@ -2314,7 +2252,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
-## 38.4、删除的逻辑BUG
+## 38.4、BUG（logic:尾页删除问题）
 
 ![image-20220409184948224](Typora_images/开发思路与BUG集合/image-20220409184948224.png)
 
@@ -2415,7 +2353,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
-# 39、Bug23
+# 39、bug23
 
 ![image-20220410151025671](Typora_images/开发思路与BUG集合/image-20220410151025671.png)
 
@@ -2429,7 +2367,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
-## 39.1、bug24
+## 39.1、bug（grammar:input文件上传语法）
 
 ![image-20220410163726338](Typora_images/开发思路与BUG集合/image-20220410163726338.png)
 
@@ -2518,7 +2456,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
-## 39.8、一个严重的BUG
+## 39.8、BUG（SpringBoot注解）
 
 主要就是@PostConstruct注解
 
@@ -2536,17 +2474,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
-
-
-
-
-
-
-
-
-# 40、BUG30
-
-
+# 40、BUG【图片后缀大小写】
 
 ![image-20220412144151312](Typora_images/开发思路与BUG集合/image-20220412144151312.png)
 
@@ -2605,7 +2533,7 @@ https://www.bilibili.com/video/BV1ei4y1M7Kf?spm_id_from=333.851.header_right.his
 
 
 
-## 42.1、Bug
+## 42.1、BUG（logic:400坏的请求）
 
 ![image-20220412181030680](Typora_images/开发思路与BUG集合/image-20220412181030680.png)
 
@@ -2748,7 +2676,7 @@ String currentTime = sdf.format(systemTime);
 
 
 
-## 43.4、BUG
+## 43.4、BUG（单词拼写错误）
 
 ![image-20220413153120585](Typora_images/开发思路与BUG集合/image-20220413153120585.png)
 
@@ -2841,7 +2769,7 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 
 
-## 43.7、bug
+## 43.7、bug（伪bug）
 
 ```js
             const webCamDom = this.$refs.webCam;
@@ -2873,7 +2801,7 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 
 
-# 44、经典的bug
+# 44、经典bug
 
 
 
@@ -2885,7 +2813,7 @@ js库：webcam-easy：https://www.npmjs.com/package/webcam-easy
 
 **<font color='purple'>不是函数这个bug我们之前不是已经遇到很多次了吗，首先看函数名有没有写对，然后再看方法有没有写在methods域中，最后也是最常见的就是this.fun()，的this指针有没有搞错！（这里确实是这个操作引发的）</font>**
 
-# 45、BUG31
+# 45、BUG【logic:时区经典bug】
 
 **描述：前端时间写入到数据库后，时间变了**
 
@@ -2965,7 +2893,7 @@ url: jdbc:mysql://localhost:3306/vuespringboot?serverTimezone=UTC&useUnicode=tru
 
 
 
-# 46、需求思路
+# 46、需求思路【封装思路】
 
 描述：在做人脸识别模块的时候，我要把百度提供的人脸识别API封装到utils包下，然后供其他类调用，但发现很难用，因为我的封装方式有问题，**<font color='purple'>一定要封装最核心的，不会变的那些代码，这样才能灵活应用于各种场景！！</font>**
 
@@ -3171,4 +3099,374 @@ url: jdbc:mysql://localhost:3306/vuespringboot?serverTimezone=UTC&useUnicode=tru
 
 
 **现在都什么年代了，千万不要再用什么form取提交了,form能完成的axios一定能完成，而且更加强大！！！**
+
+### 46.2.5、js导出多个函数
+这个真的很有用，是精益求精的体现哈哈。
+https://www.csdn.net/tags/Ntjagg2sNTUxNTEtYmxvZwO0O0OO0O0O.html
+
+推荐方式：
+```js
+function test1(str) {
+  test2(str);
+}
+
+function test2(str) {
+  console.warn(str);
+}
+
+  //注意这里的default就不用添加了，不然的话会报bug的！
+export default {
+  test1,
+  test2
+};
+```
+因为这样做的话，导出的时候是可以这样导出的：
+import {stringToNull,dateFormat} from '../../utils/utils'
+**所以就可以直接在methods中调用这两个方法了，如果先放到对象里再导出，导出的时候还要去 对象.方法这样使用函数，巨麻烦!**  
+
+
+# 47、BUG【logic:bootstrap组件添加错误】
+![image](https://user-images.githubusercontent.com/63641166/163764151-903fa4d5-b9d3-4773-8507-ca97a692b87d.png)
+
+**为什么上面所有的内容都显示不出来呢？控制台也没有报错啊？就很奇怪**
+
+**解决：  **
+
+看下面的代码，我把它放在v-for中了，这就导致生成的这个modal弹出表有n张，然后id就不唯一了捏...服了。
+
+![image](https://user-images.githubusercontent.com/63641166/163765582-ddc786d1-6981-455f-85d7-bf4e18674b10.png)
+
+
+# 48、bug【vue图片引用错误】
+
+**webpack打包后引入assets中的图片报错的问题**
+
+解决：https://juejin.cn/post/6844903689308602382  
+
+因为项目使用了vue-cli脚手架，所以直接写本地路径会访问不到图片，经过cli打包后图片的路径都已经改变了，使用下面的方式就能愉快的访问到了：
+
+<img :src="activityImg"
+     
+let activityImg = require("./assets/images/activity/double9/popup-double9.png");  
+
+
+​     
+# 49、需求思路【地图设计】
+
+**老是讲整个地图和车辆路径展示的design我是真的没有想好该怎么去做...刚开始的时候一定是一辆车，然后这两车启动了，启动之后就会每隔10s或者几秒的时间重新报一个点，然后地图实时更新它所在的那个点，并且绘制出完整的路径，这时候点击车辆的小图标，显示的车辆信息有 司机名字，车牌号，车架号，还有车辆的状态：要么是驾驶中，要么是已熄火，当车辆熄火后就会IMEI设备就会停止报点，然后这时候地图上的车辆的状态应该显示为已熄火（这个东西用设备模拟器模拟一下就可以了，不需要在这个组件内有什么其他的操作了。），然后把地图上的已有的路径都fade out掉，当车辆重启启动后，IMEI设备有开始重新报点，然后重新一轮新的循环捏。**
+     
+这只是考虑到了一辆车的情况，如果有很多的车要不要进行筛选捏。     
+		 
+# 50、bug36
+
+**这个bug的原因是如下图，把#{}写成了#{]，离大谱，还好看错误信息找到了...**
+     
+![image](https://user-images.githubusercontent.com/63641166/164156215-a2b7d2e3-7f34-4d65-acb4-821dbf54b49e.png)
+     
+## 50.1、需求思路
+
+**对于carHistory数据库来说，第一条记录一定是0的，这样设置的话，整个逻辑就会很通畅了捏。carStatus设置为0既代表了熄火状态，也代表了起点状态，哈哈。**    
+
+![image](https://user-images.githubusercontent.com/63641166/164179012-5ea22e47-31b7-45b1-8dc1-af5f7484c648.png)
+**考虑一下这样图片上的车辆和伴随着的路径什么时候出现，什么时候消失，因为在mouned的钩子函数中绘制了这车辆路径这个覆盖物组对吧，所以不如在车辆管理中报备一辆新车的时候，把它的经纬度作为histroy的最初的那个熄火状态的经纬度存储到history表中，这样每存一辆车都会在 轨迹表里面初始化一条最初的记录，然后地图加载的时候就会从 轨迹表里面读取出数据了，就可以加载新的车辆到这个地图上了，对吧。**   
+     
+
+## 50.2、逻辑bug
+
+```sql     
+<!--    比较特殊的对于前端地图而言战术的数据-->
+    <select id="selectOneCar" parameterType="string" resultType="CarHistory">
+        select * from car_history where IMEI = #{IMEI} and
+        id>=(select id from car_history where IMEI = #{IMEI} and carStatus=0 order by id desc limit 1,1) order by id desc
+    </select>
+```
+
+这个只能解决渣土车已经行驶过一次然后停下来的情况，对于刚刚初始化入库的渣土车来说，更本获取不到，因为它只有一个0，没有两个0；尤其是只有最初的那个0然后还在移动中的这种情况，最麻烦。
+	
+解决：
+```sql	
+select * from car_history where IMEI = 'GNK48481' and
+        id>=IFNULL((select id from car_history where IMEI = 'GNK48481' and carStatus=0 order by id desc limit 1,1),1)
+	order by id desc
+```
+
+**使用了IFNULL(expr1,expr2)函数，如果表达式1为null则返回表达式2，不然直接返回表达式1本身捏，这样如果它只有一个0，那么表达式1为空，所以id>=1然后就可以返回该车辆的所有路径数据了捏，哈哈天才有没有**
+	
+	
+## 50.3、底层bug
+![image](https://user-images.githubusercontent.com/63641166/164400584-19927acb-38a5-4bc8-ac13-9acc0e140f8e.png)
+
+**我本来是想把这个信息框弄成完全透明的，但结果失败了，原因是在调用mark的setLabel方法的时候，amap底层就已经设置好了
+展示的label的背景是白色的。。。**
+	
+![image](https://user-images.githubusercontent.com/63641166/164401968-702e730f-f74b-467e-a4d9-bbde11070c06.png)
+
+**所以无论我在content属性里怎么修改dom样式，都没有用的，ul的样式可以覆盖掉它从这个类继承下来的样式，但是这个类本身又不会消失。。。这是amap底层设计好的，改变不了，真的吐了，还有就是，如果在vue组件中新添一个类放到ul中，结果是没有用的...无法载入的...这个大概也是他们底层设计好的，真是服了**
+	
+## 50.4、需求思路
+地图实时展示车辆路径的的功能基本上已经做完了，所以，终于来到喷淋模块了。行百里者半九十啊，喷淋模块今天必须要完成！虽然系统已经完成了80%了，但是也不可以放松啊，还有很多的细节要调整，论文要跟进，面试要准备，事情多的是。不能掉以轻心啊。
+	
+**对于喷淋模块，我想把它和车辆进出的模块直接联系在一起，然后用柱状的图进行显示，就是一个柱状图的x轴是每一天的日期，然后一个x轴的点位有两个数据，一个是进场的喷淋数据，还有一个是出场的喷淋数据，对于喷淋的具体时间来说可以考虑直接显示在大屏上就行了（没办法了...太细致做不下去了应该）。**
+
+## 50.4、bug（grammar:HashMap无序性）
+我都已经在sql语句中用order by 排过序了，为什么到前端的数据还是无序的捏？？
+**因为HashMap是无序的,而LinkedHashMap才是有序的!!!服务了HashMap线程又不安全，又无序，真是垃圾死了**
+	
+	
+# 51、bug【代码逻辑错误】
+**echart图表resize()报错的问题。**
+![image](https://user-images.githubusercontent.com/63641166/164957170-2ea392de-fa4a-4e3e-87f0-60dfac45f796.png)
+图像怎么也自适应不了窗口的变化，然后一直报这个错误。。。
+
+解决：
+![image](https://user-images.githubusercontent.com/63641166/164957199-759edbd3-b3a2-4ebc-a262-ae79b947be51.png)
+**因为这里只有this.plChart设置了option!，而plChart本身却没有进行任何的设置！，而监听事件中用的又是plChart.resize()...此时的plChart连图表设置都没有加载，哪里能搞resize()呢？？那么把监听事件中的plChart换成this.plChart不就行了吗？结果更加错误...这个我也不知道为什么了，哈哈**
+	
+# 52、摄像头录制
+参考文档：https://blog.csdn.net/vir56k/article/details/116195047?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_antiscanv2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_antiscanv2&utm_relevant_index=2
+	
+参考视频教程：	https://www.bilibili.com/video/BV1rq4y1u7W2?from=search&seid=1943929839225423489&spm_id_from=333.337.0.0
+这个视频教程的主要作用就是告诉我们摄像头录制的视频的格式要设置成 imie:'video/webm'才能是顺利的保存下来...哈哈哈
+
+https://blog.csdn.net/lxw_hk2_zy/article/details/109898510
+多种视频格式的讲解
+	
+# 53、最终主页的设计思路
+**多种先做的是车辆的进出喷淋模块，一般来说，要向进出模块推送三条数据，然后向喷淋模块推送5条数据，不仅要实现转轮的效果，还要实现实时更新的效果...我估计肯定是会用到vuex的，因为Index页面的数据量太大了。然后就是数据分配的问题，要么就是一次性就像前端推送5条数据，然后前端自己来展示三条的数据和5条的数据，这个问题还有是由后端来解决会比较好，因为后端要确定是进入还是出去的，只有后端链接数据库时候比较好判断。前端的太慢了.然后数据就是今日的数据，不是最近的数据就是今天的。就算是空的也没有关系。**	
+
+因为好像如果每次都是后端返回5条数据的话，那么前端应该这么刷新呢？再把最新的一条数据取出来然后放到末尾然后再进行轮转吗？？那既然如此的haul为什么不一开始就直接向前端传递一条最新的数据就行了，然后再前端设置后buffer，这个buffer只能容得下3条数据或者5条数据，然后数据量一超过就行轮转这样不是更加的合理吗.
+	
+**这个东西是不是很像数据结构中的队列，没有错他就是队列，哈哈终于遇到了和数据结构相关的东西了!**
+	
+# 54、bug
+**<font color='red'>这个bug，因为仔细看那个sunday的具体日期和date的具体日期，所以days真正的值应该是2.9差不多，又因为是int类型所以变成了2了，所以就很离谱...</font>**
+
+![image](https://user-images.githubusercontent.com/63641166/165497559-b288b4bc-1f6d-4f27-8e88-9cdfbfb1dce6.png) 
+
+5日期类以及日期的常用的一些用法真的应该好好的总结一下。以备以后使用啊！	
+	
+# 54、需求思路【echartY轴无小数】
+设置echarts图表的y轴不允许出现小数
+http://www.duanlonglong.com/qdjy/1233.html
+
+
+
+
+
+# 55、bug【高德地图api文档错误】
+
+bug描述：
+
+![image-20220428100523966](Typora_images/开发思路与BUG集合/image-20220428100523966.png)
+
+
+
+**<font color='purple'>分析：因为在路由切换的时候，会把组件销毁掉的，所以我在map_container组件的beforeUmount函数里面写了一个销毁地图的方法：</font>**
+
+![image-20220428102606934](Typora_images/开发思路与BUG集合/image-20220428102606934.png)
+
+**<font color='purple'>报这个错误应该有两种可能：一种就是this.map不存在，值为Null，还有一种可能就是destory它确实不是一个函数。。。查看高德地图的api文档可知，destory确实是一个函数，没有问题的。</font>**
+
+![image-20220428103148582](Typora_images/开发思路与BUG集合/image-20220428103148582.png)
+
+**<font color='purple'>那么也就是说，this.map=null喽。。。为什么捏？在beforeUnmount中打印出来看看：</font>**
+
+![image-20220428103716137](Typora_images/开发思路与BUG集合/image-20220428103716137.png)
+
+**<font color='purple'>这就是一个完整的地图对象，没毛病啊？为啥不能调用destory函数呢？...我真的无语啦😅要不换成 this.map.destory试试...</font>**
+
+```js
+    beforeUnmount(){
+        // console.log(this.map);
+        this.map.destory;
+        // alert('卸载函数已经执行');
+    },
+```
+
+**<font color='purple'>结果成功了</font>**
+
+**==官方文档都有Bug的，真的是🤬，还请阿里414捏😇==**
+
+
+
+# 56、需求思路
+
+**<font color='red'>需求描述：关于如何在主页显示地图的方式，本来我是想重新写一遍地图加载的代码的，但是一下看，那个原来的地图组件不是可以直接引入到Index组件中的吗？所以我就直接引入了，这就是组件复用的好处吗，我真的太爱了🥵</font>**
+
+```js
+import MapContainer from '../components/map/map_container.vue'
+
+export default {
+    name:'Index',
+    components:{
+      MapContainer
+    },
+```
+
+**==导入到index组件当中来，然后再template模板中使用就行了。==**
+
+```js
+            <div class="map">
+              <map-container></map-container>
+            </div>
+```
+
+**组件复用，yyds😋**
+
+
+
+# 57、需求思路
+
+**<font color='red'>需求描述，不知道是不是因为我的代码写的太烂的原因，很可能存在内存泄漏的问题，这就导致我每次打开前端和后端项目的时候电脑不一会就变得非常非常卡顿了，所以我想解决这个问题，后端我想使用maven打包项目，这样每次启动项目就不需要打开庞大的idea了，前端我也想进行组件的webpack打包，然后先得用vue调试插件调试一下，看看内存泄漏的情况...</font>**
+
+
+
+## 57.1、打成jar包的教程
+
+教程参考：https://www.bilibili.com/video/BV1SA411q72G?from=search&seid=1512760566977430975&spm_id_from=333.337.0.0
+
+- 一般是先执行clean 然后再执行package命令就行了。
+- 打包成功后，jar包会放在target目录下，进入这个目录然后执行java -jar vue-spring-0.0.1-SNAPSHOT.jar命令就可以在控制台启动后端的项目了。
+
+
+
+## 57.2、bug
+
+bug描述：使用jar包启动服务器然后再前端操作一段时间后发现前端没有响应了。。。然后服务器报了个错：
+
+![image-20220501190941232](Typora_images/开发思路与BUG集合/image-20220501190941232.png)
+
+**<font color='red'>大概是连接池的连接数量不够了。。。难怪之前用idea启动项目的时候用了一会就卡了，很可能就是连接数的问题！</font>**
+
+bug的可能原因：
+ ``* 此属性控制允许连接在池中保持空闲状态的最长时间。仅当minimumIdle(默认为10)定义为小于maximumPoolSize(默认10)时，此设置才适用。一旦池达到MinimumIdle(默认10)连接，空闲连接将不会退出。连接是否以空闲状态退役，最大变化为+30秒，平均变化为+15秒。在此超时之前，连接永远不会因为闲置而退役。值为0表示永远不会从池中删除空闲连接。最小允许值为10000ms（10秒）。默认值：600000（10分钟）
+ ``* (连接允许在池中闲置的最长时间),依赖minimumIdle<maximumPoolSize>
+ ``*设置minimumIdle(最小空闲连接数)=5,设置最大连接数=10,当空闲=1,当总连接=5,空闲的5个连接将增加10分钟的空闲时间 1
+ ``*/
+private` `Integer idleTimeout;
+
+
+
+**<font color='blue'>个人认为产生该bug的最有可能的原因应该就是这个配置项的问题了，就是因为默认mininumIdel=10;maximumPollSize=10这时候空闲的那些连接便不会退出了捏。。。</font>**
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 60、项目深入优化
+
+==**<font color='red'>本章节主要是用于项目的优化改进，我认为知识技能的深入掌握不能没有根的基底，所以最好的深入学习vue技术的方式，就是对原来的项目不断的进行精进；虽然我也考虑过重开一个项目进行根深入的学用掌握，但是项目的成本太高了，还不如在原来的项目上优化改进来的方便有效。</font>**==
+
+# 61、axios并发请求
+
+axios中文文档参考：http://www.axios-js.com/zh-cn/docs/#%E5%B9%B6%E5%8F%91
+
+![image-20220507163851809](Typora_images/开发思路与BUG集合/image-20220507163851809.png)
+
+- 因为在原有的项目中，就是一个接口一个接口的去进行请求，如图所示：
+
+![image-20220507164155116](Typora_images/开发思路与BUG集合/image-20220507164155116.png)
+
+所以我就想把它做成并发的请求模式，这样会比较高效。
+
+## 1、switch...case...
+
+MDN文档参考：https://developer.mozilla.org/zh-CN/docs/learn/JavaScript/Building_blocks/conditionals
+
+
+
+## 2、并发错误
+
+**<font color='red'>改成并发消息后，前端并发了axios请求，但是后端没有返回对应的请求。。。</font>**
+
+![image-20220507204035918](Typora_images/开发思路与BUG集合/image-20220507204035918.png)
+
+控制台：
+
+![image-20220507204139548](Typora_images/开发思路与BUG集合/image-20220507204139548.png)
+
+初步推断应该是后端处理并发的时候出现了问题了。。。明天再解决吧
+
+
+
+### 2.1、情况描述
+
+![image-20220508093128147](Typora_images/开发思路与BUG集合/image-20220508093128147.png)
+
+- **<font color='purple'>分析：如果想要解决这个问题那么就必须要看到java程序在执行过程中，这一步到底干了什么导致整个程序卡死了。。。不然不可能解决的</font>**
+
+### 2.2、初步怀疑HashMap线程不安全引起
+
+看一下代码：
+
+![image-20220508105612245](Typora_images/开发思路与BUG集合/image-20220508105612245.png)
+
+- 因为是并发的请求，所以一下子有三个请求打到了这个接口上，但是又因为，HashMap<>()是线程不安全的捏，所以就会产生数据读取不出来的情况，修改成ConcurrentHashMap<>()试试：
+- ![image-20220508111640754](Typora_images/开发思路与BUG集合/image-20220508111640754.png)
+
+- 报错了，因为这个map不允许put一个空指针...
+
+### 2.3、初步解决
+
+- **<font color='red'>使用锁保证HashMap<>()的并发操作不会崩溃就行了</font>**
+
+![image-20220508143420228](Typora_images/开发思路与BUG集合/image-20220508143420228.png)
+
+**==<font color='red'>然后程序就又正常的运行了还行吧，哈哈;至于更进一步的探索只能再出BUG的时候改进了。</font>==**
+
+
+
+# 62、前端大方向
+
+- **<font color='purple'>首先就是布局flex，然后是组件使用，因为说到底前端还是要看颜值的，所以一定要积累一个优质的组件库，然后让页面非常漂亮（得加钱嘻嘻），然后是axios操作，不难看文档就行，然后是时间操作和文件（excel，图片，视频）操作，然后更进一步是CommonJS库中各种API的高级调用，最后才是性能优化以及新框架和ES标准的学习，搞清楚先后然后把基础的东西打好地基，然后背一下面试题基本可以找到一份比较好的工作了。</font>**
+
+
+
+63、
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

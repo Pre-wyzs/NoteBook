@@ -1,7 +1,5 @@
 # Vue快速入门
 
-# Vue关键字：对象化，模块化，钩子函数，动态化，路由组件化，数据组件化
-
 # 1、Vue基础简介
 
 ## 1.1、vue简介
@@ -48,10 +46,7 @@
 
 ```
 
-- 创建一个vue对象的语法很有意思：
-  - var app = new Vue({...});  //()里面是创建这个对象时候的参数，这个参数是一个**对象**，所以对象中可以有el属性，methods属性，data属性等等...**el属性是一个字符串类型变量，data和methods都是对象**
-
-
+- var app = new Vue({...});  //()里面是创建这个对象时候的参数，这个参数是一个**对象**，所以对象中可以有el属性，methods属性，data属性等等...**el属性是一个字符串类型变量，data和methods都是对象**
 
 
 
@@ -169,7 +164,7 @@
 
 **这个阶段的话就是在beforeDestroy钩子中所有的东西都是可用的，其他没有什么好说的...**
 
-
+**在vue3.x中，beforeDestroy和destroy函数被销毁掉了，变成了umounted，哈哈**
 
 
 
@@ -184,6 +179,30 @@
 ## 1.5、调试的坑
 
 **==<font color='red'>注意：如果你要在console打印一个对象，请不要在前面加上一个字符串，这样会导致对象根本没办法打印出来！！！（搞得我还以为是数据传输出问题了，服了真的）</font>==**
+
+**<font color='purple'>可以使用console.log("测试代码",obj);使得打印对象的时候添加上说明</font>**
+
+
+
+## 1.6、vue2文档研读
+
+vue2.0文档参考：https://cn.vuejs.org/v2/guide/installation.html
+
+
+
+- 什么是CDN：CDN的全称是Content Delivery Network，即[内容分发网络](https://baike.baidu.com/item/内容分发网络/4034265)。
+- 什么是ES6：ES6， 全称 ECMAScript 6.0，是 JavaScript 的2015年的一个版本标准。
+- 什么是CommonJS：它是js API的一个标椎库，类似c++，java的标准库，都是对外提供接口用的。
+
+- ES模块介绍：https://flaviocopes.com/es-modules/#introduction-to-es-modules，这里包括了如何导入导出一个或多个模块，是所有ES模块用法的源头。
+
+
+
+
+
+
+
+
 
 
 
@@ -432,78 +451,14 @@
   
   ```
 
-  ## 2.7、v-for指令
+  **<font color='purple'>根源：https://cn.vuejs.org/v2/guide/class-and-style.html</font>**
 
-  - v-for的本质就是根据数组的长度来拷贝指定元素以相同的份数：
 
-  ```html
-    <!-- 1、v-for标签，多用于展示数组的列表，相当于复制指定元素为数组长度个数 -->
-      <div id="app">
-          <ul>
-              <!-- <li v-for="item in arr">{{ item }}
-                  你好
-                  <span>这是</span>
-              </li> -->
-  
-              <!-- 2、也可以把索引也一并展示出来 -->
-              <li v-for="(item,index) in arr">
-                  索引：{{index}}，值：{{item}}
-              </li>
-  
-  
-          </ul>
-  
-  
-              <!-- 3、也可以是对象数组 -->
-          <ul>
-              <li v-for="(item,index) in objArr">
-                  {{item.name}}:{{item.age}}
-              </li>
-          </ul>
-          <button @click="add">增加</button>
-          <button @click="remove">减少</button>
-      </div>
-  
-      <script>
-          var app = new Vue({
-              el:"#app",
-              data:{
-                  arr:[1,2,3,4,5,6],
-                  objArr:[
-                      {name:"徐婕如",age:22},
-                      {name:"子薇",age:23},
-                      {name:"许洁",age:22},
-                      {name:"老贺",age:22},
-                      {name:"魏梦莹",age:22},
-                  ]
-              
-  
-              },
-              methods:{
-                  //数组的增加删除操作
-                  add:function() {
-                      this.objArr.push({name:"洛天依",age:25});
-                  },
-                  remove:function() {
-                      this.objArr.shift();  //移除最下面的那个
-                  }
-              }
-  
-          });
-  
-      </script>
-  
-  
-  ```
 
-  
-
-  ## 2.7、v-on进阶
+## 2.7、v-on进阶
 
   - 它可以传参的
   - 可以通过事件修饰符指定繁多事件中的唯一一个事件，方便代码的编写
-
-  
 
   ```html
   <!-- v-on就是用来绑定dom元素的事件属性的，
@@ -555,7 +510,7 @@
 
   
 
-## 2.7、v-model指令
+## 2.8、v-model指令
 
 - 获取和设置***表单元素***的值
 
@@ -569,7 +524,7 @@
 
 
 
-## 2.8、v-for指令
+## 2.9、v-for指令
 
 - v-for的作用：相当于复制指定元素为数组长度个数
 
@@ -633,7 +588,7 @@
     
 ```
 
-### 2.8.1、版本更新
+### 2.9.1、版本更新
 
 在vue3.x中，在使用v-for的元素中必须要绑定key属性！
 
@@ -645,7 +600,7 @@
         </ul>
 ```
 
-### 2.8.2、v-for的坑
+### 2.9.2、v-for的坑
 
 **<font color='purple'>如果arr是一个这样的对象{id:2,name:'章子唯',power:2}，那么在v-for的眼中它就是一个数组，然后渲染三个tr了...所以一定要注意，把一个对象处理为数组，也就是两边加上[]就行了</font>**
 
@@ -722,6 +677,8 @@
 
 
 ## 3.1、axios post和put请求
+
+
 
 ### 3.1.1、post传递json数据
 
