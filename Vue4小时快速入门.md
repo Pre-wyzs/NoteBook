@@ -117,8 +117,6 @@
 
 **<font color='purple'>vue实例的生命周期很重要的，为什么呢？因为人只有活着才能办事，vue对象也是一样的，只有它存在它才能去处理各种事项，如果它连存在都不存在的话，那它还有什么用呢？</font>为什么像html+css这种代码就没有生命周期的概念呢？因为把dom渲染出来后，所有的js函数对象都一直存在在内存中的，直到关闭网页，相当于它不会死所以就不重要，而在vue当中一个vue实例并不是一直存在的，而是会被销毁的，所以有生死，所以生命周期对于vue对象来说就很重要了**
 
-
-
 - **==<font color='red'>在这个阶段已经创建了一个vue空对象，这个对象中只有默认的事件和6个生命周期钩子函数，这个阶段完成后会调用beforeCreate钩子函数，如果你在这时去访问vue对象中的变量和方法的话，都会报错，因为那些变量和函数都没有被初始化好。</font>==**
 
 ### 1.3.2、阶段二：Init injections & reactivity
@@ -198,16 +196,6 @@ vue2.0文档参考：https://cn.vuejs.org/v2/guide/installation.html
 
 
 
-
-
-
-
-
-
-
-
-
-
 # 2、Vue基础指令
 
 - vue指令是用于代替对dom的繁琐操作的快捷指令，更加方便使用
@@ -223,7 +211,6 @@ vue2.0文档参考：https://cn.vuejs.org/v2/guide/installation.html
       <div id="app">
           <h1 v-text="message"></h1>
           <h1 v-text="message+'123'"></h1> <!-- 字符串的拼接 -->
-  
       </div>
   
       <script>
@@ -232,7 +219,6 @@ vue2.0文档参考：https://cn.vuejs.org/v2/guide/installation.html
               data:{
                   message:"你好"
               }
-  
           });
   
       </script>
@@ -606,9 +592,9 @@ vue2.0文档参考：https://cn.vuejs.org/v2/guide/installation.html
 
 
 
-# 3、axios网络请求简介
+# 3、axios求简介
 
-
+**<font color='purple'>中文文档：http://www.axios-js.com/zh-cn/docs/</font>**
 
 - 网络请求库：axios，底层是封装了ajax
 
@@ -678,8 +664,6 @@ vue2.0文档参考：https://cn.vuejs.org/v2/guide/installation.html
 
 ## 3.1、axios post和put请求
 
-
-
 ### 3.1.1、post传递json数据
 
 ```javascript
@@ -731,8 +715,46 @@ axios.post('http://localhost:8080/api/login',{name:'章子唯',password:'123456'
 ## 3.3、axios坑
 
 - **<font color='#00CC00'>vue3.x中不允许全局注册axios了，只能局部导入使用axios</font>**
-
 - **<font color='#00CC00'>在axios的回调函数中想要调用vue的函数和变量，一定不要忘了 let _this = this;使用 _this来操作啊，我的妈呀！</font>**
+
+## 3.4、Promise对象
+
+- **<font color='red'>常识：同步和异步的更本区别在于是否阻塞，同步是会阻塞的；异步是不会阻塞的。</font>**
+
+### 1、什么是Promise对象
+
+**<font color='red'>Promise 是异步编程的一种解决方案：从语法上讲，promise是一个对象，从它可以获取异步操作的消息；从本意上讲，它是承诺，承诺它过一段时间会给你一个结果。promise有三种状态： pending(等待态)，fulfiled(成功态)，rejected(失败态)；状态一旦改变，就不会再变【<font color='purple'>这是对于一个Promise对象而言的，像p.then()之后就会返回一个新的Promise对象，并且该对象的初始状态就是resolved，当然如果then()中抛出了一个异常那么就会变为初始状态是rejected的Promise对象。</font>】。创造promise实例后，它会立即执行。</font>**
+
+
+
+- **新版中fulfiled状态也就是resolved状态了。**
+
+### 2、基础演示
+
+![image-20220516164802835](Typora_images/Vue4小时快速入门/image-20220516164802835.png)
+
+### 3、then和catch方法触发
+
+- 当p的状态是 resolved的时候就能触发then回调的函数。
+- 当p的状态是rejected的时候就能触发catch回调的函数。
+
+![image-20220516171630053](Typora_images/Vue4小时快速入门/image-20220516171630053.png)
+
+
+
+### 4、.then与.catch对于Promise对象的状态影响
+
+![image-20220516172547935](Typora_images/Vue4小时快速入门/image-20220516172547935.png)
+
+
+
+### 5、开发环境
+
+**<font color='purple'>一般来说，开发环境中就都是async + await了，这个应该用于我们的摄像头自动刷脸识别的。</font>**
+
+一次性搞懂上面的问题：https://www.bilibili.com/video/BV1WP4y187Tu/?spm_id_from=333.788.recommend_more_video.1
+
+
 
 
 
@@ -1211,17 +1233,38 @@ npm install webpack-cli -g
 简单的使用参考：
 E:\Vue3.0\课程代码\webpack基础\webpack
 
-
-
-
-
-
-
-
-
 ## 7.5、重要的思想
 
 ***==<font color='red'>整个vue最重要的思想：模块化开发，对象化+虚拟dom化 一段dom树结构</font>==***
+
+
+
+
+
+## 7.6、项目打包后的问题
+
+- 发现是空白页。。。
+
+![image-20220516191419258](Typora_images/Vue4小时快速入门/image-20220516191419258.png)
+
+- 网页右击源代码后发现下面的问题：
+
+![image-20220516191505677](Typora_images/Vue4小时快速入门/image-20220516191505677.png)
+
+- **就是路径这里没有./只有/，因为router的index.js中的配置是history模式的路由。**
+
+- **在vue.config.js配置文件中修改打包后的默认起始路径为./**
+
+![image-20220516191812986](Typora_images/Vue4小时快速入门/image-20220516191812986.png)
+
+
+
+- **打包出现的上述情况的原因以及部署在服务器上的解决方法参考vue-cli官方文档：**
+  - 指南：https://cli.vuejs.org/zh/guide/deployment.html
+  - 配置参考：https://cli.vuejs.org/zh/config/#publicpath
+  - 根本原因：`dist` 目录需要启动一个 HTTP 服务器来访问 (除非你已经将 `publicPath` 配置为了一个相对的值)，所以以 `file://` 协议直接打开 `dist/index.html` 是不会工作的。在本地预览生产环境构建最简单的方式就是使用一个 Node.js 静态文件服务器，例如 [serve](https://github.com/zeit/serve)：
+
+
 
 
 
@@ -1958,17 +2001,9 @@ router.beforeEach((to,from,next) => {
 
 
 
-
-
-
-
-
-
 ### 9.1.2、token登录
 
 https://www.bilibili.com/video/BV1B64y1q79g?from=search&seid=5042037870297222357&spm_id_from=333.337.0.0
-
-
 
 
 
@@ -3407,6 +3442,202 @@ ChangeFlag(){
 }
 
 ```
+
+
+
+# 21、准备
+
+## 1、computer属性的get和set方法
+
+- 计算属性可以进行get和set
+
+![image-20220514135440895](Typora_images/Vue4小时快速入门/image-20220514135440895.png)
+
+## 2、watch监听对象
+
+- 监听对象的方法
+
+  ![image-20220514135627813](Typora_images/Vue4小时快速入门/image-20220514135627813.png)
+
+
+
+## 3、v-if和v-for不连用
+
+- ![image-20220514140633272](Typora_images/Vue4小时快速入门/image-20220514140633272.png)
+
+- **<font color='purple'>如果按照框框里这样写的话，会先遍历出一项，然后在判断v-if中的这一项该不该存在，但这样太耗费资源了，一般来说要么直接不渲染这整个的列表然后再外面加一个v-if就行了；要么直接在每一项的内部再加一个v-if判断这一项该不该出现，就这样哈哈</font>**
+
+
+
+## 4、获取事件对象
+
+![image-20220514141443726](Typora_images/Vue4小时快速入门/image-20220514141443726.png)
+
+
+
+## 5、父子组件传递参数
+
+props和$emit事件
+
+## 6、兄弟组件传递参数
+
+先定义一个新的vue对象在js文件里
+
+![image-20220514142753098](Typora_images/Vue4小时快速入门/image-20220514142753098.png)
+
+
+
+- **传递参数方：**
+  - ![image-20220514143029119](Typora_images/Vue4小时快速入门/image-20220514143029119.png)
+- **接受参数方：**
+  - ![image-20220514143308803](Typora_images/Vue4小时快速入门/image-20220514143308803.png)
+
+- **避免内存泄漏：**
+  - ![image-20220514143403625](Typora_images/Vue4小时快速入门/image-20220514143403625.png)
+
+
+
+## 7、父子组件的创建挂载顺序
+
+- ![image-20220514143724664](Typora_images/Vue4小时快速入门/image-20220514143724664.png)
+
+
+
+## 8、nextTick
+
+![image-20220514144618026](Typora_images/Vue4小时快速入门/image-20220514144618026.png)
+
+- **<font color='purple'>就是当数据改变的时候会vue会重新渲染对应的dom对吧，但是呢，如果你再一改变数据的时候就去访问那个dom元素你会发现，你获取到的还是原来的那个dom。因为vue是异步渲染dom的所以，当你改变数据的时候他会在下一个Tick中重新渲染dom，这时候你如果想要获取到最新的dom就可以用上面的nextTick API了。</font>**
+
+
+
+## 9、作用域插槽
+
+
+
+![image-20220514150152612](Typora_images/Vue4小时快速入门/image-20220514150152612.png)
+
+
+
+- 在父组件中使用该组件的时候，如果开始标签和结束标签中没有内容，那么就会默认显示 ’“哈默”，如果有内容，那么原来的“哈默”就会被覆盖掉了，如果想在父组件中使用该组件然后还显示该组件内部的数据怎么办呢？
+
+
+
+![image-20220514150551339](Typora_images/Vue4小时快速入门/image-20220514150551339.png)
+
+- **<font color='purple'>这样做的话相当于，该子组件把自己的user对象传递给了 slot的user属性了。</font>**
+
+![image-20220514150834860](Typora_images/Vue4小时快速入门/image-20220514150834860.png)
+
+- **<font color='purple'>然后在父组件中使用该组件的时候，在内容中写入\<template>通过v-slot属性获得插槽中的user属性的值，然后就可以使用差值表达式了。这里的default是表示默认的那个插槽，你还可以给插槽取个名字的。</font>**
+
+
+
+## 10、动态组件
+
+![image-20220514172502283](Typora_images/Vue4小时快速入门/image-20220514172502283.png)
+
+- **<font color='red'>所谓的动态组件就是根据数据的不同来指定使用不同的组件，一般来说是比较有用呢的。</font>**
+
+## 11、异步加载组件
+
+**<font color='red'>异步组件就是说在渲染一个vue页面的时候没有必要把所有的内容都一次性进行加载到app.js文件中，等到axios访问或者vi-if为true显示的时候再载入，这样可以大大提高页面加载的效率，给用户端良好的体验！</font>**
+
+实现
+
+![image-20220514173843158](Typora_images/Vue4小时快速入门/image-20220514173843158.png)
+
+
+
+## 12、组件缓存
+
+**<font color='purple'>像我之前做项目的时候就遇到过这样的问题就是，要通过一个data值的改变来切换当前页面的组件，这就会造成组件的渲染和销毁，从而导致项目性能的下滑，非常不好！，所以可以使用keep-alive切换组件的时候进行缓存就行了。</font>**
+
+![image-20220514174240800](Typora_images/Vue4小时快速入门/image-20220514174240800.png)
+
+
+
+
+
+## 13、抽离组件公共数据和方法
+
+- 定义一个mixin文件：
+
+![image-20220514175659987](Typora_images/Vue4小时快速入门/image-20220514175659987.png)
+
+
+
+- 导入mixin：
+
+
+
+![image-20220514175800882](Typora_images/Vue4小时快速入门/image-20220514175800882.png)
+
+
+
+## 14、setup函数
+
+![image-20220514180440220](Typora_images/Vue4小时快速入门/image-20220514180440220.png)
+
+## 15、vue3和vue2的本质区别
+
+很好的教程：https://www.bilibili.com/video/BV1yp4y1S775?from=search&seid=18172997045779936522&spm_id_from=333.337.0.0
+
+- 最主要的就是设计思路的不同
+  - 在vue2中使用的options API的设计思路
+  - 而在vue3中使用的是composition API的设计思路
+
+
+
+- vue2有一个很大的问题就是在一个组件中如果有很多的函数的话，就很难管理区分。。。。
+
+- vue3允许你能把函数和数据提取出来单独封装起来提高了开发效率：
+
+![image-20220517073159776](Typora_images/Vue4小时快速入门/image-20220517073159776.png)
+
+
+
+![image-20220517073403936](Typora_images/Vue4小时快速入门/image-20220517073403936.png)
+
+
+
+
+
+- 这样看上去还是有点烂，所以再提取优化一下：
+
+- 抽离函数：
+
+![image-20220517073638178](Typora_images/Vue4小时快速入门/image-20220517073638178.png)
+
+- 解构函数
+
+![image-20220517074147437](Typora_images/Vue4小时快速入门/image-20220517074147437.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
