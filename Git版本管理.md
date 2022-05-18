@@ -152,6 +152,16 @@
 
 - git push -u origin master  
 
+# 8、分支同步
+
+- git push origin 分支名
+
+
+
+
+
+
+
 
 
 
