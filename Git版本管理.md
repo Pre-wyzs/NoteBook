@@ -2,6 +2,14 @@
 
 # Git版本管理
 
+# 0、命令官方文档
+
+**想要知道一个git命令最详细的用法可以参考官方文档：**
+
+在bash shell下键入**<font color='red'>git 命令名 --help</font>**即可在浏览器打开文档了。
+
+
+
 # 1、Git项目管理工具
 
 **==<font color='red'>说明：主要就是为了贯彻落实不忘根本的总体大方向，把我所写过的项目都用版本管理工具管理起来，然后一步步的改进，修复项目bug已达到成为项目高手的一个基础目标。</font>==**
@@ -158,17 +166,54 @@
 
 
 
+# 9、进阶操作
+
+## 9.1、删除仓库
+
+- **直接在github上删除一个仓库的操作**
+
+步骤：https://www.csdn.net/tags/MtTaQgysNTAwNjYtYmxvZwO0O0OO0O0O.html
+
+## 9.2、远程仓库设置
+
+使用git remote add 别名 url/ssh 可以添加https/ssh远程仓库的地址
+
+- **<font color='purple'>本质上https和ssh是一样的都是远程传输协议，只不过ssh要在本地生成秘钥，然后拷贝到github上，在本地和github上通过秘钥对比一致后再进行传输。【不受仓库作用域制约】</font>**
+
+- **<font color='red'>如果别名设置错了想删除</font>**
+  - **git remote remove 别名**  **//不会对仓库有任何影响的**
+
+- **<font color='red'>查看所有远程仓库别名</font>**
+  - **git remote** 
+
+### 9.2.1、bug【远程提交失败】
+
+![image-20220518223421977](Typora_images/Git版本管理/image-20220518223421977.png)
+
+- 解决：具体的原因不清楚，使用强制提交就完事了
+  - **git push -u origin master -f**
+- 原因：可能是因为我提交上去的东西，然后我改名了或者删除了，他就有疑问了。。。
+- **<font color='blue'>原因，原来黄色的警告是连在一起的。。。就是说远程仓库中的有的文件在本地仓库中并没有！！！</font>**
+
+- **<font color='blue'>彻底解决：这是因为在工作区的内容没有能重新覆盖版本区，导致版本区和远程冲突了。。。要先同步攻工作区和版本区的内容先！！！</font>**
 
 
 
 
 
+## 9.3、删除文件
+
+如何删除文件内，先点击进入一个文件，然后点击小垃圾桶
+
+![image-20220518232139710](Typora_images/Git版本管理/image-20220518232139710.png)
 
 
 
+- 然后commit就行了
 
+![image-20220518232241996](Typora_images/Git版本管理/image-20220518232241996.png)
 
-
+- 注意这个commit只会在进行修改或者删除操作的时候会出现。！
 
 
 
