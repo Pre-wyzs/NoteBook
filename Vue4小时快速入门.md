@@ -3507,7 +3507,7 @@ props和$emit事件
 
 ![image-20220514144618026](Typora_images/Vue4小时快速入门/image-20220514144618026.png)
 
-- **<font color='purple'>就是当数据改变的时候会vue会重新渲染对应的dom对吧，但是呢，如果你再一改变数据的时候就去访问那个dom元素你会发现，你获取到的还是原来的那个dom。因为vue是异步渲染dom的所以，当你改变数据的时候他会在下一个Tick中重新渲染dom，这时候你如果想要获取到最新的dom就可以用上面的nextTick API了。</font>**
+- **<font color='purple'>就是当数据改变的时候vue会重新渲染对应的dom对吧，但是呢，如果你再一改变数据的时候就去访问那个dom元素你会发现，你获取到的还是原来的那个dom。因为vue是异步渲染dom的所以，当你改变数据的时候他会在下一个Tick中重新渲染dom，这时候你如果想要获取到最新的dom就可以用上面的nextTick API了。</font>**
 
 
 
