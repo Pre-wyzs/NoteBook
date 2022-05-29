@@ -87,15 +87,15 @@ https://typescript-play.js.org/
 
 知识储备：
 
-- null和js的区别：https://blog.csdn.net/qq_44552416/article/details/123186262
-- null是一个空对象，他没有指针；undifine
+- null和undefine的区别：https://blog.csdn.net/qq_44552416/article/details/123186262
+- null就是一个内存小块中，存放的值是**0X000000**；undefine就是内存小块中的值是原先的，没有被修改过的**垃圾数据**
 
 # 2、语法基础
 
 ## 2.1、数据类型
 
 - **<font color='purple'>基元数据类型：string、number、boolean</font>**
-- **<font color='purple'>修改配置文件的输入和输出：不过不能直接中tsc编译.ts文件的不然这个配置没有用，用tsc --watch就行了。</font>**
+- **<font color='purple'>修改配置文件的输入和输出：不过不能直接用tsc编译.ts文件的不然这个配置没有用，用tsc --watch就行了。</font>**
 
 ![image-20220517181628680](Typora_images/TypeScript教程/image-20220517181628680.png)
 
@@ -131,7 +131,7 @@ https://typescript-play.js.org/
 
 ### 2.3.3、箭头函数和普通函数的区别
 
-箭头函数没有构造函数，普通函数是有构造函数的；箭头函数一个普通函数的表达式罢了；
+**<font color='red'>箭头函数没有构造函数，普通函数是有构造函数的；箭头函数一个普通函数的表达式罢了；</font>**
 
 ### 2.3.4、ts函数参数
 
@@ -171,7 +171,7 @@ https://typescript-play.js.org/
 
 
 
-### 小结：<font color='red'>类型 、变量 、形参可选</font>
+### 
 
 
 
@@ -242,6 +242,28 @@ https://typescript-play.js.org/
 ![image-20220517223855422](Typora_images/TypeScript教程/image-20220517223855422.png)
 
 ![image-20220517223920499](Typora_images/TypeScript教程/image-20220517223920499.png)
+
+
+
+
+
+## 2.4、类型缩小
+
+### 2.4.1 typeof 类型守卫
+
+- **<font color='red'>简单的说就是如果一个形参是 联合类型的，那么在函数的第一步一定是判断这个传进来的参数是什么类型的，然后进行操作，这就是类型守卫</font>**
+
+![image-20220529101517198](Typora_images/TypeScript教程/image-20220529101517198.png)
+
+### 2.4.2、真值缩小
+
+- **就是转成bool值好在If分支里面做判断而已。。。**
+
+![image-20220529102600809](Typora_images/TypeScript教程/image-20220529102600809.png)
+
+### 2.4.3、等值缩小
+
+
 
 
 
