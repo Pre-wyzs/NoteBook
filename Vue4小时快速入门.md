@@ -3615,65 +3615,411 @@ props和$emit事件
 
 
 
+# 22、基础知识巩固
+
+## 22.1、js日期操作
+
+https://www.bilibili.com/video/BV1of4y1S7cn?from=search&seid=17203817589969638857&spm_id_from=333.337.0.0
+
+### 日期对象的创建：
+
+![image-20220605135324924](Typora_images/Vue4小时快速入门/image-20220605135324924.png)
+
+- **<font color='red'>当在控制台上打印的时候，打印的是toString()方法后的字符串。</font>**
+
+
+
+### **<font color='red'>常用的方法：</font>**
+
+![image-20220605140618463](Typora_images/Vue4小时快速入门/image-20220605140618463.png)
+
+
+
+### 常用操作
+
+- **日期对象的格式化**
+
+```js
+/**
+ * 函数作用：把一个日期对象转换成日期字符串
+ * @param {Date} date 
+ * @returns 
+ */
+export const date2Str = date => {
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  let dateStr = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+  return dateStr;
+}
+```
+
+- **获取今天是礼拜几**
+
+```js
+ export const getWeekDate = () => {
+      let now = new Date();
+      let day = now.getDay();
+      let weeks = new Array(
+        "周日",
+        "周一",
+        "周二",
+        "周三",
+        "周四",
+        "周五",
+        "周六"
+      );
+      let week = weeks[day];
+      return week;
+}
+```
+
+## 22.2、js数组操作
+
+### 1、数组转字符串
+
+- **toString() 方法**
+
+- **join(split?: string) 方法，这个方法相当于str.split()，可以指定字符串的分割符**
+
+  ```js
+  let arr = [1, 3, 5, 7, 9];
+  let str = arr.join('/');
+  /**返回一个str，不改变原arr */
+  ```
+
+  
+
+### 2、堆栈方法
+
+- **push() 方法：<font color='red'>向数组末尾添加一个或多个元素，返回值是添加后的数组的长度，改变原arr</font>**
+
+- **pop()方法：弹出数组最后一个元素，返回值是被弹出的那个元素，改变原arr**
+- 下面两个是对第一个元素的出入栈操作，和push/pop没什么不同
+
+![image-20220605150909867](Typora_images/Vue4小时快速入门/image-20220605150909867.png)
+
+
+
+### 3、排序方法
+
+- **reverse()方法：将数组倒序排序，并返回倒排后的数组，改变原arr**
+- **sort()方法：正向排序，其他同上**
+
+- 实现乱序的方法：
+  - ![image-20220605151627159](Typora_images/Vue4小时快速入门/image-20220605151627159.png)
+
+### 4、数组拼接
+
+- **concat()方法，实现数组拼接，返回拼接后的arr数组，不改变原arr!**
+
+```js
+let arr = [1, 3, 5, 7, 9];
+// console.log(arr.concat(3,4));
+// console.log(arr.concat([3,4]));
+console.log(arr.concat([1,2,[3,[1,1,11]]]));
+```
+
+- **es6语法，使用...运算符**
+
+```js
+console.log([...arr,78,98]);
+```
+
+- **<font color='red'>深拷贝和浅拷贝的区别，一个是拷贝对象的内容，指针是新的指针；一个是拷贝一份指针，两个指针变量都指向同一块内存！</font>**
+
+
+
+### 5、数组删改
+
+- **<font color='red'>slice()方法：参数一：截取的起始下标，参数二：截取的结束下标【可以不填】；左闭右开；返回一个新的arr，不改变原arr</font>**
+
+  - 高级操作：把类数组，转成数组：
+
+  - ```js
+    let str  = '123456';
+    console.log(Array.prototype.slice.call(str));
+    //不改变原str
+    ```
+
+  - 输出：[ '1', '2', '3', '4', '5', '6' ]
+
+  - ***<font color='#39e600'>小结：slice返回一个的新的截取下来的arr;</font>***
+
+
+
+- **<font color='purple'>splice()方法：截取数组或添加新元素到数组中，改变原arr</font>**
+
+  - **如果什么都不传：**
+
+  ```js
+  let arr = [1, 3, 5, 7, 9];
+  
+  console.log(arr,arr.splice());
+  ```
+
+  - 输出：[ 1, 3, 5, 7, 9 ] []
+  - **传一个参数4：**
+
+  ```js
+  let arr = [1, 3, 5, 7, 9];
+  
+  console.log(arr,arr.splice(4));
+  ```
+
+  - 输出：[ 1, 3, 5, 7 ] [ 9 ]
+  - **<font color='blue'>说明，splice改变原arr，返回的是截取下来的那一段数组，然后当只传一个参数的时候也是 左闭右开和slice一样的。</font>**
+  - **传两个参数，参数一代表截取的起始index，参数二代表截取长度；**
+  - ***<font color='#39e600'>小结：splice不仅会返回一个新的截取下来的arr，也会真的改变原arr的</font>***
+  - ***<font color='red'>传递三个以及以上的参数，第一个就是数组插入的起始位置，第二个参数写0表示截取长度为0，第三个参数就是要插入的数据了【不常用】</font>***
+  - **小结：为什么splice会这么复杂，因为它本来想要替换数组中的某一段，然后把被替换的部分保存下来而已**
+
+### 6、返回数组下标
+
+- indexOf()，搜索指定元素在数组中的下标
+- lastIndexOf()，从右往左查找，返回值和上述的是一样的。
+- ES6：find方法和findIndex()方法；
+
+ ![image-20220605175652297](Typora_images/Vue4小时快速入门/image-20220605175652297.png)
 
 
 
 
 
+### 7、ES6新方法
+
+- 都是静态方法：
+
+- **Array.of()方法：创建一个新的数组**
+
+  - ```js
+    const arr = Array.of(3);
+    console.log(arr);
+    
+    const arr1 = Array.of(4,5,6);
+    console.log(arr1);
+    ```
+
+  - 输出：
+
+  - ![image-20220605171307484](Typora_images/Vue4小时快速入门/image-20220605171307484.png)
+
+  - **<font color='purple'>为什么要搞这样一个方法呢？因为如果使用new Array(3)；会创建一个3个长度的空的数组，但是使用new Array(3,4,5)；就会创建一个[3,4,5]这样的数组，这会引起歧义，所以使用of方法创建具体数组就行了！</font>**
+
+- **Array.from()方法：和slice()的高级用法是一样的，把类数组转换成数组**
+
+  - ```js
+    Array.from('142563')
+    ```
+
+  - 输出：[ '1', '4', '2', '5', '6', '3' ]
 
 
 
+### 8、接收任意多个参数的函数写法
+
+![image-20220605172439132](Typora_images/Vue4小时快速入门/image-20220605172439132.png)
 
 
 
+### 9、数组遍历
+
+#### 9.1、遍历对象所有属性的方法
+
+```js
+const obj = {
+    c: 'hyf',
+    a: 'zzw',
+    b: 'xj',
+    d: 'lyh'
+};
+//遍历所有的键
+for(let value of Object.keys(obj)) {
+    console.log(value);
+}
+//遍历所有的值
+for(let value of Object.values(obj)) {
+    console.log(value);
+}
+//遍历所有的键值对，然后通过解构的方式来赋值
+for(let [key,value] of Object.entries(obj)) {
+    console.log(key,value);
+}
+```
+
+- **<font color='red'>在ES6中的数组的原型对象上也有这样对应的三个方法，不过keys对应的是数组的下标而已。</font>**
+
+```js
+const arr = ['zzw','lty','xj','hyf','lyh'];
+
+for(let value of arr.keys(obj)) {
+    console.log(value);
+}
+
+for(let value of arr.values(obj)) {
+    console.log(value);
+}
+
+for(let [key,value] of arr.entries(obj)) {
+    console.log(key,value);
+}
+```
+
+#### 9.2、数组遍历的所有方法
+
+**<font color='purple'>map、forEach、filter、some、every</font>**
+
+![image-20220605190651998](Typora_images/Vue4小时快速入门/image-20220605190651998.png)
+
+- 上面的所有的方法的第一个参数都是这样的一个function函数；
+
+**/+++++++++++++++++++++++++++++++++++forEach()使用++++++++++++++++++++++++++++++++++++++++++++++++++/**
+
+- **forEach()讲解**
+
+  - ```js
+    let arr = [1,2,3,5,3,2];
+    arr.forEach((item,index,arr) => {
+        console.log(item,index,arr);
+    });
+    
+    ```
+
+  - 输出：
+
+  - 1 0 [ 1, 2, 3, 5, 3, 2 ]
+    2 1 [ 1, 2, 3, 5, 3, 2 ]
+    3 2 [ 1, 2, 3, 5, 3, 2 ]
+    5 3 [ 1, 2, 3, 5, 3, 2 ]
+    3 4 [ 1, 2, 3, 5, 3, 2 ]
+    2 5 [ 1, 2, 3, 5, 3, 2 ]
+
+  - **forEach()是没有返回值的，就算你指定返回值给它，它也没有返回值的。**
+
+    ```js
+    let arr = [1,2,3,5,3,2];
+    console.log(arr.forEach((item,index,arr) => {
+        return 1;
+    }));
+    ```
+
+    ![image-20220605191655858](Typora_images/Vue4小时快速入门/image-20220605191655858.png)
+
+  
+
+  - **<font color='red'>forEach()中的第二个参数，用于指定回调函数的this指针；</font>**
+
+  - ```js
+    let arr = [1,2,3,5,3,2];
+    
+    let obj = {
+        name: 'zzw',
+        arg: 18
+    }
+    
+    arr.forEach(function(item,index,arr) {
+        console.log(this);
+    },obj);
+    ```
+
+  - **这时候打印出来的就是obj对象了，如果obj不指定，this就不知道是什么东西了，如果是在.html页面写的脚本，this默认就是windows了，这个参数可以省略 let _this = this;的这种写法了。**
+
+  - ![image-20220605193801704](Typora_images/Vue4小时快速入门/image-20220605193801704.png)
+  - **<font color='purple'>第一种写法，指定了第二个参数是obj的this指针，所以console出来的也是obj对象；而使用箭头函数直接就可以打印出来了，因为箭头函数没有自己的构造方法，所以，在它里面使用this一定是父对象的this指针。</font>**
+  - **forEach()遍历稀疏数组**
+  - **<font color='purple'>稀疏数组就是 let arr = [1, ,3, ,4, 5]这样类似的数组，也可以通过delete arr[index]的方式创建稀疏数组，在使用forEach进行遍历的时候，不会遍历到空的值，所以上述数组只会循环4次，和for i不太一样。</font>**
+  - **<font color='red'>forEach()不支持break;和continue语句，对循环的操控性是很有限的。</font>**
+  - **任意多个参数的使用二**
+
+  ![image-20220605195633151](Typora_images/Vue4小时快速入门/image-20220605195633151.png)
 
 
 
+**/+++++++++++++++++++++++++++++++++++map()基础使用++++++++++++++++++++++++++++++++++++++++++++++++++/**
+
+- **<font color='purple'>map()和forEach()一样都可以用来遍历数组，不过map方法是有返回值的，返回值是一个对于原数组的映射，就比如我有一个[1,2,3]这样的数组，我想把它的每一项都*2，得到[2,4,6]这样的一个数组，这时候我们就可以使用map方法了。</font>**
+
+- ```js
+  let arr = [1,2,3];
+  
+  let arr1 = arr.map((item,index,arr) => {
+      return item*2;
+  });
+  
+  console.log(arr,arr1);
+  ```
+
+- ***<font color='#39e600'>小结：map函数中的回调函数的返回值就是新的映射数组中的每一项的值了。不改变原arr</font>***
+
+**/+++++++++++++++++++++++++++++++++++filter()基础使用++++++++++++++++++++++++++++++++++++++++++++++++++/**
+
+- **<font color='purple'>filter()就是为了过滤数组用的，其回调函数的返回值必须是一个bool值，用以决定这一项要不要在新的arr中被过滤掉</font>**
+
+```js
+let arr = [1,2,3];
+let arr1 = arr.filter((item,index,arr) => {
+    return item === 2? false: true;
+});
+
+console.log(arr1);
+```
+
+- **把元素值为2的那一项过滤掉。**
+
+- 常见需求，过滤掉一个数组中的undefined和null：
+
+![image-20220605204156038](Typora_images/Vue4小时快速入门/image-20220605204156038.png)
 
 
 
+**null和undefined的区别：null代表的是一个空指针，而undefined代表的是一个空的值，正因为如此所以null == undefined是成立的，但是 null === undefined就不成了，因为这里取消了隐式转换。**
 
 
 
+**/++++++++++++++++++++++++++++++some()/every()基础使用++++++++++++++++++++++++++++++++++++++++++++++++++/**
+
+![image-20220605205628923](Typora_images/Vue4小时快速入门/image-20220605205628923.png)
+
+- **返回值res1为true，res2为false，这两个主要是用来检测数组是否符合莫一种给定的标准的。**
 
 
 
+#### 9.3、reduce方法
 
+- **<font color='purple'>也叫做累加归并方法，这个方法就能实现很多的骚操作了。</font>**
 
+```js
+let arr = [1,2,3,4,5];
+let res = arr.reduce((accumulation,item,index,arr) => {
+    return accumulation + item;
+});
+console.log(res);
+```
 
+- **<font color='red'>和其他方法不同的是，回调函数中多了一个累加器，accumulation，累加器的初始值可以通过第二个参数指定，默认是数组的第一个值；进入第一轮循环，因为1被accumulationi取走了所以 item从2开始，1+2=3，所以下一次循环开始时，accumulation的值就是3了，就是这样一只值累加，最终返回15；</font>**
 
+- **也可以指定初始值，这样循环就会从第一位开始了**
 
+```js
+let arr = [1,2,3,4,5];
+let res = arr.reduce((accumulation,item,index,arr) => {
+    return accumulation + item;
+},90);
+console.log(res);
+```
 
+这样就是105了。
 
+- **常用需求，将二维数组转化为一维数组：**
 
+- ```js
+  let arr = [[1,2],[3,4],[5,6]];
+  let res = arr.reduce((accumulation,item) => {
+      return accumulation.concat(item);
+      // return [...accumulation,...item]
+  },[]);
+  console.log(res);
+  ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- 
 
