@@ -1,5 +1,13 @@
 # Vue快速入门
 
+**<font color='purple'>大方向：写vue项目最重要的就是：时（函数执行的时机）、事（函数的编写）、数（要操作的对象）；因为夫物芸芸，各复归其根。vue的根在于响应式编程的想法，就是数据改变后就可以控制页面相应的变化。好了那么如何改变数据呢？用函数操作数据呗，好了现在函数定义好了，那什么时候执行呢？不就是钩子函数，触发事件，这两个时机嘛，没有什么难的。</font>**
+
+
+
+**==<font color='red'>注意：vue是用js写的一个框架，所以，js生vue，要想用活vue还得学好js才行！</font>==**
+
+
+
 # 1、Vue基础简介
 
 ## 1.1、vue简介
@@ -592,6 +600,17 @@ vue2.0文档参考：https://cn.vuejs.org/v2/guide/installation.html
 
 
 
+
+
+**<font color='purple'>vue指令大方向：最常用@、: 、v-if、v-for、v-model；其次v-show；最后是v-html、v-text，因为它们完全可以被{{}}插值表达式所代替。</font>**
+
+- **@就是事件触发函数，所以非常常用**
+- **:可以把一个元素的所有属性都绑定到data数据上，从而获得对元素操控的最大自由！**
+
+
+
+
+
 # 3、axios求简介
 
 **<font color='purple'>中文文档：http://www.axios-js.com/zh-cn/docs/</font>**
@@ -659,6 +678,14 @@ vue2.0文档参考：https://cn.vuejs.org/v2/guide/installation.html
 </body>
 </html>
 ```
+
+
+
+
+
+
+
+
 
 
 
@@ -860,6 +887,8 @@ export default {
 
 ## 4.4、vue组件通信总结：
 
+**<font color='purple'>vue组件的通信是十分重要的，因为我们知道vue框架的设计思路就是通过数据改变来实时改变页面内容对吧，所以数据在组件之间的传递的重要程度优先级就显得非常高了！这是根本性的问题！一定要理清楚！！！</font>**
+
 ### 4.4.1、$emit、props
 
 父子组件通信的方式一：$emit、props
@@ -966,7 +995,100 @@ export default {
   }
   ```
 
-小结：**==触发事件执行函数->函数执行this.$emit()触发自定义事件->自定义事件触发执行父组件函数==**
+小结：**==<font color='red'>触发事件执行函数->函数执行this.$emit()触发自定义事件->自定义事件触发执行父组件函数</font>==**
+
+#### part3: props数据验证
+
+##### 验证形式一：
+
+父组件
+
+```vue
+<template>
+    <div>
+        <Child :childName="childName"/>
+    </div>
+</template>
+<script>
+import Child from './components/Child.vue'
+
+export default {
+    name:'Father',
+    components:{
+        Child
+    },
+    data() {
+        return {
+          childName: 12
+        }
+    },
+
+}
+</script>
+<style scoped>
+
+</style>
+
+
+```
+
+子组件：
+
+```vue
+<template>
+    <div>{{childName}}</div>
+</template>
+<script>
+
+export default {
+    name:'Child',
+    props:{
+        childName: {
+            type: String,
+        }
+    },
+}
+</script>
+<style scoped>
+
+</style>
+```
+
+- 现在在我子组件中props的数据类型是String类型，但是我在父组件中传递了一个Int类型的数据，看看结果会怎么样：
+
+![image-20220608203243962](Typora_images/Vue4小时快速入门/image-20220608203243962.png)
+
+- **虽然它会报一个警告，但是页面还是正常渲染的。**
+
+
+
+##### 验证形式二：
+
+```js
+<template>
+    <div>{{childName}}</div>
+</template>
+<script>
+
+export default {
+    name:'Child',
+    props:{
+        childName: {
+            validator( value ) {
+                return value === 'zzw';
+            }
+        }
+    },
+}
+</script>
+<style scoped>
+
+</style>
+```
+
+**<font color='red'>使用validator函数进行验证，返回值一定得是一个true或者false，用来校验是否符合要求</font>**
+
+
 
 
 
@@ -1005,7 +1127,27 @@ this.$parent.父组件函数或变量  //这样子组件就可以直接访问到
 
 #### part1:版本更新
 
-在vue3.x中移除了$children对象，可以使用$refs来获取到子组件对象。
+**<font color='purple'>在vue3.x中移除了$children对象，可以使用$refs来获取到子组件对象。</font>**
+
+
+
+基本-大局观：
+
+1. **父子组件通信**
+   - **props选项来做**
+     - **props选项值的形式有很多**
+     - **props数据验证**
+2. **子父组件通信**
+   - **自定义事件 $emit**
+3. **非父子组件通信**
+   - **ref 绑定完成**
+   - **event bus事件总线**
+4. **路由传参**
+5. **多组件通信：vuex**
+
+***<font color='red'>小结：组件的通信方式有很多种，常用的就3个，props/$emit、$parent/$refs、event bus事件总线;还有一种常见的就是在父组件使用$refs之间把子组件注册起来，然后父组件就可以通过this.$refs. 。。。随意使用子组件的属性和方法了</font>***
+
+
 
 
 
@@ -3411,10 +3553,6 @@ public class QRCodeTest {
 
 4、height: calc(100vh - 60px);  如果运算符中间没有空格的话会报错的！！！
 
-
-
-
-
 5、默认布局流中伸缩效果的实现，只要调整margin-left不就行了吗，我透了服了...
 
 6、得想办法让vue中调用的函数都接口话，不然的话一条一条语句改的话，真的很麻烦！
@@ -3739,11 +3877,12 @@ console.log([...arr,78,98]);
   - ```js
     let str  = '123456';
     console.log(Array.prototype.slice.call(str));
+    //为什么要这样调用slice方法呢？因为正常调用都是 arr.slice()这样的，但是现在没有arr了所以用原型的方法。
     //不改变原str
     ```
-
+    
   - 输出：[ '1', '2', '3', '4', '5', '6' ]
-
+  
   - ***<font color='#39e600'>小结：slice返回一个的新的截取下来的arr;</font>***
 
 
@@ -3958,7 +4097,7 @@ for(let [key,value] of arr.entries(obj)) {
 ```js
 let arr = [1,2,3];
 let arr1 = arr.filter((item,index,arr) => {
-    return item === 2? false: true;
+    return item === 2? false: true;  //像这样的三元表达式的用法太捞了，直接用item !== 2;不就好了吗
 });
 
 console.log(arr1);
@@ -3972,7 +4111,7 @@ console.log(arr1);
 
 
 
-**null和undefined的区别：null代表的是一个空指针，而undefined代表的是一个空的值，正因为如此所以null == undefined是成立的，但是 null === undefined就不成了，因为这里取消了隐式转换。**
+**<font color='red'>null和undefined的区别：null代表的是一个空指针，而undefined代表的是一个空的值，正因为如此所以null == undefined是成立的，但是 null === undefined就不成了，因为这里取消了隐式转换。</font>**
 
 
 
@@ -4022,4 +4161,221 @@ console.log(res);
   ```
 
 - 
+
+## 22.3、this指向的四种绑定规则
+
+教程：https://www.bilibili.com/video/BV1NT4y1j7xH?p=1
+
+### 1、默认绑定：默认绑定窗口window对象
+
+- 在在html的\<script>标签中，this默认指向window对象
+
+```js
+console.log(this === window);  //打印的结果是true
+```
+
+- 在.js文件中 默认指向一个空的对象
+
+```js
+console.log(this);  //打印结果是一个空对象
+```
+
+### 2、隐式绑定：谁调用就绑定谁
+
+```js
+let obj = {
+    a: 2,
+    foo: function() {
+        console.log(this);
+    }
+};
+
+obj.foo();
+```
+
+打印：
+![image-20220607070331260](Typora_images/Vue4小时快速入门/image-20220607070331260.png)
+
+- **<font color='purple'>每一个普通函数都有自己的this指针变量，不过具体指向谁，就要看情况了。</font>**
+
+
+
+- **<font color='red'>又可以在函数内部，定义一个新的函数，并且执行它</font>**
+
+![image-20220607071342681](Typora_images/Vue4小时快速入门/image-20220607071342681.png)
+
+**<font color='blue'>在html\<script>中，第一个this指向的是obj对象，第二个this指向的是window对象；而在.js文件中，第二个对象指向的是一个全局的Object对象：</font>**
+
+![image-20220607072206962](Typora_images/Vue4小时快速入门/image-20220607072206962.png)
+
+- **<font color='blue'>在上面这种情况中，test函数一被定义完就立即调用了，称作立即调用函数，立即调用函数可以用下面的这种写法：</font>**
+
+```js
+(function(){
+    ...
+})();  //这样定义的函数就会被立即调用了。
+```
+
+
+
+**<font color='green'>闭包简单了解：</font>**
+
+![image-20220607075445231](Typora_images/Vue4小时快速入门/image-20220607075445231.png)
+
+- **<font color='red'>就是当函数执行的时候，定义了一个新的函数并且return这个函数指针就叫闭包；</font>**
+
+**<font color='purple'>当闭包函数执行的时候里面的绑定指向谁呢：还是window或者是全局的Object对象，因为this这个指针指向的一定是一个对象，所以不必考虑this指向一个函数指针，因为没有意义，你指向一个函数不如直接调用它就行了。。。</font>**
+
+```js
+let obj = {
+    a: 2,
+    foo: function() {
+        //闭包
+        function test() {
+            console.log(this);
+        }
+        return test;
+    }
+};
+//执行闭包函数
+obj.foo()();
+
+```
+
+特殊案例：
+
+```js
+//全局函数
+function foo() {
+    console.log(this);
+}
+
+let obj = {
+    a: 2,
+    foo: foo
+}
+
+let ptrFn = obj.foo;
+
+ptrFn();
+
+```
+
+**this也是windows或者是全局的obj，道理很简单，因为这样做就相当于直接在全局使用 foo(); 而已嘛**
+
+
+
+当把函数作为参数传递给另一个函数调用，那个它的this肯定还是全局的obj或者是window对象，因为this不可能指向一个函数嘛。。。
+
+```js
+//全局函数
+function foo() {
+    console.log(this);
+}
+
+//把函数作为参数进行传递
+function test(fn) {
+    fn();
+}
+
+let obj = {
+    a: 2,
+    foo: foo
+}
+
+test(obj.foo);
+```
+
+==注意：形参被赋值为实参的时候，是浅拷贝！==
+
+不过fn()的this指向是可以被父函数改变的，就是使用fn.call(obj); 函数fn的this指向就可以被改变了,就会指向obj
+
+***<font color='blue'>小结：父函数有能力决定子函数的this指向</font>***
+
+***<font color='#39e600'>小结1：隐式绑定有时候会出现 隐式丢失，以及父函数决定子函数this指向的情况</font>***
+
+### 3、显示绑定：call，apply，bind
+
+![image-20220608165037061](Typora_images/Vue4小时快速入门/image-20220608165037061.png)
+
+### 4、new一个函数
+
+```js
+function Person() {
+    console.log(this);
+}
+let person = new Person();
+```
+
+- 这个this就会指向 一个Person {}对象：
+
+![image-20220608170121493](Typora_images/Vue4小时快速入门/image-20220608170121493.png)
+
+**<font color='green'>道理很简单，因为当你new 一个函数的时候，就相当于把Person函数当做了一个类构造函数，构造函数指向的this当然是类的一个具体的对象啦，并且还会返回【默认返回】给person变量。</font>**
+
+
+
+**小结：函数this绑定的优先级：new > call、apply、bind > 隐式 >默认**
+
+
+
+## 22.4、箭头函数的this
+
+- 箭头函数为什么会产生呢？就是当子函数想要使用父函数的this指针的时候，要用到如下操作：
+
+```js
+function foo() {
+    //先把父函数的this指向保存下来，然后在在子函数中进行调用
+    let _this = this;
+    function test() {
+        console.log(_this);
+    }
+    test();
+}
+
+let obj = {
+    a: 2,
+    foo: foo
+}
+obj.foo();
+```
+
+当然除了这种方式以外还有另一种方式：
+
+```js
+function foo() {
+    function test() {
+        console.log(this);
+    }
+    //使用显示绑定强行绑定父函数指向的this
+    test.call(this);
+}
+
+let obj = {
+    a: 2,
+    foo: foo
+}
+obj.foo();
+```
+
+<font color='green'>**当然这些方式都显得十分的繁琐，所以箭头函数就出来了，箭头函数绑定<font color='red'>父级作用域</font>的this指针，也就是说箭头函数的this只由父级作用域的this指向决定。**</font>
+
+
+
+案例：
+
+```js
+let obj = {
+    a: 2,
+    foo: () => {
+        console.log(this);
+    }
+}
+
+obj.foo();
+```
+
+**<font color='blue'>这个打印的结果是什么呢？因为箭头函数没有自己的this的，写在它里面的this是父级作用域的this,所以是全局obj或者是window。。。</font>**
+
+什么隐式绑定，显示绑定，都对箭头函数无效的，new tm的更加了，箭头函数连自己的this都没有，还new个毛线！
 
