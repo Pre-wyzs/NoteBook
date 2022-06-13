@@ -1258,9 +1258,222 @@ this.$parent.父组件函数或变量  //这样子组件就可以直接访问到
 
 ***==<font color='red'>要是说之前最初的vue是用来帮助整理dom树结构的数据和函数的，那么vue组件则在此基础上更进了一步，就是把一整个dom结构都提取出来，并归纳为一个虚拟dom元素，使得dom代码的复用性更进一步了！</font>==***
 
-## 6.1、插槽
+## 6.1、匿名插槽
 
-- 其实插槽直接放在那里就行了不需要去定义它的名字什么的，是要组件的内侧有内容，就会被放在插槽中的...
+- **<font color='purple'>其实插槽直接放在那里就行了不需要去定义它的名字什么的，是要组件的内侧有内容，就会被放在插槽中的...</font>**
+
+## 6.2、插槽详解
+
+教程：https://www.bilibili.com/video/BV1Vi4y1u7XX?from=search&seid=1288841901733531396&spm_id_from=333.337.0.0&vd_source=365d13057e58bb6a007cdd5275785229
+
+### 6.2.1、匿名插槽
+
+**==<font color='blue'>大方向：插槽只有一个目的，那就是使得我们封装的组件可以表现的更加灵活！</font>==**
+
+案例：
+
+子组件
+
+```vue
+<template>
+    <div>
+        我是孩子
+    </div>
+    <slot></slot>
+</template>
+
+```
+
+使用：
+
+```vue
+<template>
+    <div>
+        <Child ref="child" msg="你好章子唯">
+            <div style="width:50px;height:50px;background-color:green;">
+                哈哈，持之以恒！修己恒常
+            </div>
+        </Child>
+    </div>
+</template>
+```
+
+输出：
+
+![image-20220611150204550](Typora_images/Vue4小时快速入门/image-20220611150204550.png)
+
+
+
+**==<font color='red'>说明：匿名插槽可以将组件起始标签和结束标签中的内容渲染到 插槽\<slot>标签中去，<font color='blue'>渲染内容可以是 dom结构，也可以是单纯的文本，还可以使用插值表达式渲染父组件的数据！</font><font color='orange'>但是不能渲染\<template>模板标签和子组件自己的数据！</font></font>==**
+
+- **dom结构**
+- **文本**
+- **父组件数据**
+
+```vue
+<template>
+    <div>
+        <Child ref="child" msg="你好章子唯">
+            <div style="width:50px;height:50px;background-color:green;">
+                {{wenbaoId}}
+            </div>
+        </Child>
+    </div>
+</template>
+<script>
+import Child from './Child.vue'
+
+export default {
+    name: 'Father',
+    components: {
+        Child
+    },
+    data () {
+        return {
+            wenbaoId: 123
+        }
+    }
+}
+</script>
+```
+
+输出：
+![image-20220611150850874](Typora_images/Vue4小时快速入门/image-20220611150850874.png)
+
+- \<template>模板渲染会出错的！
+
+```vue
+<template>
+    <div>
+        <Child ref="child" msg="你好章子唯">
+            <template>
+                <div style="width:50px;height:50px;background-color:green;">
+                </div>
+            </template>
+        </Child>
+    </div>
+</template>
+```
+
+结果
+
+![image-20220611151414545](Typora_images/Vue4小时快速入门/image-20220611151414545.png)
+
+啥都没有了。。。
+
+### 6.2.2、具名插槽
+
+具名插槽就是有名字的插槽
+
+```vue
+<template>
+    <div>
+        我是孩子
+    </div>
+    <slot name="zzw"></slot>
+</template>
+```
+
+使用
+
+```vue
+<template>
+    <div>
+        <Child ref="child" msg="你好章子唯">
+            <template v-slot:zzw>
+                <div style="width:50px;height:50px;background-color:green;">
+                    zzw
+                </div>
+            </template>
+        </Child>
+    </div>
+</template>
+```
+
+**==<font color='red'>和匿名插槽不同的是，具名插槽只允许使用\<template>指定具体的插槽名字后，才能正常渲染出来！（在2.6之前可以使用slot="zzw"的方式指定插入的插槽，不过在3.0后这种方式就被移除了，推荐就使用v-slot:zzw来指定插槽，一定是没有问题的！）</font>==**
+
+**<font color='blue'>如果，找不到插槽，就不会渲染，也不会报错！</font>**
+
+```vue
+<template>
+    <div>
+        <Child ref="child" msg="你好章子唯">
+            <template v-slot:lty>
+                <div style="width:50px;height:50px;background-color:green;">
+                    zzw
+                </div>
+            </template>
+        </Child>
+    </div>
+</template>
+```
+
+输出：就是啥也没有。。。
+
+![image-20220611153219301](Typora_images/Vue4小时快速入门/image-20220611153219301.png)
+
+**<font color='blue'>相反的，如果插槽没有被插入东西的话，也不会渲染和报错的！</font>**
+
+### 6.2.3、插槽内容访问子组件数据
+
+**之前说了不能在插槽的dom中直接访问到子组件的数据，那怎么样才能访问到呢？**
+
+```vue
+<template>
+    <div>
+        我是孩子
+    </div>
+    <slot name="lty" :msg="love"></slot>
+</template>
+```
+
+- 在插槽中自定义一个msg属性，然后绑定子组件的love变量
+
+```vue
+<template>
+    <div>
+        <Child ref="child" msg="你好章子唯">
+            <template v-slot:lty="{ msg }" >
+                <div style="width:50px;height:50px;background-color:green;">
+                    {{ msg }}
+                </div>
+            </template>
+        </Child>
+    </div>
+</template>
+```
+
+- **==<font color='red'>在父组件中使用 es6的对象解构（也可以用slotProps直接接收）接收msg属性，然后就能在插槽dom中访问到子组件的数据了，哈哈</font>==**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4378,4 +4591,16 @@ obj.foo();
 **<font color='blue'>这个打印的结果是什么呢？因为箭头函数没有自己的this的，写在它里面的this是父级作用域的this,所以是全局obj或者是window。。。</font>**
 
 什么隐式绑定，显示绑定，都对箭头函数无效的，new tm的更加了，箭头函数连自己的this都没有，还new个毛线！
+
+
+
+
+
+
+
+
+
+
+
+
 

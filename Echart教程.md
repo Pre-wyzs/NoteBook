@@ -4005,6 +4005,171 @@ https://blog.csdn.net/m0_46613429/article/details/121775122
 
 
 
+# 6、基础巩固
+
+## 6.1、rem响应式布局
+
+**<font color='red'>所谓的响应式布局，就是在不同的设备上，能实现元素大小的自适应，对吧，先来看一下绝对的单位</font>**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+    .intro {
+        font-size: 16px;
+    }
+</style>
+<body>
+    <div class="intro">你好，我是哈么</div>
+</body>
+</html>
+```
+
+这就是绝对的单位，在任何的设备上都是16px的大小
+
+**==<font color='blue'>而我们所说的相对单位rem是相对html根元素的font-size大小进行设定的</font>==**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    html {
+        font-size: 16px;
+    }
+    .intro {
+        font-size: 1rem;  /* 就是 16px*/
+    }
+</style>
+<body>
+    <div class="intro">你好，我是哈么</div>
+</body>
+</html>
+```
+
+**==<font color='red'>不过这样也不会变化，因为根本在于html 的font-size变化了，才有用，所以采用如下方式</font>==**
+
+```html
+<style>
+    /** 100vw == 375px iphone6*/ 
+    /** ?vw == 100px */ 
+    html {
+        font-size: 26.66667vw;
+    }
+    .intro {
+        font-size: 0.16rem;  /* 就是 16px*/
+    }
+</style>
+```
+
+==我们使用vw这个单位，因为100vw就代表一整个屏幕的宽度了，所以比如在ipone6下，我设定根元素font-size为100px的话，那么换算成vw单位就是26.66667vw了；然后我想font-size的大小为16px那么相对于100px == 1rem来说，就用0.16rem就够了==
+
+- **关键在于把设计稿的px转成 vw和rem就行了，绝对的东西依旧是px!**
+
+
+
+# 7、CSS高级
+
+## 7.1、CSS画形状（简略）
+
+**圆形**
+
+首先如何画一个圆形呢？很简单
+
+```css
+.App {
+  height: 100px;
+  width: 100px;
+  background-color: red;
+  border-radius: 50px;
+}
+```
+
+- 把border-radius改成 50px就行了。**==<font color='red'>注意：要画圆形必须要保证border-radius的值 >= 宽/高的值的一半才行；可以直接用px，也可以直接用%;画圆形的前提就是是一个真正方形，不然没有用！</font>==**
+
+
+
+**三角形**
+
+```css
+.sj {
+  width: 0px;
+  border-top: 50px solid red;
+  border-bottom: 50px solid yellow;
+  border-left: 50px solid blue;
+  border-right: 50px solid purple;
+}
+```
+
+因为这样画出来的图形是一个这样的图像：所以隐藏掉其他的部分就可以了。
+
+![image-20220612114139486](Typora_images/Echart教程/image-20220612114139486.png)
+
+
+
+```css
+.sj {
+  width: 0px;
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  border-left: 50px solid blue;
+  border-right: 50px solid transparent;
+}
+```
+
+![image-20220612114405140](Typora_images/Echart教程/image-20220612114405140.png)
+
+
+
+
+
+- clip-path属性：
+
+**用此属性显示圆形：**
+
+```css
+.App {
+  height: 100px;
+  width: 100px;
+  background-color: red;
+  clip-path: circle();
+}
+```
+
+**用此属性显示三角形，**
+
+```css
+.App {
+  height: 100px;
+  width: 100px;
+  background-color: red;
+  clip-path: polygon(0% 0%,100% 0%,50% 50%);
+}
+```
+
+- **==<font color='red'>通过三个x y的点位来然后闭合，就可以形成三角形了，道理就是提供给polygon函数n个坐标点位然后它会帮你闭合的，就形成了</font>==**
+  ![image-20220612115049852](Typora_images/Echart教程/image-20220612115049852.png)
+
+
+
+
+
+
+
+
+
 
 
 
