@@ -3972,6 +3972,10 @@ props和$emit事件
 
 https://www.bilibili.com/video/BV1of4y1S7cn?from=search&seid=17203817589969638857&spm_id_from=333.337.0.0
 
+- **日期的操作归纳起来无非两点：第一先获取日期对象，第二在再调用对象的方法而已。**
+
+
+
 ### 日期对象的创建：
 
 ![image-20220605135324924](Typora_images/Vue4小时快速入门/image-20220605135324924.png)
@@ -4026,6 +4030,8 @@ export const date2Str = date => {
 ```
 
 ## 22.2、js数组操作
+
+- **数组方法无非看三点：1干了什么了、2返回值是什么、3是否改变原arr**
 
 ### 1、数组转字符串
 
@@ -4598,9 +4604,27 @@ obj.foo();
 
 
 
+# 23、video标签
+
+
+
+https://www.bilibili.com/video/BV1iF411x7kw?spm_id_from=333.999.0.0&vd_source=365d13057e58bb6a007cdd5275785229
+
+![image-20220620065201783](Typora_images/Vue4小时快速入门/image-20220620065201783.png)
+
+- src：视频的源地址
+- controls：就可以为视频添加默认的一些控件了。
+- autoplay：设置了该标签后video就会自动播放。（单独设置autoplay是不会播放的，还要设置muted静音属性，这主要是为用户体验考虑的）
+- muted：该属性使得视频静音。
+- loop：循环播放。
+- poster：设置视频播放前显示的图像。
+
+![image-20220620070024541](Typora_images/Vue4小时快速入门/image-20220620070024541.png)
 
 
 
 
 
+![image-20220620070900498](Typora_images/Vue4小时快速入门/image-20220620070900498.png)
 
+![image-20220620072253835](Typora_images/Vue4小时快速入门/image-20220620072253835.png)

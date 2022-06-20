@@ -1,5 +1,7 @@
 # Vue3.0 + Vite 极速上手
 
+
+
 # 1、基础部分
 
 ## 1.1、vue3新特性
@@ -290,9 +292,9 @@ export default defineComponent({
 </style>
 ```
 
-**==<font color='red'>使用reactive函数来维护 对象，数组的响应变化；注意在setup函数中定义新的函数，不能使用 setName () {...}这样的方式，不然会报错的，要么使用原生js的 function来定义，要么使用箭头函数来定义；</font>==**
+**==<font color='red'>使用reactive函数来维护 对象响应变化；注意在setup函数中定义新的函数，不能使用 setName () {...}这样的方式，不然会报错的，要么使用原生js的 function来定义，要么使用箭头函数来定义；</font>==**
 
-
+**==<font color='blue'>注意：数组的响应变化使用的ref！比如 const arr = ref([]); 然后使用arr.value来正常访问和使用数组就行了！</font>==**
 
 ### 1.1.6、setUp级别的生命周期函数
 
@@ -462,9 +464,15 @@ vite原理：
 
 
 
-# 2、jsx语法
+# 2、jsx语法（三小时快速入门版）
 
 https://www.bilibili.com/video/BV1XV411d7SE?p=8&vd_source=365d13057e58bb6a007cdd5275785229
+
+
+
+项目路径：E:\Vue3.0\课程代码\myreact> 
+
+
 
 ## 2.1、react安装
 
@@ -478,6 +486,19 @@ create-react-app myreact
 
 
 ## 2.2、语法基础
+
+### 2.2.1、dom结构可以直接 return
+
+- 就是普通的变量类型如下：
+  - let a =1;
+  - let b = false;
+  - let c = [1,2,3]
+  - let d = {
+  - a: true
+  - b: 'zzw'
+  - }
+- ***<font color='purple'>现在又多了一种变量类型-></font>***
+  - let f = \<div>zzw\</div>
 
 ```react
 import './App.css';
@@ -496,7 +517,7 @@ export default App;
 
 **==<font color='red'>return 后面跟上一个()，括号里面只能有一个根元素，然后可以在{}中执行js的语法，类名的关键字是className，不是class了</font>==**
 
-
+### 2.2.2、行内样式展开
 
 - **<font color='red'>1、行内样式可以直接展开</font>**
 
@@ -521,6 +542,8 @@ export default App;
 
 2、注释使用 /**/写的
 
+### 2.2.3、数组中可以直接写dom节点
+
 **<font color='red'>3、数组中可以直接写div节点</font>**
 
 ```react
@@ -538,6 +561,7 @@ function App() {
   return (
     <div className='App' style={style}>
       hello {2 + 3}
+      //渲染数组中的节点：{}然后直接把这个节点放过来就好了    
       {arr}
     </div>
   );
@@ -549,11 +573,699 @@ export default App;
 
 ![image-20220612071331582](Typora_images/Vue3.0 + Vite 极速上手/image-20220612071331582.png)
 
+## 2.3、组件
+
+- 可以这么说，一个React应用就是构建在React组件上的
+
+### 2.3.1、组件定义与使用
+
+- 组件的定义
+  - **<font color='red'>导入React和Component类</font>**
+  - **<font color='red'>导出Child类继承自 Component</font>**
+  - **<font color='purple'>使用render渲染函数导出dom节点</font>**
+
+```react
+
+//note:导入React和Component类
+import React, { Component } from "react"
+
+//note:继承Component类导出 Child
+export default class Child extends Component {
+    render() {
+        return (
+        <div className="child">
+            组件内容
+        </div>
+        );
+    }
+}
+
+```
+
+- 组件的使用
+  - 导入，然后使用html标签进行使用
+
+```react
+import './App.css';
+import Child from './components/Child';
+
+function App() {
+  return (
+    <div>
+      <div className='App'>
+        <Child></Child>
+      </div>
+    </div>
+
+  );
+}
+
+export default App;
+```
+
+- 组件文件的组织结构
+
+![image-20220616220535604](Typora_images/Vue3.0 + Vite 极速上手/image-20220616220535604.png)
+
+
+
+### 2.3.2、组件类型
+
+在react中有两种组件的类型，
+
+- 函数式组件和类式组件
+
+#### 1、函数式组件
+
+```react
+import './App.css';
+import Child from './components/Child';
+
+function App() {
+  return (
+    <div>
+      <div className='App'>
+        <Child></Child>
+        <FuncComp></FuncComp>
+      </div>
+    </div>
+
+  );
+}
+
+export default App;
+
+
+function FuncComp () {
+  return (
+    <div>
+      zzw yyds
+    </div>
+  );
+}
+
+```
+
+- **<font color='purple'>*编写一个函数，然后返回值是一个dom节点就行了，注意这里 因为这个文件是一个 \*.js文件，所以这个函数能直接定义在外边*</font>**
+
+
+
+### 2.3.3、类组件插槽
+
+- ***插槽定义***
+
+```react
+import React, { Component } from "react"
+
+//note:继承Component类导出 Child
+export default class Child extends Component {
+//构造器函数在render函数的外部
+    constructor(props){
+        super(props);
+    }
+
+    render() {
+        return (
+        <div className="child">
+            组件内容
+            {this.props.children}
+        </div>
+        );
+    }
+}
+
+```
+
+**<font color='red'>首先constructor函数是类的构造器函数，可以接受外部传进来的props属性，然后使用 {}语法this.porps.children就可以获取到组件起始标签和结束标签中的内容了</font>**
+
+- ***插槽使用***
+
+```react
+import './App.css';
+import Child from './components/Child';
+
+function App() {
+  return (
+    <div>
+      <div className='App'>
+        <Child>
+            <!--直接在标签内部写内容就行了-->
+          <div style={{ height: `${100}px;`, width: `${100}px;`}}>xujie</div>
+        </Child>
+      </div>
+    </div>
+
+  );
+}
+
+export default App;
+```
+
+
+
+### 2.3.4、函数组件插槽
+
+```react
+import './App.css';
+// import Child from './components/Child';
+
+function App() {
+  return (
+    <div>
+      <div className='App'>
+        {/* <Child>
+          <div style={{ height: `${100}px;`, width: `${100}px;`}}>xujie</div>
+        </Child> */}
+        <FuncComp>
+          <p>zzw xihuan xujei </p>
+        </FuncComp>
+      </div>
+    </div>
+
+  );
+}
+
+export default App;
+
+const FuncComp = ({children}) => {
+  return (
+    <div>
+      这是函数组件
+      {children}
+    </div>
+  );
+}
+```
+
+**<font color='red'>就是通过 {} 解构childer对象，然后放到{}里面就行了</font>**
+
+
+
+### 2.3.5、state与props（类组件）
+
+**state:**
+
+**在react组件中定义自己的data数据就使用state对象**
+
+```react
+
+import React, { Component } from "react"
+
+export default class Child extends Component {
+    constructor(props) {
+        super(props);
+        //初始化我们的数据=>构造函数里面有this是很平常的对吧
+        this.state = { id: 1,name: 'zzw',age: 18 }
+    }
+
+
+    render() {
+        return (
+            <div className="child">
+                <br />
+                <button>
+                    {/* 数据的使用 */}
+                    {this.state.id}
+                    {this.state.name}
+                    {this.state.age}
+                </button>
+            </div>
+        );
+    }
+}
+
+
+```
+
+**==这里的state定义组件数据的方式和vue2中的data简直是一模一样的。。。然后数据的使用方面和vue2比还是差了一点，得使用this.state来对数据进行访问==**
+
+
+
+**props**
+
+组件属性：
+
+```react
+      <div className='App'>
+        <Child title="你好">
+        </Child>
+        {/* <FuncComp>
+          <p>zzw xihuan xujei </p>
+        </FuncComp> */}
+      </div>
+    </div>
+```
+
+
+
+- 通过props来获取到传过来的属性值
+
+```react
+
+import React, { Component } from "react"
+
+export default class Child extends Component {
+    constructor(props) {
+        super(props);
+        //初始化我们的数据=>构造函数里面有this是很平常的对吧
+        this.state = { id: 1,name: 'zzw',age: 18 }
+    }
+
+
+    render() {
+        return (
+            <div className="child">
+                <br />
+                <button>
+                    {/* 数据的使用 */}
+                    {this.state.id}
+                    {this.state.name}
+                    {this.state.age}
+                    {/* 组件属性的使用 */}
+                    {this.props.title}
+                </button>
+            </div>
+        );
+    }
+}
+```
+
+- props默认值的定义
+
+```react
+    render() {
+        return (
+            <div className="child">
+                <br />
+                <button>
+                    {/* 数据的使用 */}
+                    {this.state.id}
+                    {this.state.name}
+                    {this.state.age}
+                    {/* 组件属性的使用 */}
+                    {this.props.title}
+                    {/*默认属性的使用*/}
+                    {this.props.content}
+                </button>
+            </div>
+        );
+    }
+}
+//和class Child是同一个层级的。
+Child.defaultProps = {
+    content: '天道酬勤，勤能补拙，熟能生巧'
+}
+
+```
 
 
 
 
 
+
+
+
+
+### 2.3.6、事件处理
+
+React事件处理和原生的js事件处理是差不多的
+
+```html
+//原生事件处理
+<button onclick="handleClick();"></button>
+```
+
+React事件处理
+
+```react
+<button onClick={handleClick}></button>
+```
+
+- ***<font color='red'>首先C要大写，事件名采用驼峰命名</font>***
+
+- ***<font color='red'>处理函数应该使用{}包裹</font>***
+
+- ==注意：在调用方法的时候不要直接执行，而是写一个方法名称，所以不要加上()==
+
+
+
+示例：
+
+```react
+import React, { Component } from "react"
+
+export default class Child extends Component {
+    constructor(props) {
+        super(props);
+        //初始化我们的数据=>构造函数里面有this是很平常的对吧
+        this.state = { id: 1,name: 'zzw',age: 18 }
+    }
+
+    //定义一个事件处理函数
+    handleClick(num) {
+        alert(num);
+    }
+
+
+    render() {
+        return (
+            <div className="child">
+                <br />
+                <button onClick={this.handleClick}>
+                    {/* 数据的使用 */}
+                    {this.state.id}
+                    {this.state.name}
+                    {this.state.age}
+                    {/* 组件属性的使用 */}
+                    {this.props.title}
+                    {this.props.content}
+                </button>
+            </div>
+        );
+    }
+}
+
+Child.defaultProps = {
+    content: '天道酬勤，勤能补拙，熟能生巧'
+}
+```
+
+**==<font color='red'>这个时候你一定有一个疑问，就是如果不能加()，那么参数应该怎么传递呢？？？</font>==**
+
+### 2.3.7、事件参数
+
+**==<font color='red'>因为我们可以通过 this.props 以及 this.state来获取到所有的内外部数据，所以没有什么太大的必要从()传参数进来了的。</font>==**
+
+```react
+
+    //定义一个事件处理函数
+    handleClick() {
+        alert(this.state.id);
+        console.log(this.props.title);
+
+    }
+```
+
+然后就报错了。。。
+
+![image-20220617071735470](Typora_images/Vue3.0 + Vite 极速上手/image-20220617071735470.png)
+
+**==<font color='red'>这里是因为每一个函数都有自己默认的this指向的，所以会报错；解决方案很简单，就是使用显示绑定把Child的this绑定到handleClick函数上</font>==**
+
+```react
+
+import React, { Component } from "react"
+
+export default class Child extends Component {
+    constructor(props) {
+        super(props);
+        //初始化我们的数据=>构造函数里面有this是很平常的对吧
+        this.state = { id: 1,name: 'zzw',age: 18 }
+    }
+
+    //定义一个事件处理函数
+    handleClick() {
+        alert(this.state.id);
+        console.log(this.props.title);
+
+    }
+
+
+    render() {
+        return (
+            <div className="child">
+                <br />
+                {/*显示绑定this指针*/}
+                <button onClick={this.handleClick.bind(this)}>
+
+                    {this.state.id}
+                    {this.state.name}
+                    {this.state.age}
+
+                    {this.props.title}
+                    {this.props.content}
+                </button>
+            </div>
+        );
+    }
+}
+
+Child.defaultProps = {
+    content: '天道酬勤，勤能补拙，熟能生巧'
+}
+
+```
+
+**==<font color='red'>从这里我们可以看出来，就是constructor函数和render函数都是自动绑定的Chlid的this指向的，而其他自定义的函数是需要通过显示绑定才行</font>==**
+
+==我们也可以从显绑中传递参数，但没有什么必要==
+
+```react
+
+import React, { Component } from "react"
+
+export default class Child extends Component {
+    constructor(props) {
+        super(props);
+        //初始化我们的数据=>构造函数里面有this是很平常的对吧
+        this.state = { id: 1,name: 'zzw',age: 18 }
+    }
+
+    //定义一个事件处理函数
+    handleClick(num) {
+        //获取参数
+        let newNum = this.state.id + num; 
+        console.log(newNum);
+
+        //修改响应式数据
+        this.setState({id:newNum});
+
+
+        alert(this.state.id);
+        console.log(this.props.title);
+
+    }
+
+
+    render() {
+        return (
+            <div className="child">
+                <br />
+                <button onClick={this.handleClick.bind(this,2)}>
+                    {/* 数据的使用 */}
+                    {this.state.id}
+                    {this.state.name}
+                    {this.state.age}
+                    {/* 组件属性的使用 */}
+                    {this.props.title}
+                    {this.props.content}
+                </button>
+            </div>
+        );
+    }
+}
+
+Child.defaultProps = {
+    content: '天道酬勤，勤能补拙，熟能生巧'
+}
+```
+
+在onClikc中使用箭头函数。。。。
+
+```react
+```
+
+![image-20220617074659099](Typora_images/Vue3.0 + Vite 极速上手/image-20220617074659099.png)
+
+
+
+### 2.3.8、条件渲染
+
+**使用三目运算符或者&&（短路运算）**
+
+![image-20220617075116170](Typora_images/Vue3.0 + Vite 极速上手/image-20220617075116170.png)
+
+### 2.3.9、列表渲染
+
+```react
+import './App.css';
+import Child from './components/Child';
+
+function App() {
+  let arr = ['vue', 'react', 'anglar'];
+  return (
+    <div>
+      <div className='App'>
+        <Child title="你好">
+        </Child>
+        {/* <FuncComp> <p>zzw xihuan xujei </p> </FuncComp> */}
+        {
+          arr.map((item,index,arr) => {
+            return (
+              <div>
+                {item}
+              </div
+            )
+          })
+        }
+
+      </div>
+    </div>
+
+  );
+}
+
+export default App;
+```
+
+### 2.3.10、class动态绑定
+
+```react
+
+import React, { Component } from "react"
+import './child.css'
+
+export default class Child extends Component {
+    constructor(props) {
+        super(props);
+        //初始化我们的数据=>构造函数里面有this是很平常的对吧
+        this.state = { id: 1, name: 'zzw', age: 18, style: 'main' }
+    }
+
+    //定义一个事件处理函数
+    handleClick(num) {
+        //获取参数
+        let newNum = this.state.id + num;
+        console.log(newNum);
+
+        //修改响应式数据
+        this.setState({ id: newNum });
+
+        alert(this.state.id);
+        console.log(this.props.title);
+
+    }
+
+    //动态绑定的代码：
+    changeStyle() {
+        if (this.state.style === 'main') {
+            // this.setState({});
+            this.setState({style: ''});
+        }else {
+            this.setState({style: 'main'});
+        }
+
+    }
+
+
+    render() {
+        return (
+            <div className={this.state.style}>
+                <br />
+                <button onClick={() => { this.handleClick(-2) }}>
+                    {/* 数据的使用 */}
+                    {this.state.id}
+                    {this.state.name}
+                    {this.state.age}
+                    {/* 组件属性的使用 */}
+                    {this.props.title}
+                    {this.props.content}
+                </button>
+
+                <button onClick={() => { this.changeStyle() }}>
+                    切换颜色
+                </button>
+            </div>
+        );
+    }
+}
+```
+
+**==<font color='red'>本质就是使用{}语法，把className绑定了一个state属性，然后点击触发改变state属性的方法就可以了，太经典了。注意这里不能使用 this.state.style = '' 来改变它的值，因为这要会使得this.state.style的响应式取消。</font>==**
+
+
+
+### 2.3.11、表单双向绑定
+
+```react
+
+import React,{ Component } from 'react'
+
+export default class Input extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { id: 1 , value: ''};
+    }
+
+    changeIns (e) {
+        this.setState({value: e.target.value});
+    }
+
+    render () {
+        return (
+            <div>
+                <input type='text' value={this.state.value} onChange = {(e) => {this.changeIns(e)}}></input>
+                {this.state.value}
+            </div>
+        )
+    }
+
+}
+
+```
+
+**==<font color='red'>道理就是 在表单内容发生一点点变化的时候（onChange事件）就调用函数处理把this.state.value重新赋值为 e.target.value（原生组件事件响应）</font>==**
+
+
+
+
+
+### 2.3.12、使用回调函数把子组件数据传递给父组件
+
+- **==<font color='purple'>回调函数的核心要义在于：使用子组件的属性去接收来自父组件的函数指针就行了，然后那个属性就是一个函数的指针。</font>==**
+
+示例：
+
+```react
+import React,{ Component } from 'react'
+
+export default class Input extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { id: 1 , value: ''};
+    }
+
+    changeIns (e) {
+        this.setState({value: e.target.value});
+    }
+
+    //回调父组件方法
+    callbcakFather () {
+        this.props.father();
+    }
+
+
+    render () {
+        return (
+            <div>
+                <input type='text' value={this.state.value} onChange = {(e) => {this.changeIns(e)}}></input>
+                {this.state.value}
+                {/* 通过方法回调父组件的函数 */}
+                <button onClick={this.callbcakFather.bind(this)}>回调一</button>
+
+                {/* 直接调用回调函数 */}
+                <button onClick={this.props.father}>回调二</button>
+
+                {/* 通过箭头函数来进行调用 */}
+                <button onClick={() => {this.props.father()}}>回调三</button>
+
+            </div>
+        )
+    }
+
+}
+
+```
 
 
 

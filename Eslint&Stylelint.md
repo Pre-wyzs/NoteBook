@@ -1,5 +1,10 @@
 # Eslint&Stylelint
 
+- eslint检查与快速修复 
+- 
+
+
+
 ## Eslint
 
 ### 1、安装与包结构
@@ -27,6 +32,10 @@
 - 结果：
 
 ![image-20220524080358252](Typora_images/Eslint&Stylelint/image-20220524080358252.png)
+
+- 修复：使用 npx eslint 文件路径 --fix 就可以自动修复了。
+
+**<font color='red'>小结：npx eslint 文件路径 的含义：我们可以一个一个拆分解读：npx->执行.bat脚本；eslint->执行eslint的bat脚本，文件路径->传给eslint脚本的参数，指明eslint给哪一个文件做检查。</font>**
 
 
 
