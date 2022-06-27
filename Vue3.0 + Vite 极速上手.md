@@ -1,6 +1,6 @@
 # Vue3.0 + Vite 极速上手
 
-
+vite官方文档：https://vitejs.bootcss.com/guide/features.html#vue
 
 # 1、基础部分
 
