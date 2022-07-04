@@ -4628,3 +4628,19 @@ https://www.bilibili.com/video/BV1iF411x7kw?spm_id_from=333.999.0.0&vd_source=36
 ![image-20220620070900498](Typora_images/Vue4小时快速入门/image-20220620070900498.png)
 
 ![image-20220620072253835](Typora_images/Vue4小时快速入门/image-20220620072253835.png)
+
+
+
+
+
+# 24、仿站小工具
+
+- 有时会遇到经常要我们前端模仿一个页面的业务情况产生，这个时候就要使用到仿站小工具了。
+- 仿站工具：https://www.toolnb.com/tools/fangzhan.html
+
+参考：https://www.jianshu.com/p/706f30fb65c3
+
+
+
+
+

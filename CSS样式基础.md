@@ -1,5 +1,8 @@
 # CSS3教程
 
+vim：取消对ctrl + c的覆盖：
+![image-20220703112621703](Typora_images/CSS样式基础/image-20220703112621703.png)
+
 
 
 # CSS3基础教程：
@@ -181,7 +184,7 @@ https://developer.mozilla.org/zh-CN/docs/Learn
 
 
 
-## 2.3、相邻兄弟选择器
+## 2.3、相邻弟弟选择器
 
 - 符号就是 + 
 
@@ -224,7 +227,7 @@ https://developer.mozilla.org/zh-CN/docs/Learn
 结果：
 ![image-20220618073606819](Typora_images/CSS样式基础/image-20220618073606819.png)
 
-## 2.4、通用兄弟选择器
+## 2.4、通用弟弟选择器
 
 - 就是 ~ 这个符号
 
@@ -853,6 +856,451 @@ label {
 ```
 
 ==nth-of-type的真正含义应该是仅仅出现一次！==
+
+
+
+### 2.7.3、结构性伪类的坑
+
+```html
+        #wrapper .inner:nth-of-type(1) {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="inner">div</div>
+        <p class="inner">p</p>
+        <h1 class="inner">h1</h1>
+        <h2 class="inner">h2</h2>
+    </div>
+```
+
+看看结果：
+
+![image-20220702124556831](Typora_images/CSS样式基础/image-20220702124556831.png)
+
+**<font color='red'>为什么明明nth-of-type(1)，却选中了所有的元素呢？这就是nth-of-type坑的地方了，就是说它在编译的时候会把.inner编译成含有.inner类的元素名，所以就相当于</font>**
+
+```css
+        #wrapper div:nth-of-type(1) {
+            border: 1px solid red;
+        }
+
+        #wrapper p:nth-of-type(1) {
+            border: 1px solid red;
+        }
+......
+```
+
+**<font color='red'>这就是它的大坑！</font>**
+
+
+
+### 2.7.4、面试题
+
+- **最后一项没有 横杠**
+
+![image-20220702130211011](Typora_images/CSS样式基础/image-20220702130211011.png)
+
+
+
+```html
+        div > a:not(:last-child) {
+            border-right: 2px solid red;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <a href="#">选项卡一</a>
+        <a href="#">选项卡二</a>
+        <a href="#">选项卡三</a>
+        <a href="#">选项卡四</a>
+        <a href="#">选项卡五</a>
+        <a href="#">选项卡六</a>
+    </div>
+```
+
+**==<font color='red'>重点就是:not(:last-child)这个东西</font>==**
+
+
+
+- 给空元素指定特殊样式：**:empty伪类**
+
+```html
+        div > a:empty {
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href=""></a>
+```
+
+
+
+## 2.8、伪元素选择器
+
+**==<font color='deeppink'>伪元素选择器就一个before和after，用他们的时候要注意一定要加content:""就行，还可以使用display:block;这样的改变他们的块级状态</font>==**
+
+- ::first-letter 第一个字母
+- ::first-line  第一行
+- ::selected  被选中时候的状态
+
+这些都很简单
+
+
+
+## 2.9、根元素选择器
+
+**<font color='deeppink'>:root 这就用来选中html标签的，要知道</font>**
+
+
+
+
+
+# 3、声明的优先级
+
+## 3.1、选择器特殊性
+
+![image-20220702134801654](Typora_images/CSS样式基础/image-20220702134801654-16567408854501.png)
+
+**==<font color='deeppink'>只要明白一点，就是如果有规则有冲突，那么特殊性越大的优先级越高！如果特殊性一样，那么声明在后面的会覆盖声明在前面的</font>==**
+
+## 3.2、重要声明
+
+![image-20220702135535330](Typora_images/CSS样式基础/image-20220702135535330.png)
+
+重要声明优先级考虑：
+
+![image-20220702135850608](Typora_images/CSS样式基础/image-20220702135850608.png)
+
+
+
+# 4、自定义字体&字体图标
+
+字体图标：
+
+![image-20220703110447224](Typora_images/CSS样式基础/image-20220703110447224.png)
+
+- 这个东西就是字体图标
+
+- 字体图标的好处：
+
+  - 矢量图不会失真
+  - 大小通过font-size调整（哈哈，难怪那个anti-design-vue的图标大小也是用font-size调整的，哈哈）
+
+  - 而且不用从后台获取，减少带宽消耗，提升系统性能
+
+
+
+## 4.1、自定义字体
+
+操作系统中所有的自带字体如下所示：C:\Windows\Fonts
+![image-20220703111145801](Typora_images/CSS样式基础/image-20220703111145801.png)
+
+
+
+
+
+
+
+==操作系统的自带字体，浏览器不一定能用的，因为还要看浏览器对字体的支持情况。==
+
+
+
+
+
+```html
+        .test {
+            font: bold 50px "Lucida Sans";
+        }
+
+    </style>
+</head>
+<body>
+    <div class="test">
+        圆滚滚，QHF
+    </div>
+```
+
+==这里的font是一个联合属性：分别是font-weight、font-size和font-family的联合==
+
+
+
+### 4.1.1、UI自定义字体
+
+在本地目录下，放一个字体文件，然后就可以引用它了
+![image-20220703113749148](Typora_images/CSS样式基础/image-20220703113749148.png)
+
+
+
+```html
+        @font-face {
+            font-family: "my-font-zzw";
+            src: url(./font/ALGER.TTF);
+        }
+
+        .test {
+            font: bold 50px "my-font-zzw";
+        }
+
+    </style>
+</head>
+<body>
+    <div class="test">
+        HTJK，Just Do It!
+    </div>
+```
+
+效果：
+![image-20220703113817604](Typora_images/CSS样式基础/image-20220703113817604.png)
+
+
+
+==一般情况下，这个字体文件都放在服务器上，然后使用@font-face的src指向字体的url就行了==
+
+
+
+### 4.1.2、字体图标
+
+***到底什么是自定义字体？***
+
+#### **==<font color='deeppink'>所谓自定义字体，其实就是把汉字、英文字母 和一张矢量图对应起来，这张矢量图上面就是各种好看的字体样式了！根据这个原理，所以我们可以把一些字符和矢量图标联系在一起，从而生成字体图标了！</font>==**
+
+#### part1、生成字体图标的方法
+
+网站：https://icomoon.io/app/#/select
+
+![image-20220703143734913](Typora_images/CSS样式基础/image-20220703143734913.png)
+
+
+
+![image-20220703143830648](Typora_images/CSS样式基础/image-20220703143830648.png)
+
+
+
+**==<font color='red'>可以download到一个压缩包，这个压缩包里面就是示例，可以根据这个示例来使用你的字体图标就行了。</font>==**
+
+
+
+***使用说明：***
+
+原理：
+
+![image-20220703144538645](Typora_images/CSS样式基础/image-20220703144538645.png)
+
+
+
+使用：
+![image-20220703145817642](Typora_images/CSS样式基础/image-20220703145817642.png)
+
+
+
+# 5、C3新增UI样式
+
+## 5.1、新增文本样式
+
+- 文本新增样式
+  - opacity（老的是用：visibility）**==<font color='red'>注意：opacity不是一个可以继承的属性，但是可以影响到自己的子元素！</font>==**
+  - rgba （可以定义透明度了）![image-20220704214602758](Typora_images/CSS样式基础/image-20220704214602758.png)
+
+**==<font color='deeppink'>以后rgba的标准写法都用.x的形式，前面不要再加0了！</font>==**
+
+
+
+### 5.1.1、小需求
+
+文字透明,背景不透明；背景透明，文字不透明
+
+**==<font color='deeppink'>很简单只要是用rgba修改color和background就行了</font>==**
+
+- tips:超级好用的捏！
+
+![image-20220704215414200](Typora_images/CSS样式基础/image-20220704215414200.png)
+
+### 5.1.2、文字阴影（text-shadow属性）
+
+```html
+        .test {
+            text-align: center;
+            /** 第二个是指定它的行高！*/
+            font: 100px/200px "微软雅黑";
+            /** 阴影颜色，阴影x轴偏移值，阴影y轴偏移值，阴影模糊像素，越高越模糊
+                你可以叠加多层模糊的
+            */
+            text-shadow: purple 10px 10px 20px,pink 15px 15px 25px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="test">
+        尚硅谷
+    </div>
+```
+
+**==<font color='purple'>text-shadow有4个属性，分别是阴影颜色、x方向偏移量、y方向偏移量、模糊度；可以叠加多个阴影</font>==**
+
+![image-20220704221447183](Typora_images/CSS样式基础/image-20220704221447183.png)
+
+#### part1：浮雕字体
+
+```html
+        body {
+            background-color: blueviolet;
+        }
+
+        .test {
+            text-align: center;
+            font: 100px/200px "微软雅黑";
+            color: blueviolet;
+            text-shadow: black 2px 2px 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test">
+        行天道，无后悔！
+    </div>
+```
+
+效果：
+
+
+![image-20220704223516486](Typora_images/CSS样式基础/image-20220704223516486.png)
+
+
+
+### 5.1.3、背景图片透明模糊
+
+**==<font color='purple'>这个需求是一个经典需求啊！</font>==**
+
+```html
+        .wrapper {
+            position: relative;
+            background: rgba(0,0,0,.5);
+        }
+
+		img {
+            /** 上右下左*/
+            margin: 50px 0 50px 50px;
+        }
+
+        .wrapper .bg {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: url(img/bg.jpg) no-repeat ;
+            z-index: -1;
+            /** 这个东西是模糊整个元素的 */
+            filter: blur(3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- 这里使用img标签把wrapper容器撑开了,因为img标签是block元素 -->
+        <img src="img/people.jpg" alt="" width="200">
+        <div class="bg">
+        </div>
+    </div>
+```
+
+要点：
+
+- 背景颜色透明、绝对定位、top控制大小、z-index
+- **==<font color='deeppink'>最重要的：就是filter: blur();这个函数，在C3中，这个函数是用来模糊的，而且会模糊一整个元素的！</font>==**
+
+![image-20220704230556399](Typora_images/CSS样式基础/image-20220704230556399.png)
+
+### 5.1.4、文字描边
+
+![image-20220704230722831](Typora_images/CSS样式基础/image-20220704230722831.png)
+
+- ***他需要webkit的内核支持才行！***
+
+- 不太会用到
+
+### 5.1.5、文字排版
+
+```html
+        /** C3文字排版*/
+        div {
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+            /** 文字排版方向*/
+            direction: rtl;
+            unicode-bidi: bidi-override;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        尚硅谷
+    </div>
+```
+
+==- direction控制文字方向，unicode-bidi:控制文字内的方向==
+
+
+
+#### part1: 文字过多时候省略！
+
+```html
+    <div>
+        尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷尚硅谷
+    </div>
+```
+
+如果你这样写的话，会发现它换行了
+![image-20220704232221914](Typora_images/CSS样式基础/image-20220704232221914.png)
+
+==不让他换行的办法：==
+
+```css
+        div {
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+            /** 文字排版方向*/
+            /* direction: rtl; */
+            /* unicode-bidi: bidi-override; */
+            /** 禁止文字换行*/
+            white-space: nowrap;
+        }
+```
+
+==显示省略号的方法：==
+
+```css
+            overflow: hidden;
+            text-overflow: ellipsis;
+```
+
+
+
+**==<font color='deeppink'>注意：如果display为inline的话，就不能显示省略号了，因为元素是由内容撑开的了！</font>==**
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

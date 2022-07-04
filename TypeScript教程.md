@@ -145,7 +145,7 @@ https://typescript-play.js.org/
 
 ![image-20220517191645705](Typora_images/TypeScript教程/image-20220517191645705.png)
 
-
+**==<font color='deeppink'>也就是说对于一个可选参数，在调用前，最好使用第二种调用方式</font>==**
 
 
 
@@ -201,7 +201,7 @@ https://typescript-play.js.org/
 
 ![image-20220517211535353](Typora_images/TypeScript教程/image-20220517211535353.png)
 
-- 类型断言由ts编译器删除，不会影响代码的具体行为。
+- **==<font color='deeppink'>类型断言由ts编译器删除，不会影响代码的具体行为。</font>==**
 
 
 
@@ -255,6 +255,10 @@ https://typescript-play.js.org/
 
 ![image-20220529101517198](Typora_images/TypeScript教程/image-20220529101517198.png)
 
+**==<font color='deeppink'>每次都去用typof类型守卫的话，代码看起来就很丑，所以就有了真值缩小，等值缩小下面的一系列类型缩小方案了！</font>==**
+
+
+
 ### 2.4.2、真值缩小
 
 - **就是转成bool值好在If分支里面做判断而已。。。**
@@ -263,7 +267,71 @@ https://typescript-play.js.org/
 
 ### 2.4.3、等值缩小
 
+```
+function test(x: string | number, y: string | boolean) {
+    /**
+     * 就是说，判断它们两个的值相等的话，那么这两个的类型一定是相同的，类型都不相同
+     * 哪里来的相等呢？所以当它们的值相等的时候，就说明它们都是string类型的
+     * 所以没事
+     */
+    if (x === y) {
+        x.toUpperCase();
+        y.toLowerCase();
+    }
 
+}
+```
+
+**==<font color='deeppink'>就是说，如果x 和 y全等的话，说明x和y都是string类型的，自然就都可以调用string的方法喽</font>==**
+
+
+
+### 2.4.4、in操作符类型缩小
+
+- *in 运算符是js用来确定某一个对象是否具有某种名称的属性的。*
+
+```ts
+// 1、定义一个鸟类型，它是一个对象，里面有一个叫fly的方法，该方法返回值类型为string
+type Bird = {fly: () => string}
+
+// 2、定义一个狗类型，它是一个对象，里面有一个叫run的方法，返回值类型为void类型
+interface Dog {
+    run: () => void
+}
+
+function animalFun(animal: Bird | Dog) {
+    // 说明它是Bird类型的
+    if('fly' in animal) {
+        console.log('这是一只小鸟');
+        console.log(animal.fly());
+    } else {
+        console.log('这是一只小狗');
+        animal.run();
+    }
+}
+```
+
+**==<font color='deeppink'>就是说，如果animal中有fly属性，说明是Bird类型，就是这么简单嘛</font>==**
+
+
+
+### 2.4.5、instanceof缩小
+
+![image-20220703072316585](Typora_images/TypeScript教程/image-20220703072316585.png)
+
+==好像，这个自定义类型不归instanceof来管。。。这就很无语了==
+
+![image-20220703072419961](Typora_images/TypeScript教程/image-20220703072419961.png)
+
+***==<font color='deeppink'>这样子就没有事情了。。。看来instanceof只能适用于极少数的情况</font>==***
+
+
+
+### 2.4.6、分配缩小
+
+![image-20220703073420576](Typora_images/TypeScript教程/image-20220703073420576.png)
+
+**==<font color='deeppink'>简单来说就是 因为执行了第一行代码，所以ts就推断常量x的类型是string | number对吧，然后再给x赋值的时候就可以给它赋值为number类型和string类型的变量了。</font>==**
 
 
 
