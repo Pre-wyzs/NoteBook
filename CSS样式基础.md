@@ -1582,6 +1582,113 @@ box-size: border-box在输入框中也很常用的，嘻嘻
 
 
 
+## 5.3、圆角新增的样式
+
+```css
+        .test {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -100px;
+            margin-top: -100px;
+            border: 3px solid purple;
+            border-radius: 50%;
+        }
+```
+
+![image-20220706230047529](Typora_images/CSS样式基础/image-20220706230047529.png)
+
+**==<font color='red'>这里为什么是一个圆捏？因为border-radius的值就是一个圆形的半径，50%说明半径是100px，然后生成一个圆把原来的框框隐藏掉了（而又因为一个框框中，生成的圆的最大半径必然是50%所以就算你写70%也不会有任何的变化的。。。）</font>==**
+
+
+
+```css
+            border-radius: 10px;
+```
+
+![image-20220706230435180](Typora_images/CSS样式基础/image-20220706230435180.png)
+
+
+
+**==<font color='purple'>要想了解这个属性，就必须要知道它产生圆角的原理，其实很简单，就是产生上、右、下、左的半径为10px的圆，然后去和左上、右下...这些方向上的直角进行香蕉、裁剪操作，然后就可以得到圆角了。知道了原理就知道了另一种很骚的写法了，哈哈</font>==**
+
+```css
+            border-radius: 10px 20px 30px 45px;
+```
+
+![image-20220706230844643](Typora_images/CSS样式基础/image-20220706230844643.png)
+
+
+
+两个值的写法：
+
+```css
+           border-radius: 10px 50px;
+```
+
+![image-20220706231620985](Typora_images/CSS样式基础/image-20220706231620985.png)
+
+==/斜杠是后面的值，\\是前面的值==
+
+
+
+### 5.3.1、长半轴和短半轴
+
+说白了就是水平半轴和竖直半轴，这两个方向上的长度，长度一样的时候就是圆，长度不一样的时候就是椭圆了，嘻嘻
+
+```css
+            border-radius: 20px/60px ;
+```
+
+![image-20220707060620799](Typora_images/CSS样式基础/image-20220707060620799.png)
+
+
+
+- 两个值的写法：
+
+```css
+            border-radius: 20px/60px 20px;
+```
+
+![image-20220707061121317](Typora_images/CSS样式基础/image-20220707061121317.png)
+
+**==<font color='purple'>\\方向上是一个短半轴20px，长半轴40px的椭圆；/方向上是一个短半轴为20px（由开头第一个值定的）长半轴也为20px的圆。</font>==**
+
+
+
+- 画一个正常的椭圆（从矩形里面画）
+
+```css
+        .test {
+            width: 200px;
+            height: 300px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -100px;
+            margin-top: -100px;
+            border: 3px solid purple;
+            /* border-radius: 10px 20px 30px 45px; */
+            border-radius: 100px/150px;
+        }
+```
+
+
+
+![image-20220707061649743](Typora_images/CSS样式基础/image-20220707061649743.png)
+
+### 5.3.2、注意
+
+**==<font color='purple'>在手机端开发的时候尽量不要用%，而是用px来确定长半轴和短半轴的值</font>==**
+
+
+
+
+
+
+
 # CSS3flex布局
 
 教程：https://www.bilibili.com/video/BV1N54y1i7dG?from=search&seid=17813754073632202728&spm_id_from=333.337.0.0&vd_source=365d13057e58bb6a007cdd5275785229

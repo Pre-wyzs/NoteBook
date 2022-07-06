@@ -392,6 +392,63 @@ function isFish (pet: Fish | Bear): pet is Fish {
 
 
 
+## 2.6、受歧视的Union类型
+
+我们来看下面一段代码：
+
+```ts
+interface Shape {
+    kind: 'circle' | 'squre',
+    radius?: number,
+    sideLength?: number
+}
+
+function getArea(shapeObj: Shape) {
+    switch(shapeObj.kind) {
+        case 'circle':
+            return shapeObj.radius! * Math.PI ** 2;
+        case 'squre':
+            return shapeObj.sideLength! ** 2;
+    }
+}
+```
+
+**==<font color='purple'>就是说我定义了一个类型，然后这个类型是联合类型圆或者方形，但是如果我们调用计算面积的函数的时候，传参时没有写radius和sideLength它就会报错的，这是一个问题！</font>==**
+
+
+
+解决方案如下：
+
+```ts
+interface Circle {
+    radius: number
+}
+
+interface Squre {
+    sideLength: number
+}
+
+type Shape2 = Circle | Squre;
+
+function getArea2(shapeObj: Shape2) {
+    if (shapeObj.radius !== undefined) {
+        / ** 计算圆的面积*/
+    } else {
+        / ** 计算方形的面积*/
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
