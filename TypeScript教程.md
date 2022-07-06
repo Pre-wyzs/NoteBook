@@ -335,6 +335,65 @@ function animalFun(animal: Bird | Dog) {
 
 
 
+## 2.5、类型谓词
+
+```ts
+type Fish = {
+    name: string,
+    swim: () => void
+}
+
+type Bear = {
+    name: string,
+    run: () => void
+}
+
+
+function isFish (pet: Fish | Bear): pet is Fish {
+    return (pet as Fish).swim !== undefined;
+}
+
+const myPet1: Fish = {
+    name: '许洁',
+    swim: () => {
+        console.log('许洁是我的小鱼');
+    }
+}
+
+const myPet2: Bear = {
+    name: '阿尼亚',
+    run: () => {
+        console.log('阿尼亚是我的小熊');
+    }
+}
+
+console.log(isFish(myPet2));
+
+
+
+
+
+```
+
+
+
+**==<font color='deeppink'>关键在于这一段代码，</font>==**
+
+```ts
+function isFish (pet: Fish | Bear): pet is Fish {
+    return (pet as Fish).swim !== undefined;
+}
+```
+
+**==这个函数是用来判断传入的参数是否是Fish类型的，这里as类型断言假定它就是Fish类型，看看它的swim是否为undefined，如果不是就是为Fish类型了，返回true==**
+
+- **<font color='deeppink'>断言表示假定。</font>**
+- **<font color='deeppink'>类型谓词表示肯定。</font>**
+
+
+
+
+
 
 
 

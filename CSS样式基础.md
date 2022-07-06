@@ -1127,7 +1127,7 @@ label {
 ```html
         .test {
             text-align: center;
-            /** 第二个是指定它的行高！*/
+            /** 第二个是指定它的行高！line-height:可以是一个px值（如果要居中的话，就设定它是盒子的高就行了），也可以是1.5小数*/
             font: 100px/200px "微软雅黑";
             /** 阴影颜色，阴影x轴偏移值，阴影y轴偏移值，阴影模糊像素，越高越模糊
                 你可以叠加多层模糊的
@@ -1296,17 +1296,289 @@ label {
 
 
 
+## 5.2、盒模型新增样式
+
+**前端中的x轴和y轴的方向如下：**
+![image-20220706061230442](Typora_images/CSS样式基础/image-20220706061230442.png)
+
+==这个很重要，不能忘记的！==
 
 
 
 
 
+### 5.2.1、盒子阴影
+
+#### part1：水平垂直居中的方案
+
+```css
+        .test {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: violet;
+            width: 300px;
+            height: 300px;
+            /** 这个属性必须要加上的！不然就不行*/
+            margin: auto;
+        }
+```
+
+**==<font color='red'>注意：</font>==**
+
+- ***==<font color='deeppink'>width和height是必须要定下来的，不然就会变成这样张开来</font>==***
+
+![image-20220706062328026](Typora_images/CSS样式基础/image-20220706062328026.png)
+
+- ***==<font color='deeppink'>这里的margin: auto也是必须的，不然会变成这样的</font>==***
+
+![image-20220706062426001](Typora_images/CSS样式基础/image-20220706062426001.png)
+
+- ***==<font color='deeppink'>top、left的百分比是相较于父盒子的宽度和高度来定的</font>==***
+
+![image-20220706064702015](Typora_images/CSS样式基础/image-20220706064702015.png)
+
+
+
+#### part2：box-shadow
+
+**继承性：不可以继承！**
+
+```css
+        .test {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: violet;
+            width: 300px;
+            height: 300px;
+            /** 这个属性必须要加上的！不然就不行*/
+            margin: auto;
+
+            box-shadow: 13px 13px 13px black;
+        }
+```
+
+![image-20220706065225335](Typora_images/CSS样式基础/image-20220706065225335.png)
+
+==box-shadow: 参数->x轴偏移量，y轴偏移量， 模糊程度， 颜色（和text-shadow一样可以叠加多个阴影的）；相较于text-shadow，还有两个参数==
+
+```css
+            box-shadow: 13px 13px 13px 20px black inset;
+```
+
+**==<font color='deeppink'>参数四表示阴影的大小；最后一个表示阴影的往内还是往外的</font>==**
+
+### 5.2.2、倒影
+
+这个和文字描边一样都是需要webkit内核才行的。
+
+
+
+![image-20220706070728153](Typora_images/CSS样式基础/image-20220706070728153.png)
+
+
+
+#### part1：图片水平垂直居中的方案
+
+方案一：
+
+```css
+        /** 图片水平垂直居中的方案一*/
+        /* img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0; 
+            margin: auto;
+        } */
+```
+
+**==<font color='violet'>这个方案有一个坏处，就是把img元素变成浮动的了（难怪需要子绝父相）</font>==**
+
+```css
+        /** 方案二*/
+        /** 首先要撑开body，这里之所以要加一个html，是因为body在html里面，所以
+        要先设置html，才能把body也设置为屏幕高度的100%*/
+        html,body {
+            height: 100%;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        body::after {
+            content: "";
+            height: 100%;
+            display: inline-block;
+            /** 竖直对齐方式*/
+            vertical-align: middle;  
+        }
+
+        img {
+            vertical-align: middle;  
+        }
+```
+
+**==<font color='deeppink'>这个居中的原理就很骚了，因为::after和img在渲染的时候是兄弟元素，对吧，所以把::after高度设置为100%（宽度为0），然后设置inline-block，把::after和img的竖直对齐都设置为middle，img就会参照::after的middle了所以是竖直居中。</font>==**
+
+- img也是inline-block，和::after是同一个级别的
+- 级别相同，谁高听谁的
+
+#### part2：倒影
+
+```html
+        html,body {
+            height: 100%;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        body::after {
+            content: "";
+            height: 100%;
+            display: inline-block;
+            /** 竖直对齐方式*/
+            vertical-align: middle;  
+        }
+
+        img {
+            vertical-align: middle;  
+			/** 倒影方向，以及与原图的距离*/
+            -webkit-box-reflect: right 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <img src="./people.jpg" alt="" width="245px">
+</body>
+```
+
+![image-20220706074157582](Typora_images/CSS样式基础/image-20220706074157582.png)
+
+### 5.2.3、任意调整元素大小（resize）
+
+![image-20220706074750727](Typora_images/CSS样式基础/image-20220706074750727.png)
+
+```html
+        .test {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: violet;
+            width: 300px;
+            height: 300px;
+            /** 这个属性必须要加上的！不然就不行*/
+            margin: auto;
+
+            resize: both;
+            overflow: auto;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="test">
+
+    </div>
+```
+
+### 5.2.4、box-sizing
+
+#### part1：第三种居中方案
+
+```css
+        .test {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            margin-left: -150px;
+            margin-top: -150px;
+            background-color: violet;
+        }
+```
+
+
+
+这种方案本来是很好的，但是如果加了padding呢？
+
+```css
+        .test {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            margin-left: -150px;
+            margin-top: -150px;
+            background-color: violet;
+
+            padding: 50px;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="test">
+    </div>
+```
+
+![image-20220706080602099](Typora_images/CSS样式基础/image-20220706080602099.png)
+
+**==<font color='violet'>他不居中的原因是因为，padding的值也被算在盒子的宽和高里面了。。。想要避免这种情况的发生，只能使用box-sizing: border-box</font>==**
+
+```css
+        .test {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            margin-left: -150px;
+            margin-top: -150px;
+            background-color: violet;
+
+            padding: 50px;
+            box-sizing: border-box;
+
+        }
+```
 
 
 
 
 
+#### part1：输入框的右边偏移
 
+box-size: border-box在输入框中也很常用的，嘻嘻
+
+```css
+        input[type="text"] {
+            width: 245px;
+            padding-left: 50px;
+            box-sizing: border-box;
+            background-color: aqua;
+        }
+```
+
+![image-20220706081747403](Typora_images/CSS样式基础/image-20220706081747403.png)
+
+
+
+==难怪要在* {}添加border-box了，哈哈懂了==
 
 
 
