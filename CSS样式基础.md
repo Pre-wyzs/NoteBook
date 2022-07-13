@@ -1689,6 +1689,544 @@ box-size: border-box在输入框中也很常用的，嘻嘻
 
 
 
+# 6、拓展
+
+## 6.1、奇怪的布局
+
+```html
+        body > div:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            float: left;
+            background: red;
+        }
+
+        body > div:nth-child(2) {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            background: purple;
+            z-index: -1;
+
+        }
+
+        body > div:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            background: blue;
+
+        }
+    </style>
+</head>
+<body>
+    <div>zzw</div>
+    <div>xujie</div>
+    <div>lty</div>
+</body>
+```
+
+
+
+**==<font color='deeppink'>结果：红，紫，蓝的排版如下</font>==**
+
+![image-20220709133916557](Typora_images/CSS样式基础/image-20220709133916557.png)
+
+**==<font color='deeppink'>为什么会xujie会被挤到下面去，而许洁这个盒子还在上面覆盖住了zzw呢？？？这就要涉及到两个根本性原理了，1：一个元素有两层，分别是盒模型层和文本层，文本层在下，盒模型层在上；2：然后float只把整个元素提升半层，而position会把整个元素提升一层，所以 xujie这个文本层被 red这个层给挤掉了，而purple又在red层的上面，所以就是这个样子了。</font>==**
+
+
+
+## 6.2、滚动条出现在谁身上
+
+```html
+        html {
+            height: 80%;  /** 窗口高度的80%*/
+            border: 1px solid black;
+        }
+        body {
+            height: 80%;  /** 因为body是被html所包裹的，所以是html的高度的80%*/
+            border: 1px solid deeppink;
+        }
+
+        #test {
+            height: 3000px;
+            /* background: pink; */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="test">
+    </div>
+    </body>
+</html>
+```
+
+结果：
+![image-20220710082022104](Typora_images/CSS样式基础/image-20220710082022104.png)
+
+**==<font color='deeppink'>可以发现，把html缩小后，滚动条并不是出现在html身上，也不是在body身上，而是在窗口身上的，也就是Document身上的，那怎么样才能让它出现在自己想要的位置上呢？</font>==**
+
+
+
+如果我想要把滚动条放到html的身上，就可以用下面的方式：
+
+```css
+        html {
+            height: 80%;  /** 窗口高度的80%*/
+            border: 1px solid black;
+            overflow: auto;
+        }
+        body {
+            height: 80%;  /** 因为body是被html所包裹的，所以是html的高度的8%*/
+            border: 1px solid deeppink;
+        }
+```
+
+结果：
+![image-20220710082643649](Typora_images/CSS样式基础/image-20220710082643649.png)
+
+**==<font color='deeppink'>结果你会发现，滚动条还是TM的窗口上面，为什么呢？直接说结论：1、html元素身上永远不可能出现滚动条！（因为它身上的滚动条一定会出现的Document中的...）2、要想让body身上出现滚动条，就必须得设置html和body同时有overflow属性！</font>==**
+
+```css
+        html {
+            height: 80%;  /** 窗口高度的80%*/
+            border: 1px solid black;
+            overflow: auto;
+        }
+        body {
+            height: 80%;  /** 因为body是被html所包裹的，所以是html的高度的8%*/
+            border: 1px solid deeppink;
+            overflow: auto;
+        }
+```
+
+![image-20220710083129114](Typora_images/CSS样式基础/image-20220710083129114.png)
+
+
+
+***tips: overflow属性解释：auto表示超出时候有滚动条，scroll表示无论是否超出都有滚动条，hidden就是超出也不给滚动条***
+
+
+
+### 6.2.1、随便设置滚动条
+
+**==<font color='deeppink'>如果不想让滚动条出现在body和Document上，只要在html或body中写一个overflow: hidden就行了，两个都写hidden更好哈哈（：html上没有滚动条【它的在上一层Document窗口上】，body上要有滚动条不仅需要自己写overflow: auto，还要经过html的允许）</font>==**
+
+
+
+```css
+        html {
+            height: 80%;  /** 窗口高度的80%*/
+            border: 1px solid black;
+        }
+        body {
+            height: 80%;  /** 因为body是被html所包裹的，所以是html的高度的8%*/
+            border: 1px solid deeppink;
+            overflow: hidden;
+        }
+```
+
+![image-20220710084951193](Typora_images/CSS样式基础/image-20220710084951193.png)
+
+
+
+***技巧：禁止系统滚动条，让wrapp去搞滚动条***
+
+![image-20220710085136016](Typora_images/CSS样式基础/image-20220710085136016.png)
+
+
+
+### 6.2.2、用绝对定位模拟position: fixed
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            height: 100%;  
+            border: 1px solid black;
+        }
+        body {
+            height: 100%;  
+            border: 1px solid deeppink;
+            overflow: hidden;
+        }
+
+        .wrapper {
+            height: 100%;
+            overflow: auto;
+        }
+
+        .block {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top: 0;
+            left: 0;
+            background: red;
+
+        }
+
+        #test {
+            height: 3000px;
+            /* background: pink; */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="block">
+        </div>
+        <div id="test">
+            ...
+        </div>
+    </div>
+</body>
+</html>
+```
+
+效果：
+
+![image-20220710090838764](Typora_images/CSS样式基础/image-20220710090838764.png)
+
+**==<font color='red'>道理很简单，因为wrapper没有设置relative，所以是这个absolute是相对于body的absolute对吧，而又因为系统滚动条被禁止了，这个滚动条是wrapper上的，所以滚动条滚动的时候只有wrapp自己的内部的东西才会滚动的咯</font>==**
+
+
+
+
+
+## 6.3、边框图片
+
+### 6.3.1、border-image-source
+
+很少用但是要知道：
+
+**border-image-source属性：定义一张图片来代替默认的边框样式，默认值为none，不可继承**
+
+```css
+        .wrapper {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            border: 50px solid;
+            border-image-source: url(./border.jpg);
+        }
+```
+
+![image-20220710142408036](Typora_images/CSS样式基础/image-20220710142408036.png)
+
+**==<font color='red'>默认边框图片会在四个角上面显示出来...</font>==**
+
+### 6.3.2、border-image-slice
+
+![image-20220710142820217](Typora_images/CSS样式基础/image-20220710142820217.png)
+
+
+
+**==<font color='red'>...这个东西确实没有什么用，还不如用background然后铺一张有边框的图片来得快，几乎不会用到的，如果有需要请参考下面的教程</font>==**
+
+https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cdd5275785229
+
+
+
+# 7、css背景
+
+## 7.1、css2背景
+
+![image-20220710144651953](Typora_images/CSS样式基础/image-20220710144651953.png)
+
+- ## **background-color**
+
+
+
+![image-20220710144741287](Typora_images/CSS样式基础/image-20220710144741287.png)
+
+
+
+
+
+- ## **background-image**
+
+```css
+            background-color: red;
+            background-image: url(./border2.jpg), url(./border.jpg);
+```
+
+**==<font color='deeppink'>background-image会覆盖掉bg-color属性，然后可以叠加多张图片，排在前面的图片叠加在排在后面的图片上面（border2.jpg在border.jpg的上面）</font>==**
+
+
+
+- ## **background-repeat很简单看下就行**
+
+![image-20220710145650086](Typora_images/CSS样式基础/image-20220710145650086.png)
+
+**==<font color='violet'>这个一般会在位图大小<盒子的宽高的时候会用到</font>==**
+
+
+
+- ## **background-position**
+
+```css
+            background-position: 10px 20px;
+```
+
+![image-20220710150240492](Typora_images/CSS样式基础/image-20220710150240492.png)
+
+ **==<font color='violet'>当background-position的值为百分比的时候，这个百分比是相对于 (盒子的宽度 - 位图的宽度 )的，</font>==**
+
+![image-20220710151225909](Typora_images/CSS样式基础/image-20220710151225909.png)
+
+
+
+- ## background-attachment
+
+![image-20220710152455055](Typora_images/CSS样式基础/image-20220710152455055.png)
+
+
+
+```html
+        .wrapper {
+            /** 700 * 700*/
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            background-image: url(./border2.jpg);
+            /* background-position: 100% 100%; */
+            background-position: -275px -200px;
+            background-attachment: scroll;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+        许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>许洁<br\>
+    </div>
+</body>
+```
+
+结果：
+
+![image-20220710153142789](Typora_images/CSS样式基础/image-20220710153142789.png)
+
+**==<font color='deepred'>scroll确实不会随着他内容的滚动而滚动，fixed的话，就是整个图片都TM的相对于窗口定位了，当然wrapp中的background-position属性还是有用的【scroll和fixed的区别在于背景图片相对于谁进行定位呢？】</font>==**
+
+- 你用fixed还不如直接用img包裹然后fixed定位来的方便
+
+## 7.2、css3背景
+
+**==<font color='deepred'>背景图片默认的渲染起始位置是在padding-box中的（background-position: 0 0;不重复）</font>==**
+
+- **<font color='deepred'>背景颜色默认的渲染起始位置就是在border-box中了,哈哈</font>**
+
+![image-20220712203708237](Typora_images/CSS样式基础/image-20220712203708237.png)
+
+![image-20220712203838382](Typora_images/CSS样式基础/image-20220712203838382.png)
+
+**==<font color='deepred'>不过图片的剪裁就是从border-box开始的了（就是设置repeat的时候【你可以清楚的看到渲染开始的位置确实是padding-box而剪裁开始位置就是border-box了】）</font>==**
+
+![image-20220712204039233](Typora_images/CSS样式基础/image-20220712204039233.png)
+
+### 7.2.1、渲染与剪裁背景图片
+
+- **background-origin：设置从哪里开始渲染图片。**
+  - border-box：从border盒子开始渲染;
+  - padding-box：默认
+  - content-box：从内容盒子开始渲染
+
+```css
+            background-origin: border-box;
+```
+
+![image-20220712204623588](Typora_images/CSS样式基础/image-20220712204623588.png)
+
+
+
+- **background-clip：设置从哪里开始剪裁图片。**
+
+- border-box：默认;
+- padding-box：从padding-box盒子开始剪裁
+- content-box：从内容盒子开始剪裁
+
+```css
+            background-repeat: repeat;
+            background-origin: border-box;
+            background-clip: content-box;
+```
+
+![image-20220712205352221](Typora_images/CSS样式基础/image-20220712205352221.png)
+
+
+
+### 7.2.2、需求，文字以外的背景全部裁掉
+
+- **<font color='purple'>细节：如果要文字竖直居中对齐的话，它的行高应该是content-box的高度，而不是整个box的高度！！！非常重要！</font>**
+
+```css
+        .wrapper {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            width: 500px;
+            height: 500px;
+            border: 30px solid rgba(0,0,0,.3);
+            padding: 30px;
+            text-align: center;
+            font: bolder 90px/380px "微软雅黑";
+            background-color: red;
+            background-image: url(./mn.jpg);
+            background-repeat: repeat;
+            -webkit-background-clip: text;
+            color: rgba(0,0,0,.3);
+        }
+```
+
+![image-20220712211008298](Typora_images/CSS样式基础/image-20220712211008298.png)
+
+
+
+### 7.2.3、背景图片大小
+
+- **<font color='deeppink'>css中图片有一个特性：就是高宽自适应，改变了高度，宽度就会自动跟着改变的</font>**
+
+
+
+![image-20220712211954332](Typora_images/CSS样式基础/image-20220712211954332.png)
+
+
+
+```css
+        .wrapper {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            width: 300px;
+            height: 300px;
+            border: 30px solid rgba(0,0,0,.3);
+            padding: 30px;
+            background-color: red;
+            background-image: url(./mn.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+```
+
+![image-20220712212152613](Typora_images/CSS样式基础/image-20220712212152613.png)
+
+
+
+- 简写属性的坏处：
+
+![image-20220712212631632](Typora_images/CSS样式基础/image-20220712212631632.png)
+
+
+
+- 代码规范：
+
+![image-20220712212743584](Typora_images/CSS样式基础/image-20220712212743584.png)
+
+先把这个写上面，然后下面再去补子属性样式
+
+## 7.3、CSS3渐变
+
+**<font color='deeppink'>渐变是图片不是颜色</font>**
+
+### 7.3.1、线性渐变
+
+- **<font color='deepred'>linear-gradient：参数一是渐变的方向，然后是渐变的颜色，可以有任意多种颜色的</font>**
+
+```css
+            background-image: linear-gradient(to right, red, yellow, green);
+```
+
+- 
+- **<font color='deeppink'>渐变的角度</font>**
+
+![image-20220712214604136](Typora_images/CSS样式基础/image-20220712214604136.png)
+
+
+
+```css
+            background-image: linear-gradient(45deg, red, yellow, green);
+```
+
+![image-20220712214822759](Typora_images/CSS样式基础/image-20220712214822759.png)
+
+- **<font color='deeppink'>渐变占比</font>**
+
+```css
+            background-image: linear-gradient(90deg, red 10%, yellow 20%, green 30%);
+```
+
+![image-20220712215838422](Typora_images/CSS样式基础/image-20220712215838422.png)
+
+**==<font color='red'>这个是什么意思呢？就是说0-10%这一段都是红色的，然后是10%-20%这一段是red to yellow，然后是20% - 30%这一段是yellow to green剩下的30% - 70%这一段就都是绿色了</font>==**
+
+**==<font color='deeppink'>占比不仅可以用百分比，也可以用px值，效果是一样的</font>==**
+
+
+
+- **<font color='deeppink'>渐变重复</font>**
+
+```css
+            background-image: repeating-linear-gradient(90deg, red 10%, yellow 20%, green 30%);
+```
+
+**==<font color='whiblue'>说白了，就是把10%-30%这一段有渐变效果的不断的重复填充整个容器</font>==**
+
+![image-20220712221146399](Typora_images/CSS样式基础/image-20220712221146399.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
 # CSS3flex布局
 
 教程：https://www.bilibili.com/video/BV1N54y1i7dG?from=search&seid=17813754073632202728&spm_id_from=333.337.0.0&vd_source=365d13057e58bb6a007cdd5275785229
@@ -1831,6 +2369,153 @@ box-size: border-box在输入框中也很常用的，嘻嘻
 ![image-20220621231659072](Typora_images/CSS样式基础/image-20220621231659072.png)
 
 - 两个都space-around就行了。
+
+
+
+# 六个案例学会响应式布局
+
+教程：https://www.bilibili.com/video/BV1ov411k7sm/?spm_id_from=trigger_reload&vd_source=365d13057e58bb6a007cdd5275785229
+
+# 1、媒体查询
+
+**<font color='violet'>定义：为不同的屏幕设置不同的css样式，一般在移动端使用的频率高一些</font>**
+
+```css
+        /*这两个写了，.div1的height:75%才会生效*/
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+        }
+
+        .div1 {
+            width: 50%;
+            height: 75%;
+        }
+
+        @media screen and (min-device-width:200px) and (max-device-width:500px){
+            .div1 {
+                background-color: pink;
+            }
+        }
+
+        @media screen and (min-device-width:501px) and (max-device-width:1024px){
+            .div1 {
+                background-color: deeppink;
+            }
+        }
+
+        @media screen and (min-device-width:1025px) and (max-device-width:1920px){
+            .div1 {
+                background-color: violet;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="div1">
+
+    </div>
+
+    
+</body>
+</html>
+```
+
+**==<font color='violet'>注意点1：媒体查询在h5页面伸缩的时候不会生效的</font>==**
+
+![image-20220710162436475](Typora_images/CSS样式基础/image-20220710162436475.png)
+
+
+
+**<font color='violet'>注意点2：媒体查询在移动端页面会生效，可以通过chrome的responsive模式快速随意拉动窗口大小的</font>**
+
+![image-20220710162709420](Typora_images/CSS样式基础/image-20220710162709420.png)
+
+
+
+# 2、媒体查询常用参数
+
+![image-20220710170552387](Typora_images/CSS样式基础/image-20220710170552387.png)
+
+**==<font color='red'>原来使用min-width和min-height就可以设置h5宽度不同的时候样式也不同了，哈哈</font>==**
+
+
+
+**<font color='red'>示例：屏幕大小不同块级元素换行</font>**
+
+```css
+        .div1 {
+            width: 100%;
+            height: 500px;
+        }
+
+        .div1 > div {
+            float: left;
+        }
+
+        @media screen and (min-width:200px) and (max-width:300px){
+            .div1 > div {
+                width: 100%;
+                height: 200px;
+            }
+            .div1 > div:nth-child(1) {
+                background-color: red;
+            }
+            .div1 > div:nth-child(2) {
+                background-color: green;
+            }
+            .div1 > div:nth-child(3) {
+                background-color: blue;
+            }
+            
+        }
+        @media screen and (min-width:301px) and (max-width:400px){
+            .div1 > div {
+                width: 50%;
+                height: 200px;
+            }
+            .div1 > div:nth-child(1) {
+                background-color: red;
+            }
+            .div1 > div:nth-child(2) {
+                background-color: green;
+            }
+            .div1 > div:nth-child(3) {
+                background-color: blue;
+            }
+             
+        }
+        @media screen and (min-width:401px){
+            .div1 > div {
+                width: 33.3%;
+                height: 200px;
+            }
+            .div1 > div:nth-child(1) {
+                background-color: red;
+            }
+            .div1 > div:nth-child(2) {
+                background-color: green;
+            }
+            .div1 > div:nth-child(3) {
+                background-color: blue;
+            }
+             
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div1">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</body>
+```
+
+**<font color='violet'>核心就是一个父框框里面有三个子框框，然后当媒体查询的范围不同的时候，三个子框框的的width不一样就行了，哈哈</font>**
 
 
 
