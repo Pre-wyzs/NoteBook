@@ -184,25 +184,373 @@ export default defineConfig({
 
 
 
+## 2.6、模板语法 & vue指令
+
+### 2.6.1、ts定义变量的时候报错
+
+![image-20220714080459594](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220714080459594.png)
+
+**原因：**
+
+*Typescript将没有导入/导出的文件视为旧脚本文件。这样的文件不是模块，它们的任何定义都已合并到全局名称空间中。 isolatedModules禁止此类文件。*
+*将任何导入或导出添加到文件都使其成为一个模块，并且错误消失。*
+*export {}也是一种方便的方法，可以在不导入任何内容的情况下使文件成为模块。*
+
+**解决：**
+
+*找到tsconfig.json的配置文件：*
+*isolatedModules字段改为false*
 
 
 
+***==还有就是定义函数的时候也会报错的，原因是因为vetur这个插件不适用于vue3，把这个插件禁用，然后换成vue3的那个插件就行了==***
 
 
 
+### 2.6.2、基础指令
+
+- v-text
+- v-html
+- v-show：改变display: none而已
+- v-if：会注释整个dom的vue3中
+
+- **<font color='deeppink'>v-if、v-else-if、v-else</font>**
+
+```vue
+<template>
+  <div v-if="msg === 'A'">
+    A
+  </div>
+  <div v-else-if="msg === 'B'">
+    B
+  </div>
+  <div v-else-if="msg === 'C'">
+    C
+  </div>
+  <div v-else-if="msg === 'D'">
+    D
+  </div>
+  <div v-else>
+    E
+  </div>
+</template>
+
+<script setup lang="ts">
+
+  const msg: string = 'H'
+  const isShow: boolean = true;
+
+</script>
+
+<style>
+</style>
+
+```
+
+- v-bind：就是冒号
+- v-on：就是@符号
 
 
 
+#### part1、事件冒泡
+
+```vue
+  <div @click="parent" class="p">
+    <div @click="child" class="c"></div>
+  </div>
+</template>
+
+<script setup lang="ts">
+
+  const msg: string = "H";
+
+  const isShow: boolean = true;
+
+  const parent = () => {
+    console.log("我是父级");
+  };
+
+  const child = () => {
+    console.log("我是自己");
+  };
+```
+
+![image-20220714205052842](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220714205052842.png)
+
+**==红色大框框是父组件，蓝色的框框是子组件，如果点击红色的部分，是不会触发事件冒泡的；点击蓝色的框框就会触发事件冒泡，而且是子盒子先打印，父盒子后打印==**
+
+- 点击红色部分
+
+![image-20220714205343762](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220714205343762.png)
+
+- 点击蓝色部分
+
+![image-20220714205405500](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220714205405500.png)
 
 
 
+阻止事件冒泡的方法：
+
+```vue
+  <div @click="parent" class="p">
+    <div @click.stop="child" class="c"></div>
+  </div>
+```
+
+**==<font color='deepred'>注意：事件冒泡的真正意思是说，子盒子的事件会影响父盒子的事件，为了让子盒子的事件不影响父盒子的事件，就用@click.stop来停止事件冒泡！</font>==**
+
+#### part2、阻止表单提交
+
+```vue
+  <form action="/">
+    <button type="submit" @click.prevent="handleSubmit">提交</button>
+  </form>
+```
+
+**==<font color='deepred'>使用.prevent之后，表单就不会提交了，就不会刷新页面了（当然handleSubmit函数还是会执行的）</font>==**
+
+- **<font color='red'>像这样类似的用法还有很多，可以试着玩一下</font>**
 
 
 
+#### part3：绑定类/样式
+
+- 绑定样式style
+
+```vue
+<template>
+  <div :style="sytle">
+
+  </div>
+
+</template>
+
+<script setup lang="ts">
+
+const sytle = {
+  height: '200px',
+  width: '200px',
+  backgroundColor: 'red'
+}
+
+</script>
+```
 
 
 
+- 绑定类
+
+*绑定多个样式：*
+
+```vue
+<template>
+  <div :class="['a','b']">
+
+  </div>
+
+</template>
+
+<script setup lang="ts">
+</script>
+
+<style>
+.a{
+  width: 200px;
+  height: 200px;
+}
+.b{
+  background-color: purple;
+}
+</style>
+```
+
+- ***如果a样式和b样式有冲突的话，b样式会把a样式的冲突覆盖掉的，因为b样式定义在a样式之后***
+
+*条件绑定*
+
+```vue
+  <div :class="[flag? 'a':'b']">
+  许洁
+  </div>
+```
+
+*对象绑定*
+
+```vue
+<template>
+  <div :class="cls">
+  许洁
+  </div>
+</template>
+
+<script setup lang="ts">
+type Cls = {
+  a: boolean,
+  b: boolean
+}
+
+const cls: Cls = {
+  a:true,
+  b:true
+}
+</script>
+
+<style>
+.a {
+  color: red;
+}
+    
+.b {
+  border: 1px solid purple
+}
+</style>
+```
+
+## 2.7、vue核心虚拟dom和diff算法
+
+- tm的没有听懂...
+- 主要就是讲解 数组的响应式变化是怎么实现的吧，tm的
 
 
 
+# 3、Ref全家桶
+
+- ***<font color='red'>ref就是把一个值可以变为一个响应式对象的一个函数</font>***
+
+```vue
+<template>
+  <div>
+    <button @click="changeMsg">改变msg</button>
+    <div>{{ msg }}</div>
+  </div>
+</template>
+<script setup lang="ts">
+import { ref, Ref } from 'vue'
+
+const msg: Ref<string> = ref('小满');
+
+const changeMsg = () => {
+  msg.value = 'changed';
+  console.log(msg);
+}
+
+</script>
+```
+
+**==<font color='deeppink'>注意，这里我们用的是ts的语法写的，所以不给msg加上类型说明就会出错的，这里大写的Ref就表示响应式数据的类型的，哈哈，当然你也可以这样写：</font>==**
+
+```js
+const msg = ref<string>('小满');
+```
+
+- ***<font color='red'>判断是否是响应式数据</font>***
+
+```js
+const msg = ref<string>('小满');
+let msg2: number = 1;
+
+const changeMsg = () => {
+  msg.value = 'changed';
+  console.log(isRef(msg));
+  console.log(isRef(msg2));
+}
+```
+
+**==<font color='deeppink'>上面是true，下面是false</font>==**
+
+
+
+- ***<font color='red'>浅Ref：shallowRef，创建一个跟踪自身.value的变化的ref，但是不会改变其属性值。</font>***
+
+```js
+const msg3: Ref<any> = shallowRef({
+  id: 1,
+  name: 'zzw'
+});
+
+
+const changeMsg = () => {
+  msg3.value.name = '许洁';
+}
+```
+
+**==<font color='deeppink'>这样子做是没有用的，因为浅ref只能改变.value不能改变对象中属性的值。。。可以这样写</font>==**
+
+```js
+const msg3: Ref<any> = shallowRef({
+  id: 1,
+  name: 'zzw'
+});
+
+
+const changeMsg = () => {
+  msg3.value = {
+    id: 2,
+    name: '许洁'
+  };
+}
+```
+
+**==<font color='deeppink'>就是说，如果一个对象中的属性不是响应式的，就可以用shallowRef来创建该对象的响应式对象，可以节省性能</font>==**
+
+
+
+- ***<font color='red'>triggerRef：强制把值更新到dom上去</font>***
+
+**<font color='deepred'>triggerRef可以和shallowRef进行配合，可以完成msg3属性的更新</font>**
+
+```js
+const msg3: Ref<any> = shallowRef({
+  id: 1,
+  name: 'zzw'
+});
+
+const changeMsg = () => {
+  msg3.value.id = 2;
+  triggerRef(msg3);
+}
+```
+
+
+
+- ***<font color='red'>customRef：自动定义Ref函数，这是一个工厂函数，要求我们返回一个对象，并且实现get和set方法</font>***
+
+```js
+/** 这就是自定义Ref的标准写法*/
+function MyRef<T>(value: T) {
+  return customRef((track, trigger) => {
+    return {
+      get() {
+        track();
+        return value;
+      },
+      set(newVlue: T) {
+        console.log('set trigger');
+          /** 可以在这里进行一些特殊操作的**/
+        value = newVlue;
+        trigger();
+      }
+    }
+  });
+}
+
+const msg4: Ref<any> = MyRef({
+  id: 2,
+  name: '贺源峰'
+});
+
+const changeMsg = () => {
+  msg4.value = {
+    id:3,
+    name:'许洁'
+  }
+```
+
+
+
+## 3.1、小结
+
+**<font color='red'>ref然后是判断isRef，然后是变种shallowRef和triggerRef，然后是自定义的Ref</font>**
+
+**<font color='red'>重点在于引用类型的响应性，使用shallow和trigger配合使用会很好。</font>**
 

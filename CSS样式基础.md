@@ -13,8 +13,6 @@ vim：取消对ctrl + c的覆盖：
 
 CSS3规范文档：www.w3.org/TR/2011/REC-css3-selectors-20110929
 
-
-
 项目路径：![image-20220618063241460](Typora_images/CSS样式基础/image-20220618063241460.png)
 
 # 1、导学
@@ -1834,6 +1832,18 @@ box-size: border-box在输入框中也很常用的，嘻嘻
 
 ![image-20220710085136016](Typora_images/CSS样式基础/image-20220710085136016.png)
 
+更常用的写法：
+```css
+html, body {
+	height: 100%;
+    overflow: hidden;
+}
+```
+
+
+
+
+
 
 
 ### 6.2.2、用绝对定位模拟position: fixed
@@ -1900,7 +1910,7 @@ box-size: border-box在输入框中也很常用的，嘻嘻
 
 ![image-20220710090838764](Typora_images/CSS样式基础/image-20220710090838764.png)
 
-**==<font color='red'>道理很简单，因为wrapper没有设置relative，所以是这个absolute是相对于body的absolute对吧，而又因为系统滚动条被禁止了，这个滚动条是wrapper上的，所以滚动条滚动的时候只有wrapp自己的内部的东西才会滚动的咯</font>==**
+**==<font color='red'>道理很简单，因为wrapper没有设置relative，所以这个absolute是相对于body的absolute对吧，而又因为系统滚动条被禁止了，这个滚动条是wrapper上的，所以滚动条滚动的时候只有wrapp自己的内部的东西才会滚动的咯</font>==**
 
 
 
@@ -2191,6 +2201,14 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 
 ![image-20220712214822759](Typora_images/CSS样式基础/image-20220712214822759.png)
 
+```css
+            background-image: linear-gradient(130deg, rgb(204, 51, 255,0) 100px,rgb(204, 51, 255,1) 160px,rgb(204, 51, 255,0) 220px);
+```
+
+![image-20220716165247633](Typora_images/CSS样式基础/image-20220716165247633.png)
+
+
+
 - **<font color='deeppink'>渐变占比</font>**
 
 ```css
@@ -2214,6 +2232,226 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 **==<font color='whiblue'>说白了，就是把10%-30%这一段有渐变效果的不断的重复填充整个容器</font>==**
 
 ![image-20220712221146399](Typora_images/CSS样式基础/image-20220712221146399.png)
+
+
+
+## 7.4、案例：发廊灯
+
+
+
+问题：为什么这个没有重复呢？
+
+```csss
+            background-image: repeating-linear-gradient(black 10%,white 10%);
+```
+
+因为repeating重复的是渐变色！不是纯色，这样子写0-10是纯黑色，10-100是纯白色！没有渐变所以不会重复的！
+
+解决办法：
+
+```css
+            background-image: repeating-linear-gradient(black 0px,black 10px,white 10px,white 20px);
+```
+
+==渐变就是0px到10px的黑色自己的渐变，这样就有渐变了而且还是纯色的了，哈哈==
+
+完整示例：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,body {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #wrapper {
+            height: 300px;
+            width: 40px;
+            margin: 100px auto;
+            border: 1px solid;
+            overflow: hidden;
+        }
+
+        #wrapper > .light {
+            height: 600px;
+            background-image: repeating-linear-gradient(135deg, black 0px,black 10px,white 10px,white 20px);
+        }
+
+        /* #wrapper > .light:hover {
+            margin: -300px;
+        } */
+
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="light">
+        </div>
+    </div>
+    <script>
+        var light = document.querySelector('.light');
+        var offset = 0;
+        setInterval(function () {
+            offset ++ ;
+            if (offset === 300) {
+                offset = 0;
+            } 
+            light.style.marginTop = -offset + 'px';
+        },24);
+
+    </script>
+</body>
+</html>
+```
+
+![image-20220716165519401](Typora_images/CSS样式基础/image-20220716165519401.png)
+
+**==<font color='deeppink'>这里动的是margin-top的值</font>==**
+
+## 7.5、光斑动画
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,body {
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+            text-align: center;
+        }
+
+        h1 {
+            /** 行内文字居中，整个inline-block块也就居中了，很好玩*/
+            display: inline-block;
+            color: rgba(128, 128, 128, .5);
+            font: bold 100px "微软雅黑";
+            background-image: linear-gradient(130deg, rgba(255,255,255,0) 100px,rgba(255,255,255,1) 180px,rgba(255,255,255,0) 260px);
+            background-repeat: no-repeat;
+            -webkit-background-clip: text;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>行天下道，救天下易</h1>
+    <script>
+        var light = document.querySelector('h1');
+        var offset = -160;
+        setInterval(function () {
+            offset += 10;
+            if (offset === 1000) {
+                offset = -160;
+            } 
+            light.style.backgroundPositionX = offset + 'px';
+        },24);
+
+    </script>
+</body>
+</html>
+```
+
+![image-20220716165454943](Typora_images/CSS样式基础/image-20220716165454943.png)
+
+**==<font color='deepred'>这里动的是backgroud-position的值</font>==**
+
+
+
+
+
+## 7.6、径向渐变
+
+- radial-gradient(yellow,green,pink);
+
+```css
+        .test {
+            position: absolute;
+            right: 0;
+            left: 0;
+            margin: 30px auto;
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            /** 径向渐变*/
+            background-image: radial-gradient(yellow,green,pink);
+        }
+```
+
+![image-20220716170846692](Typora_images/CSS样式基础/image-20220716170846692.png)
+
+- **渐变占比，和线性渐变是一样的原理**
+
+```css
+            background-image: radial-gradient(yellow 20%,green 40%,pink 60%);
+```
+
+
+
+- **改变径向渐变的形状**
+
+![image-20220716171336428](Typora_images/CSS样式基础/image-20220716171336428.png)
+
+当容器变成一个矩形的时候，径向渐变也变成了椭圆，但其实我们可以指定径向渐变的形状的，如下所示：
+
+```css
+            background-image: radial-gradient(circle, yellow 20%,green 40%,pink 60%);
+```
+
+
+
+![image-20220716172327988](Typora_images/CSS样式基础/image-20220716172327988.png)
+
+- **改变渐变形状的大小**
+
+  - 最远边
+
+  ```css
+              background-image: radial-gradient(farthest-side circle, yellow,green 50%,pink);
+  ```
+
+  ![image-20220716172940081](Typora_images/CSS样式基础/image-20220716172940081.png)
+
+  - 最近边
+
+  ```css
+  background-image: radial-gradient(closest-side circle, yellow,green 50%,pink);
+  ```
+
+  ![image-20220716173132511](Typora_images/CSS样式基础/image-20220716173132511.png)
+
+  - 最近角
+
+  ```css
+  background-image: radial-gradient(closest-corner circle at 20% 20%, yellow,green 50%,pink);
+  ```
+
+  
+
+![image-20220716173532368](Typora_images/CSS样式基础/image-20220716173532368.png)
 
 
 
@@ -2516,6 +2754,687 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 ```
 
 **<font color='violet'>核心就是一个父框框里面有三个子框框，然后当媒体查询的范围不同的时候，三个子框框的的width不一样就行了，哈哈</font>**
+
+## 2.1、媒体查询引入方法一
+
+```css
+    <style media="(max-width:300px)">
+        .div1>div {
+            width: 100%;
+        }
+    </style>
+    <style media="(min-width:301px) and (max-width:400px)">
+        .div1>div {
+            width: 50%;
+        }
+    </style>
+    <style media="(min-width:401px)">
+        .div1>div {
+            width: 33.33%;
+        }
+    </style>
+```
+
+**==<font color='deeppink'>其实@media的那个后面的 screen是为了打印机这些东西使用的根本没有什么用，直接扔掉也没事的；然后这里可以通过style标签中的media属性进行不同屏幕样式的适配。</font>==**
+
+
+
+## 2.2、媒体查询引入方式二
+
+![image-20220713214403938](Typora_images/CSS样式基础/image-20220713214403938.png)
+
+**==<font color='deepred'>就是在不同的屏幕引入不同的样式文件就行了</font>==**
+
+# 3、flex设置伸缩比
+
+- **<font color='deepred'>flex-basis属性：是Item的基准宽度，可以设置px值也可以设置%，设置后会覆盖到item项目原有的宽度，如下所示</font>**
+
+```css
+        #wrapper {
+            width: 500px;
+            height: 600px;
+            border: 1px solid black;
+            display: flex;
+        }
+
+        #wrapper > div:nth-child(1) {
+            width: 100px;
+            height: 200px;
+            background-color: deeppink;
+            flex-basis: 20px;
+        }
+
+        #wrapper > div:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            background-color: violet;
+            flex-basis: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div></div>
+        <div></div>
+    </div>
+</body>
+</html>
+```
+
+结果，原来的宽度被覆盖掉了
+
+![image-20220713220540876](Typora_images/CSS样式基础/image-20220713220540876.png)
+
+
+
+
+
+- **<font color='deeppink'>flex-grow属性，这个属性是用来决定当所有盒子的宽度加一起不够container的宽度的时候，剩下的宽度该怎么分配的问题</font>**
+
+```css
+        #wrapper {
+            width: 500px;
+            height: 600px;
+            border: 1px solid black;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        #wrapper > div:nth-child(1) {
+            height: 200px;
+            background-color: deeppink;
+            flex-basis: 100px;
+            flex-grow: 1;
+        }
+
+        #wrapper > div:nth-child(2) {
+            height: 200px;
+            background-color: violet;
+            flex-basis: 200px;
+            flex-grow: 4;
+        }
+```
+
+**==<font color='deepred'>这里直接把计算的结果说明一下，就是说现在盒子一的宽度是100px，而盒子二的宽度是200px对吧，所以总宽度还有200px是剩余的，而这200px通过flex-grow属性一共被分成了5分，每一份是40px，所以盒子一的宽度被扩充为100 + 40\=140px；而盒子二的宽度被扩充为200 \+ 160px \= 360px了捏，哈哈</font>==**
+
+
+
+公式 500px - 100px -200px = 200px多余的
+
+200px/5 = 40px 多余的被分成5等分，每一份是40px然后和盒子一扩充40px，盒子二扩充了160px
+
+
+
+- **<font color='deeppink'>flex-shrink属性，这个属性是当子item项目的总宽度超过container容器的宽度时候，多出来的部分该怎么分配裁剪的问题，和上面的分配扩充是一个道理</font>**
+
+- flex属性，是上面三个属性的简写：**<font color='deepred'>注意三者的顺序是不能调整的！</font>**
+
+![image-20220713224620022](Typora_images/CSS样式基础/image-20220713224620022.png)
+
+
+
+## 3.1、flex的特殊写法
+
+![image-20220715062735410](Typora_images/CSS样式基础/image-20220715062735410.png)
+
+
+
+- **当给flex设置 1 1 300px的时候，表明它是自动伸缩的，所以最后一个值就不生效了，当flex: 0 0 auto的时候，item的宽度就是自己设定的width值了，哈哈**
+
+
+
+### 3.1.1、示例一：输入框布局
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 350px;
+            display: flex;
+            border: 1px solid #dcdcdc
+        }
+
+        .container label {
+
+            flex:1;
+            text-align: center;
+            padding: 10px;
+            background-color: #dcdcdc;
+        }
+
+        .container>label:nth-child(3) {
+            flex: 0 0 10%;
+        }
+
+        .container input {
+            flex: 3;
+            border: none;
+            outline: none;
+            padding: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label>姓名</label>
+        <input type="text">
+        <label>GO</label>
+    </div>
+</body>
+</html>
+```
+
+![image-20220715070107747](Typora_images/CSS样式基础/image-20220715070107747.png)
+
+**==<font color='deepred'>除了flex的自适应性以外，还有比较重要的两点：1通过外部框框包裹input使得输入框好像变大，2通过border: none把输入框的外框框去掉，然后是通过outline: none把这个鼠标聚焦时候的外边框去掉！真的挺有用的，嘻嘻</font>==**
+
+### 3.1.2、示例二：长表单布局
+
+![image-20220716175326600](Typora_images/CSS样式基础/image-20220716175326600.png)
+
+
+
+**==<font color='deepred'>flex布局的经典场景，方案一般就是外面是一个大的框框，然后是每一行一个小的框框，小框框里面采用flex进行布局，我们来实现一下</font>==**
+
+
+
+基本雏形：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        #form div {
+            display: flex;
+        }
+
+        #form div label {
+            text-align: right;
+            flex: 0 0 100px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="form">
+        <div>
+            <label for="">姓名:</label>
+            <input type="text">
+        </div>
+        <div>
+            <label for="">请输入密码:</label>
+            <input type="text">
+        </div>
+    </div>
+</body>
+</html>
+```
+
+![image-20220716181324662](Typora_images/CSS样式基础/image-20220716181324662.png)
+
+**==那怎么样才能把上面和下面一样分离开呢==**
+
+**<font color='deeppink'>方案一：</font>**
+
+直接margin-top: 10px；不过太捞了
+
+**<font color='deeppink'>方案二：</font>**
+
+```css
+        #form div {
+            display: flex;
+            height: 50px;
+            align-items: flex-start;
+        }
+```
+
+**==<font color='deepred'>设置每一行的高度，然后设置align-items: flex-start这个做法就很有意思了</font>==**
+
+
+
+**<font color='deeppink'>方案三：</font>**
+
+```css
+        #form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #form div {
+            display: flex;
+            align-items: flex-start;
+            flex: 0 0 50px;
+        }
+
+        #form div label {
+            text-align: right;
+            flex: 0 0 100px;
+        }
+```
+
+**==<font color='deeppink'>就是用flex的基准值把height给它换掉就行了</font>==**
+
+
+
+# 4、rem的使用方法
+
+**<font color='deepred'>定义：rem是相对于根元素字体大小的单位</font>**
+
+- 最最原始的rem使用
+
+```css
+        /*根元素字体大小*/
+        html,body {
+            font-size: 16px;
+        }
+        div {
+            font-size: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        许洁，许我一劫
+    </div>
+</body>
+```
+
+**==<font color='deeppink'>通常情况下，把根元素字体的大小设置为10px，这样子方便我们进行换算；使用了rem后不仅仅在字体大小上面，其他宽度、高度、等等单位都是可以使用rem的捏</font>==**
+
+
+
+## 4.1、案例
+
+![image-20220717101313936](Typora_images/CSS样式基础/image-20220717101313936.png)
+
+***额，这里的 ‘或’ 字应该改为和***
+
+```js
+<script>
+    const fn = () => {
+        /**1、先获取屏幕的宽度*/
+        let w = document.documentElement.clientWidth;
+        /**2、计算出合适于该宽度的根字体的大小*/
+        let rootSize = 20*(w/320) > 40? 40 + 'px' : (20*(w/320)) + 'px';
+
+        document.documentElement.style.fontSize = rootSize;
+    }
+
+    window.addEventListener('load',fn);
+    window.addEventListener('resize',fn);
+
+</script>
+<style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /*根元素字体大小*/
+    /* html,body {
+        font-size: 16px;
+    } */
+    div {
+        font-size: 1rem;
+    }
+</style>
+```
+
+**==<font color='deeppink'>这个案例要求我们做的就是改变根字体的大小，从中我们可以学到很多的东西：1、获取屏幕宽度=>document.documentElement.clinetWidth，2、设置基准大小为20然后根据宽度/320的这个比例来调整根字体的大小；3、使用load事件设置初始大小</font>==**
+
+
+
+# 5、自适应布局
+
+- 不同的设备使用不同的页面
+
+![image-20220717140200964](Typora_images/CSS样式基础/image-20220717140200964.png)
+
+```js
+    <script>
+        let redirect = () => {
+            /**1、获取用户设备的名称*/
+            let userAgent = navigator.userAgent.toLowerCase();
+            console.log(userAgent);
+            /**2、设备枚举*/
+            let device = /ipaid|iphone|window mobile/;
+            if(device.test(userAgent)) {
+                /**移动端进入page1的页面*/
+                window.location.href = "page1.html";
+            }else {
+                /**pc端进入page2的页面*/
+                window.location.href = "page2.html";
+            }
+        }
+        redirect();
+    </script>
+```
+
+![image-20220717141242779](Typora_images/CSS样式基础/image-20220717141242779.png)
+
+
+
+- **<font color='deepred'>三列布局，中间缩小放大，两个边不变的写法：</font>**
+
+**==<font color='red'>就是大框框使用flex布局，然后两边两个的基准值设定为200px定死，中间的flex: 1 1 auto就行了。</font>==**
+
+# 6、响应式布局
+
+![image-20220717141909392](Typora_images/CSS样式基础/image-20220717141909392.png)
+
+
+
+html结构：
+```html
+    <link rel="stylesheet" href="./06css/small.css" media="(min-device-width:200px) and (max-device-width:480px)">
+    <link rel="stylesheet" href="./06css/big.css" media="(min-device-width:980px)">
+</head>
+<body>
+    <div id="wrapper">
+        <div class="top"></div>
+        <div class="content">
+            <div>
+                <li>分类一</li>
+                <li>分类二</li>
+                <li>分类三</li>
+                <li>分类四</li>
+                <li>分类五</li>
+                <li>分类六</li>
+                <li>分类七</li>
+                <li>分类八</li>
+            </div>
+            <div>
+                <li>图片1</li>
+                <li>图片2</li>
+                <li>图片3</li>
+                <li>图片4</li>
+                <li>图片5</li>
+                <li>图片6</li>
+                <li>图片7</li>
+                <li>图片8</li>
+                <li>图片9</li>
+                <li>图片10</li>
+            </div>
+        </div>
+    </div>
+```
+
+big.css
+
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.top {
+    height: 50px;
+    background-color: yellow;
+}
+
+.content {
+    display: flex;
+}
+
+.content div:first-child {
+    flex: 0 0 20%;
+    display: flex;
+    list-style-type: none;
+    flex-wrap: wrap;
+    border: 2px solid white; 
+    background-color: gray;
+}
+
+.content div:first-child li {
+    flex: 0 0 100%;
+    height: 40px;
+    font: bold 20px/40px '微软雅黑';
+    padding-left: 10px;
+    border-bottom: 2px solid white;
+
+}
+
+
+.content div:nth-child(2) {
+    flex: 0 0 80%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content div:nth-child(2) li {
+    flex: 1 1 200px;
+    list-style-type: none;
+    border: 2px solid white; 
+    background-color: yellow;
+    text-align: center;
+}
+```
+
+small.css
+
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.top {
+    height: 50px;
+    background-color: yellow;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content div:first-child {
+    flex: 0 0 100%;
+    display: flex;
+    list-style-type: none;
+    flex-wrap: wrap;
+    border: 2px solid white; 
+    background-color: gray;
+    align-content: flex-start;
+}
+
+.content div:first-child li {
+    flex: 0 0 25%;
+    height: 40px;
+    font: bold 20px/40px '微软雅黑';
+    padding-left: 10px;
+    border-bottom: 2px solid white;
+
+}
+
+
+.content div:nth-child(2) {
+    flex: 0 0 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content div:nth-child(2) li {
+    flex: 0 0 50%;
+    list-style-type: none;
+    border: 2px solid white; 
+    background-color: yellow;
+    text-align: center;
+    height: 80px;
+}
+
+
+```
+
+**==<font color='deepred'>其实主轴不用特别改变的，最常用的还是基准值不伸缩 + 换行的操作，哈哈</font>==**
+
+
+
+# 7、rem弹性布局
+
+![image-20220717152921046](Typora_images/CSS样式基础/image-20220717152921046.png)
+
+
+
+就是用rem做一个示例，不难
+
+==固定的一般用rem，不然用百分比比较好==
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
