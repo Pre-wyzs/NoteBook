@@ -2457,6 +2457,82 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 
 
 
+# 8、过渡属性和过渡周期
+
+**==<font color='deepred'>C3中最重要的部分就是 过渡、2D/3D变形、动画、还有布局扩展了</font>==**
+
+```css
+        #test {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: pink;
+            text-align: center;
+            font: bold 40px/200px "微软雅黑";
+
+            /** 过渡属性 */
+            transition: 2s;
+
+        }
+
+        #test:hover {
+            font: bold 20px/100px "微软雅黑";
+            width: 100px;
+            height: 100px;
+        }
+```
+
+**==<font color='red'>这是一个普通动画效果的展示，但是不是所有的属性都有动画效果的！就比如，display: block;变成display: none;就没有动画的效果了</font>==**
+
+
+
+- 记住transition是一个简写的属性：
+
+![image-20220719071307223](Typora_images/CSS样式基础/image-20220719071307223.png)
+
+
+
+## 8.1、property & duration
+
+- ***transition-property属性可以指定一个或者多个过渡属性，默认是all***
+
+```css
+            transition-property: width, height;
+            transition-duration: 2s;
+```
+
+
+
+- ***可以指定每一个过渡属性的过渡时间***
+
+```css
+            /** 过渡属性 */
+            transition-property: background-color, width, height;
+            transition-duration: 5s, 2s, 2s;
+```
+
+
+
+- ***当周期列表不能满足属性列表的时候，周期列表会进行复制的。***
+
+```css
+            transition-property: background-color, width, height;
+            transition-duration: 5s, 2s;
+```
+
+比如这样，那么会被复制成这样：
+
+```css
+            transition-property: background-color, width, height;
+            transition-duration: 5s, 2s, 5s, 2s;
+```
+
 
 
 

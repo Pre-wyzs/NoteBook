@@ -554,3 +554,46 @@ const changeMsg = () => {
 
 **<font color='red'>重点在于引用类型的响应性，使用shallow和trigger配合使用会很好。</font>**
 
+
+
+## 3.2、小bug：更新ref后会把shallowRef也给一并更新掉...
+
+```vue
+<template>
+  <div>
+    <button @click="changeMsg">改变msg</button>
+    <div>{{msg}} {{ msg4 }}</div>
+  </div>
+</template>
+<script setup lang="ts">
+import { ref, Ref, isRef, shallowRef, triggerRef, customRef } from 'vue
+
+const msg: Ref<string> = ref('小满');
+const msg4: Ref<any> = MyRef({
+  id: 2,
+  name: '贺源峰'
+});
+
+const changeMsg = () => {
+  msg.value = 'xiaoman';
+  msg4.value.name = '许洁';
+}
+
+</script>
+<style>
+</style>
+
+```
+
+![image-20220719075616700](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220719075616700.png)
+
+- **<font color='deeppink'>点击按钮后，小满当然会改变为xiaoman，然后发现 贺源峰也改变成了 许洁？？</font>**
+
+![image-20220719075745173](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220719075745173.png)
+
+**==<font color='deepred'>这是因为，ref函数的执行在底层源码级别也会执行triggerRef()函数的，所以ref的改变就导致了对象属性值的改变了。</font>==**
+
+
+
+
+
