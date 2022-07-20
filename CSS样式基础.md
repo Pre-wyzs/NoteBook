@@ -2500,7 +2500,7 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 
 ## 8.1、property & duration
 
-- ***transition-property属性可以指定一个或者多个过渡属性，默认是all***
+- ***<font color='red'>transition-property属性可以指定一个或者多个过渡属性，默认是all</font>***
 
 ```css
             transition-property: width, height;
@@ -2509,7 +2509,7 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 
 
 
-- ***可以指定每一个过渡属性的过渡时间***
+- ***<font color='red'>可以指定每一个过渡属性的过渡时间</font>***
 
 ```css
             /** 过渡属性 */
@@ -2519,7 +2519,7 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 
 
 
-- ***当周期列表不能满足属性列表的时候，周期列表会进行复制的。***
+- ***<font color='red'>当周期列表不能满足属性列表的时候，周期列表会进行复制的。</font>***
 
 ```css
             transition-property: background-color, width, height;
@@ -2532,6 +2532,79 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
             transition-property: background-color, width, height;
             transition-duration: 5s, 2s, 5s, 2s;
 ```
+
+
+
+## 8.2、timing-function & delay
+
+- ***<font color='red'>timing-function就是用来控制动画的速度的，默认是ease（贝塞尔曲线）先加速在减速</font>***
+
+**==常用的一些属性值：==**
+
+![image-20220719213818666](Typora_images/CSS样式基础/image-20220719213818666.png)
+
+**==特殊的属性值==**
+
+![image-20220719213953737](Typora_images/CSS样式基础/image-20220719213953737.png)
+
+贝塞尔曲线在线生成的网站：https://cubic-bezier.com/#.17,.67,.83,.67
+
+![image-20220719214943371](Typora_images/CSS样式基础/image-20220719214943371.png)
+
+示例：
+```css
+            transition-property: width;
+            transition-duration: 5s;
+            transition-timing-function: cubic-bezier(.44,1.98,.52,-0.87);
+```
+
+
+
+步长函数：
+
+![image-20220719215443739](Typora_images/CSS样式基础/image-20220719215443739.png)
+
+
+
+- step-start和step-end
+
+```css
+            transition-property: width;
+            transition-duration: 5s;
+            transition-timing-function: step-start;
+```
+
+一开始就变完了。
+
+
+
+```css
+            transition-property: width;
+            transition-duration: 5s;
+            transition-timing-function: step-end;
+```
+
+过了5s后，才瞬间变完。
+
+
+
+```css
+            transition-property: width;
+            transition-duration: 5s;
+            transition-timing-function: steps(5,start);
+```
+
+
+
+**==<font color='red'>这个东西的原理其实很简单的，就是把持续时间分成五段，每一段的开头处瞬间变一下而已；如果steps(5,end);这样写的话，就是在每一段的末尾变一下，所以就会产生机器人一样的一卡一卡的效果</font>==**
+
+
+
+- ***<font color='red'>delay就是延迟几秒开始进行变化，没有什么好说的</font>***
+
+## 8.3、当属性和列表长度不一样的时候
+
+![image-20220719222607780](Typora_images/CSS样式基础/image-20220719222607780.png)
 
 
 

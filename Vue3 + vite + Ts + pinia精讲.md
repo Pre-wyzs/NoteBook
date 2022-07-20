@@ -595,5 +595,123 @@ const changeMsg = () => {
 
 
 
+## 3.3、ref源码简介
+
+![image-20220720070642212](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220720070642212.png)
+
+**<font color='deepred'>就是执行ref()函数后会执行createRef()函数，这个函数先判断传进来的是不是ref对象，如果是就直接返回，如果不是就新创建一个RefImpl对象。</font>**
+
+
+
+![image-20220720071328951](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220720071328951.png)
+
+**<font color='deepred'>在类的构造方法中，因为传进来的shallow是false对吧，所以会调用toReactive(value)的方法，我们看看这个方法里面干了些什么</font>**
+
+
+
+![image-20220720071601982](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220720071601982.png)
+
+**<font color='deepred'>判断传进来的是不是数组/对象这样的复杂类型数据，如果是的话就执行reactive()函数。不是的话直接返回value</font>**
+
+
+
+**==最后，我们看到get 和 set value方法，这就是为什么要加上.value的原因了，哈哈==**
+
+
+
+
+
+# 4、Reactive全家桶
+
+**reactive函数可以接收 [] 和 {}这些复杂类型的数据**
+
+```js
+const Obj = reactive({
+  name: '洛天依',
+  age: 18
+});
+
+const change = () => {
+  Obj.name = '许洁';
+}
+```
+
+**<font color='deepred'>可以直接改变reactive代理对象的属性，而不需要像ref那样子加上.value了</font>**
+
+
+
+**数组赋值注意点**
+
+```js
+let arr = reactive<number[]>([1,2,3]);
+
+/** 异步的数组赋值*/
+setTimeout(() => {
+  let fromBackEnd = [4,5,6];
+  arr = fromBackEnd;
+},2000);
+```
+
+**<font color='deepred'>这样子直接赋值的话，会破坏数组的响应性的！</font>**
+
+
+
+- ***解决方案一：使用push + 解构***
+
+```js
+let arr = reactive<number[]>([1,2,3]);
+
+/** 异步的数组赋值*/
+setTimeout(() => {
+  let fromBackEnd = [4,5,6];
+  arr.push(...fromBackEnd);
+},1000);
+```
+
+**==这样子就没有问题了==**
+
+- ***解决方案二：数组外边再套一个对象***
+
+```js
+/**定义一种数据类型 */
+type O = {
+  list: Array<number>
+}
+
+let arr = reactive<O>({list:[]});
+
+/** 异步的数组赋值*/
+setTimeout(() => {
+  let fromBackEnd = [4,5,6];
+  arr.list = fromBackEnd;
+},1000);
+```
+
+
+
+## 4.1、readonly
+
+- **拷贝一份proxy对象，然后变为只读**
+
+![image-20220720075141818](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220720075141818.png)
+
+这样它就会报错了。。。
+
+
+
+## 4.2、shallowReactive
+
+![image-20220720075725637](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220720075725637.png)
+
+**==<font color='deepred'>shallowReactive只会改变最外层的对象属性，不会改变深层对象的属性的，这里这样写是因为深层次也被改变了，原因是因为dom刚刚挂载的时候，会改变的，而当dom挂载完成的时候，再去@click change1和change2的话，change2就不会生效了捏，哈哈</font>==**
+
+
+
+
+
+
+
+
+
 
 

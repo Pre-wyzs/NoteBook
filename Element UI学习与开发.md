@@ -6,6 +6,20 @@
 
 
 
+yarn相对于npm的有点介绍：
+
+![image-20220719230634808](Typora_images/Element UI学习与开发/image-20220719230634808.png)
+
+![image-20220719230708504](Typora_images/Element UI学习与开发/image-20220719230708504.png)
+
+![image-20220719230738507](Typora_images/Element UI学习与开发/image-20220719230738507.png)
+
+
+
+
+
+
+
 
 
 
