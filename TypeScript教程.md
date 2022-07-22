@@ -441,6 +441,43 @@ function getArea2(shapeObj: Shape2) {
 
 
 
+## 2.7、never类型与穷尽性检查
+
+![image-20220721062955748](Typora_images/TypeScript教程/image-20220721062955748.png)
+
+```ts
+interface Circle {
+    kind: 'circle',
+    radius: number
+}
+
+interface Squre {
+    kind: 'squre',
+    sideLength: number
+}
+
+type Shape2 = Circle | Squre;
+
+function getArea2(shapeObj: Shape2) {
+    switch (shapeObj.kind) {
+        case 'circle': 
+            /**计算圆的面积 */
+            return shapeObj.radius * Math.PI ** 2;
+        case 'squre': 
+            /**计算方的面积 */
+            return shapeObj.sideLength ** 2;
+        /**当它既不是方形也不是圆形的时候 */
+        default:
+            /**做一些其他操作 */
+            const _exhaustiveCheck: never = shapeObj;
+            return _exhaustiveCheck;
+    }
+
+}
+```
+
+**==<font color='red'>任何类型都无法分配给never，除了never本身，这里到default分支的时候，shpeObje的类型就是never了，即为不存在的类型，所以可以分配给同为never类型的_exhaustiveCheck变量</font>==**
+
 
 
 

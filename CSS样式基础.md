@@ -2608,6 +2608,99 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 
 
 
+## 8.4、过渡完成事件
+
+**==当过渡动画完成的时候，就会触发一个 trasitionend 的事件==**
+
+```js
+    <script>
+        var test = document.querySelector('#test');
+        var body = document.querySelector('body');
+
+        /** 触发鼠标悬浮事件 (#test:hover的js版本) */
+        /** dom0事件绑定方式*/
+        body.onmouseover = function() {
+            test.style.width = 100 + 'px';
+
+        }
+
+        /** dom2事件绑定*/
+        test.addEventListener('transitionend',function () {
+            alert('过渡事件已完成');
+        });
+    </script>
+```
+
+***==<font color='red'>要点：鼠标悬浮事件->onmouseover，过渡事件完成->transitionend</font>==***
+
+### 8.4.1、完成事件是相对于过渡属性而言的
+
+![image-20220721221312532](Typora_images/CSS样式基础/image-20220721221312532.png)
+
+比如我给test设置了两个过渡属性
+
+```css
+            transition-property: width, height;
+            transition-duration: 2s;
+```
+
+
+
+```js
+        var test = document.querySelector('#test');
+        var body = document.querySelector('body');
+
+        /** 触发鼠标悬浮事件 (#test:hover的js版本) */
+        /** dom0事件绑定方式*/
+        body.onmouseover = function() {
+            test.style.width = 100 + 'px';
+            test.style.height = 100 + 'px';
+        }
+
+        /** dom2事件绑定*/
+        test.addEventListener('transitionend',function () {
+            alert('过渡事件已完成');
+        });
+```
+
+**==<font color='red'>结果就是会有两次弹窗‘过渡事件已完成’</font>==**
+
+### 8.4.2、在过渡完成前直接把整个元素display: none掉，然后过渡没了，过渡完成事件也tm没了...
+
+```js
+        body.onmouseover = function() {
+            test.style.display = 'none';
+            test.style.width = 100 + 'px';
+            test.style.height = 100 + 'px';
+        }
+```
+
+这样子display为none了过渡事件就不会触发了，如果想要过渡事件触发后，再display: none;可以这样写：
+
+```js
+        body.onmouseover = function() {
+            test.style.width = 100 + 'px';
+            test.style.height = 100 + 'px';
+            setTimeout(function () {
+                test.style.display = 'none';
+            },3000);
+        }
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

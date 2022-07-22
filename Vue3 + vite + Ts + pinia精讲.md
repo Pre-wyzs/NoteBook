@@ -707,11 +707,68 @@ setTimeout(() => {
 
 
 
+教程：https://www.bilibili.com/video/BV1dS4y1y7vd?p=13&vd_source=365d13057e58bb6a007cdd5275785229
+
+## 4.3、toRef，toRefs，toRow
+
+- toRef
+
+```vue
+<template> <!-- <div>{{arr}}</div> -->
+
+  <div>{{ state }}</div>
+  <button @click="change">改变数据</button>
+
+</template>
+<script setup lang="ts">
+import { reactive, toRef, toRefs } from 'vue'
+
+const Obj = {
+  bar: 1,
+  foo: 'hello world!'
+}
+
+const state = toRef(Obj, 'bar');
+
+const change = () => {
+  state.value ++ ;
+  console.log('----原始对象',Obj);
+  console.log('state',state);
+}
+```
+
+==state是bar的响应式代理对象，state.value改变后，Obj原始对象也改了，但是{{state}}视图不会有变化？所以有什么用呢？？？==
+
+==当Obj是reactive的时候，上面的做法才会更新视图==
+
+![image-20220722073140529](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220722073140529.png)
 
 
 
 
 
+**==<font color='deepred'>toRefs就是在对象解构的时候，给对象套上防止它解构后，属性失去响应性</font>==**
+
+```js
+import { reactive, toRef, toRefs } from 'vue'
+
+const Obj = reactive({
+  bar: 1,
+  foo: 'hello world!'
+})
+
+const { bar, foo } = toRefs(Obj);
+
+const change = () => {
+  bar.value ++;
+  foo.value = '香草魏梦莹';
+}
+```
+
+- 这样子直接在template中展示的时候直接展示{{bar}}和{{foo}}就都是响应式的了，嘻嘻
 
 
 
+- ***toRow就是把响应式对象又变回非响应式对象了***
+
+![image-20220722073355279](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220722073355279.png)
