@@ -772,3 +772,58 @@ const change = () => {
 - ***toRow就是把响应式对象又变回非响应式对象了***
 
 ![image-20220722073355279](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220722073355279.png)
+
+# 5、computed属性
+
+```vue
+<template> <!-- <div>{{arr}}</div> -->
+
+  <!-- <div>{{ state }}</div>
+  <button @click="change">改变数据</button> -->
+  <input type="text" placeholder="firstName" v-model="firstName"/>
+  <input type="text" placeholder="firstName" v-model="lastName"/>
+  <div>{{fullName}}</div>
+
+</template>
+<script setup lang="ts">
+import { reactive, toRef, toRefs, ref, computed } from 'vue'
+const firstName = ref('');
+const lastName = ref('');
+
+const fullName = computed(() => {
+  return firstName.value + '---' + lastName.value
+});
+```
+
+![image-20220725080127791](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220725080127791.png)
+
+
+
+- 写法一：直接给computed传一个函数
+- 写法二：给computed传递一个对象
+
+```tsx
+const fullName = computed({
+  get() {
+    return firstName.value + '---' + lastName.value + 'xixi'
+  },
+  set() {
+    return firstName.value + '---' + lastName.value
+  }
+});
+```
+
+**我们的fullName也是一个ref响应式的对象**
+
+![image-20220725081328121](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220725081328121.png)
+
+
+
+==知道，为什么这里可以不用写setup函数吗？因为看下面==
+
+<script lang="ts" setup>
+
+==原来在标签里面就已经确定了，setup里面执行啊，我去好骚啊，嘻嘻==
+
+
+

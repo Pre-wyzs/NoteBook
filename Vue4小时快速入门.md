@@ -4658,5 +4658,45 @@ https://www.bilibili.com/video/BV1iF411x7kw?spm_id_from=333.999.0.0&vd_source=36
 
 
 
+# 25、开发环境配置
+
+https://www.bilibili.com/video/BV1594y1f78z?from=search&seid=16418438584818318283&spm_id_from=333.337.0.0&vd_source=365d13057e58bb6a007cdd5275785229
 
 
+
+百度资料：
+
+https://blog.csdn.net/muzidigbig/article/details/115665717
+
+```js
+module.exports = {
+  // 部署打包时候的路径
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  // npm run build时候的输出路径
+  outputDir: 'dist',
+  lintOnSave: process.env.NODE_ENV === 'development',
+  productionSourceMap: false,
+  // 开发环境配置
+  devServer: {
+    host: '0.0.0.0',
+    port: 3000,
+    open: true,
+    // 服务器环境配置
+    proxy: {
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      [process.env.VUE_APP_BASE_API]: {
+        // 如果是配置代理的话，那么这个也要改变的
+        target: 'http://localhost:8188',
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      }
+    },
+    disableHostCheck: true
+  }
+}
+
+```
+
+==服务器配置，就是用来解决跨域的问题的，会把process.env.VUE_APP_BASE_API这里面的东西替换成target的目标服务器url的，并且自己为空==

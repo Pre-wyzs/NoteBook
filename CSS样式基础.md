@@ -427,7 +427,7 @@ div[name^="xujieru"] {
 这个结果没有什么疑问都是能匹配到的，因为它相当于正则
 ![image-20220618093543696](Typora_images/CSS样式基础/image-20220618093543696.png)
 
-- [attr$=val]和[attr*=val]就没有什么用了。
+
 
 
 
@@ -2687,6 +2687,119 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
         }
 ```
 
+### 8.4.3、过渡属性的天坑
+
+#### part1：谁先开始过渡？
+
+```css
+        #test {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: pink;
+            text-align: center;
+            /* font: bold 40px/200px "微软雅黑"; */
+            /** 过渡属性 */
+            transition-property: width;
+            transition-duration: 2s;
+            /* transition-timing-function: steps(5,start); */
+        }
+
+        #test:hover {
+            transition-property: height;
+            width: 500px;
+            height: 500px;
+        }
+```
+
+**==<font color='deeppink'>当鼠标移到hover上面的时候，过渡的属性就瞬间被覆盖成了height，然后宽度瞬间变成500px，高度因为过渡效果慢慢变成500px;然后是鼠标移开test的时候，过渡属性变成了width，所以高度瞬间变成200px，然后宽度慢慢变成200px了</font>==**
+
+
+
+#### part2：transition属性在元素首次渲染完成前是不会触发的
+
+```css
+        #test {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: pink;
+            text-align: center;
+            /* font: bold 40px/200px "微软雅黑"; */
+            /** 过渡属性 */
+            transition-property: width;
+            transition-duration: 2s;
+            /* transition-timing-function: steps(5,start); */
+        }
+    </style>
+</head>
+<body>
+    <div id="test">
+    </div>
+    <script>
+        var test = document.querySelector('#test');
+        test.style.width = 500 + 'px';
+    </script>
+</body>
+
+</html>
+```
+
+**==<font color='deeppink'>试问，transition属性这时候会被触发吗？  结果是不会触发transition的，因为js执行完的时候，dom元素都还没渲染完，所以不会；下面这样可以</font>==**
+
+
+
+```js
+        alert(1);
+        var test = document.querySelector('#test');
+        test.style.width = 500 + 'px';
+```
+
+**<font color='deeppink'>就是先用alert阻塞一下，等到dom树生成（并未展示在页面上）时候，点击确认就会有过渡效果了。或者等页面加载完后执行代码也能触发transition的</font>**
+
+```js
+        window.onload = function () {
+            var test = document.querySelector('#test');
+            test.style.width = 500 + 'px';
+        }
+```
+
+
+
+更骚的玩法：
+![image-20220722230840979](Typora_images/CSS样式基础/image-20220722230840979.png)
+
+***在onload完成后，添加dom节点，再用300px，这个当然是不能触发transition的喽。。。***
+
+
+
+
+
+![image-20220722231034482](Typora_images/CSS样式基础/image-20220722231034482.png)
+
+***不过，这样就tm可以了，太tm的骚了，我去!***
+
+
+
+### 8.4.4、简写属性
+
+```css
+            transition: 2s 3s width ease-out, 5s height ease-out;
+```
+
+**==<font color='deeppink'>这里3s代表延迟3s，这个简写的属性挺有意思的，看看，嘻嘻</font>==**
 
 
 
@@ -2700,6 +2813,300 @@ https://www.bilibili.com/video/BV1eW411T7Nr?p=20&vd_source=365d13057e58bb6a007cd
 
 
 
+
+
+# 9、2D变换
+
+![image-20220723173008406](Typora_images/CSS样式基础/image-20220723173008406.png)
+
+## 9.1、旋转
+
+```css
+        #test {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: pink;
+            text-align: center;
+            /* font: bold 40px/200px "微软雅黑"; */
+
+            /** 过渡属性 */
+            transition: 2s;
+        }
+
+        #test:hover {
+            transform: rotate(360deg);
+        }
+```
+
+- **这transform和transition属性是要配合起来使用的。【transition过渡动画有一个不足之处，就是过渡的结束动画就结束了不能一直持续下去，所以后面css3又有了animation动画，更牛逼】**
+
+
+
+## 9.2、平移
+
+x轴
+
+```css
+        #test:hover {
+            transform: translateX(300px);
+        }
+```
+
+**<font color='red'>向右移动300px，不会改变css的属性（margin、left。。）</font>**
+
+y轴
+
+```css
+        #test:hover {
+            transform: translateY(300px);
+        }
+```
+
+斜对角线
+
+## 9.3、斜拉伸
+
+```css
+            transform: skewX(45deg);
+```
+
+- \进行拉伸
+
+![image-20220723180019623](Typora_images/CSS样式基础/image-20220723180019623.png)
+
+
+
+- 如果是-45deg的话就是/
+
+![image-20220723180211720](Typora_images/CSS样式基础/image-20220723180211720.png)
+
+
+
+y轴进行拉伸
+
+```css
+            transform: skewY(-45deg);
+```
+
+![image-20220723181330953](Typora_images/CSS样式基础/image-20220723181330953.png)
+
+**==老实说，这个东西吧，它有点难看懂，不好看，我们直接看字体比较能看懂==**
+
+![image-20220723181645811](Typora_images/CSS样式基础/image-20220723181645811.png)
+
+- **<font color='red'>如果是按照y轴来斜切</font>**
+
+```css
+           transform: skewY(-45deg);
+```
+
+![image-20220723181900461](Typora_images/CSS样式基础/image-20220723181900461.png)
+
+- **<font color='red'>如果是按照x轴来切</font>**
+
+```css
+            transform: skewX(-45deg);
+```
+
+![image-20220723182030938](Typora_images/CSS样式基础/image-20220723182030938.png)
+
+
+
+==结论：按照谁莱切，谁就不变，另外一条轴就变了，简写属性skew(-45deg,-45deg)，然后就没有了捏，嘻嘻==
+
+## 9.4、缩放
+
+![image-20220723182706366](Typora_images/CSS样式基础/image-20220723182706366.png)
+
+```css
+        #test:hover {
+            transform: scale(.5);
+        }
+```
+
+```css
+            transform: scale(.5,1);
+```
+
+
+
+## 9.5、更换中心点
+
+**<font color='red'>像旋转，斜切，缩放都是有它默认的中心点的，就是框框的正中心，而这个中心点是可以被改变的。</font>**
+
+```css
+            transform-origin: 50px 50px;
+            /** transform-origin: left top; **/
+            transform-origin: 100% 100%;/** 这个和right bottom是一样的，百分比相对于元素的width和height，从左上角开始*/
+```
+
+
+
+## 9.6、2D变换组合
+
+### 9.6.1、矩阵
+
+#### part1：平移
+
+![image-20220724161606547](Typora_images/CSS样式基础/image-20220724161606547.png)
+
+
+
+
+
+```css
+        #test:hover {
+            transform: matrix(1,0,0,1,300,0);
+        }
+```
+
+#### part2：旋转
+
+![image-20220724161803950](Typora_images/CSS样式基础/image-20220724161803950.png)
+
+
+
+*==当然还有缩放和斜切的，这里并不是说想让我们去用matrix矩阵做变换，而是告诉我们所有变换的底层本质上都是矩阵的运算而已，是一样的==*
+
+**<font color='red'>如果要用sin和cos，就是Math.sin(弧度)这样算就行了</font>**
+
+#### part3：斜切
+
+![image-20220724171022730](Typora_images/CSS样式基础/image-20220724171022730.png)
+
+
+
+#### part4：缩放
+
+![image-20220724171541573](Typora_images/CSS样式基础/image-20220724171541573.png)
+
+
+
+
+
+
+
+
+
+### 9.6.2、变换组合
+
+- **<font color='red'>就是一个transform可以有多个变换函数组合而成，并且，变换函数的顺序不同，效果也不一样的</font>**
+
+```css
+        .wrapper {
+            height: 500px;
+            width: 600px;
+            border: 1px solid black;
+        }
+
+        #test1 {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            text-align: center;
+            /** 过渡属性 */
+            transition: 2s;
+        }
+ 
+        #test2 {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            text-align: center;
+            /** 过渡属性 */
+            transition: 2s;
+        }
+        .wrapper:hover >  #test1 {
+            transform: translate(300px) scale(.5);
+        }
+
+        .wrapper:hover >  #test2 {
+            transform: scale(.5) translate(300px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="test1">
+            彭浩然1号
+        </div>
+        <div id="test2">
+            彭浩然2号
+        </div>
+    </div>
+</body>
+```
+
+![image-20220724164538286](Typora_images/CSS样式基础/image-20220724164538286.png)
+
+
+
+**<font color='deepred'>为什么是这样的捏，因为其本质上是通过矩阵的运算而得来的，我们看看下面的原理公式</font>**
+
+![image-20220724170608408](Typora_images/CSS样式基础/image-20220724170608408.png)
+
+
+
+```css
+        /**
+        1、注意真正计算解析transform的时候，是从右边往左边计算解析的
+        2、现在我们计算1号的变换结果，以右下角的点100px 100px为基点
+        0.5  0  0      100       50
+        0  0.5  0  *   100   =   50
+        0   0   1      1          1
+        和scale的计算结果出来了，然后再去计算和translate的结果
+        1   0   300      50     350
+        0   1   0   *    50  =  50
+        0   0   1        1       1
+        所以最后右下角的点变成了 350 50 1
+
+
+        */
+```
+
+--->上面的算法坐标轴搞错了。。。
+
+![image-20220724173105980](Typora_images/CSS样式基础/image-20220724173105980.png)
+
+```css
+        1、注意真正计算解析transform的时候，是从右边往左边计算解析的
+        2、现在我们计算1号的变换结果，以右下角的点100px 100px为基点
+        0.5  0  0      50       25
+        0  0.5  0  *   50   =   25
+        0   0   1      1         1
+        和scale的计算结果出来了，然后再去计算和translate的结果
+        1   0   300      25     325
+        0   1   0   *    25  =  25
+        0   0   1        1       1
+        所以最后右下角的点变成了 325 25 1
+```
+
+==通过原理性的算法，可以计算出来具体的位置，但未免显得太复杂了，简单点的方式就是从左往右看==
+
+
+
+```css
+    .wrapper:hover >  #test1 {
+        transform: translate(300px) scale(.5);
+    }
+
+    .wrapper:hover >  #test2 {
+        transform: scale(.5) translate(300px);
+    }
+```
+
+- 先往左走所以本来点50 50 是 350 50对吧，y没有变嘛，然后又缩小，所以是325 25喽
+- 线索小25 25然后向右的步束也就缩成了150所以最终是 175， 25喽
+
+==其实还是有点勉强的，不好，最好直接算，口算，嘻嘻，最后提一点，平移和缩放两种变换是同时进行的共同在2s内完成的==
 
 
 
