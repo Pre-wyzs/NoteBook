@@ -775,6 +775,10 @@ const change = () => {
 
 # 5、computed属性
 
+**<font color='deepred'>计算属性：我们知道一般的属性都是通过赋值的方式获得它的值的，而计算属性就是通过计算后获取值的属性，之所以会出现计算属性，个人认为当普通的属性很多的时候，会有把它们进行运算之后得到一个新的值的需要，而且这个值也是动态的，所以计算属性就出现捏，嘻嘻</font>**
+
+
+
 ```vue
 <template> <!-- <div>{{arr}}</div> -->
 
@@ -824,6 +828,239 @@ const fullName = computed({
 <script lang="ts" setup>
 
 ==原来在标签里面就已经确定了，setup里面执行啊，我去好骚啊，嘻嘻==
+
+## 5.1、经典的购物车案例
+
+```vue
+<template>
+    <table>
+        <thead>
+            <tr>
+                <th>商品名</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item,index) in data" :key="index">
+                <td>{{item.product}}</td>
+                <td>{{item.price * item.num}}</td>
+                <td><button @click="changeNum(item, true)">+</button>{{item.num}}<button @click="changeNum(item, false)">-</button></td>
+                <td><button @click="del(index)">删除</button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+          <td></td>
+          <td></td>
+          <td align="left">总价:{{totalPrice}}</td>
+          </tr>
+        </tfoot>
+    </table>
+</template>
+<script lang="ts" setup>
+import { computed } from "@vue/reactivity";
+import { reactive } from "vue";
+type ShopList = {
+    product: string,
+    price: number, 
+    num: number
+}
+
+const data = reactive<ShopList[]>([
+  {
+    product: '小满上衣',
+    price: 60,
+    num: 0
+  },
+  {
+    product: '小满内衣',
+    price: 20,
+    num: 0
+  },
+  {
+    product: '小满丝袜',
+    price: 70,
+    num: 0
+  }
+]);
+
+const changeNum = (item: ShopList, flag: boolean): void => {
+  if (flag && item.num < 20) {
+    /** reactive数组中的对象可以直接改变的 */
+    item.num++;
+  } 
+
+  if (!flag && item.num > 0) {
+    /** reactive数组中的对象可以直接改变的 */
+    item.num--;
+  } 
+  
+}
+
+//删除函数
+const del = (index: number) => {
+  data.splice(index,1);
+}
+
+//计算总价
+const totalPrice = computed(() => {
+  return data.reduce((accum: number,item: ShopList) => {
+    return accum += item.price * item.num;
+  },0);
+});
+
+
+</script>
+<style scoped >
+table {
+  width: 800px;
+  border: 1px solid black;
+}
+tr {
+  text-align: center;
+}
+</style>
+```
+
+**<font color='deepred'>computed属性在计算总价时候的完美应用，reactive数组中的成员对象也是reactive的对象，嘻嘻</font>**
+
+
+
+# 6、watch侦听属性
+
+语法:/**侦听器 参数一：侦听源，参数二：回调函数，参数是新值和旧的值`*/
+
+```vue
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+/**监听器 */
+const input = ref<string>('');
+
+/**侦听器 参数一：侦听源，参数二：回调函数，参数是新值和旧的值`*/
+watch(input,(newValue, oldValue) => {
+    console.log('旧的',oldValue);
+    console.log('新的',newValue);
+})
+
+</script>
+
+<template>
+<input type="text" v-model="input">
+
+</template>
+```
+
+
+
+**<font color='deepred'>监听器可以同时监听多个属性，用[]把监听的属性们包裹起来就行了</font>**
+
+```js
+/**监听器 */
+const input = ref<string>('');
+const value1 = ref<number>(0);
+
+/**侦听器 参数一：侦听源，参数二：回调函数，参数是新值和旧的值`*/
+watch([input,value1],(newValue, oldValue) => {
+    console.log('旧的',oldValue);
+    console.log('新的',newValue);
+})
+```
+
+## 6.1、深度监听
+
+要点：监听对象时，新旧对象都是一样的。
+
+
+
+### 6.1.1、ref深度监听
+
+```vue
+<script setup lang="ts">
+const testObj = ref({
+    bar: {
+        foo: {
+            name: '许洁'
+        }
+    }
+});
+
+/**侦听器 参数一：侦听源，参数二：回调函数，参数是新值和旧的值`*/
+watch(testObj, (newValue, oldValue) => {
+    console.log('旧的',oldValue);
+    console.log('新的',newValue);
+})
+</script>
+
+<template>
+    <input type="text" v-model="testObj.bar.foo.name">
+</template>
+```
+
+![image-20220725214330243](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220725214330243.png)
+
+**<font color='deepred'>你这个时候去改变name的值，watch是不会触发的，要开启深度监听模式才行</font>**
+
+```js
+/**侦听器 参数一：侦听源，参数二：回调函数，参数是新值和旧的值，参数三，侦听器的一些配置`*/
+watch(testObj, (newValue, oldValue) => {
+    console.log('旧的',oldValue);
+    console.log('新的',newValue);
+},{
+    deep: true
+})
+```
+
+**<font color='red'>虽然这样子能够触发监听的了，但是会产生一个Bug：</font>**
+
+![image-20220725214813590](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220725214813590.png)
+
+- 监听的新值和旧值是一样的。。。
+
+### 6.1.2、reactive深度监听
+
+这个就很牛逼了。它的化不用开启deep: true也能够触发深度监听的。
+
+- immediate属性
+
+```js
+watch(testObj, (newValue, oldValue) => {
+    console.log('旧的',oldValue);
+    console.log('新的',newValue);
+},{
+    immediate: true
+})
+```
+
+**<font color='deepred'>就是刚初始化的时候就会触发一次监听。</font>**
+
+
+
+### 6.1.3、指定监听的属性
+
+```js
+const testObj = reactive({
+    bar: {
+        foo: {
+            name: '许洁'
+        },
+        zzw: 'zzw'
+    }
+});
+
+/**侦听器 参数一：侦听源，参数二：回调函数，参数是新值和旧的值`*/
+watch(() => testObj.bar.foo.name, (newValue, oldValue) => {
+    console.log('旧的',oldValue);
+    console.log('新的',newValue);
+},{
+    immediate: true
+})
+```
+
+![image-20220725220006270](Typora_images/Vue3 + vite + Ts + pinia精讲/image-20220725220006270.png)
+
+
 
 
 

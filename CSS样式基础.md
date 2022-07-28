@@ -5,7 +5,7 @@ vim：取消对ctrl + c的覆盖：
 
 
 
-# CSS3基础教程：
+# ---CSS3基础教程：
 
 视频教程：https://www.bilibili.com/video/BV1eW411T7Nr?from=search&seid=4282835502181908639&spm_id_from=333.337.0.0&vd_source=365d13057e58bb6a007cdd5275785229
 
@@ -3108,13 +3108,196 @@ y轴进行拉伸
 
 ==其实还是有点勉强的，不好，最好直接算，口算，嘻嘻，最后提一点，平移和缩放两种变换是同时进行的共同在2s内完成的==
 
+## 9.7、扇形导航
+
+```js
+        window.onload = function() {
+            var home = document.querySelector('.home');
+            var flag = true;
+            home.onclick = function() {
+                console.log('已经执行');
+                if(flag) {
+                    this.style.transform = 'rotate(-360deg) scale(1)';
+                }else {
+                    this.style.transform = 'scale(1) rotate(0deg)';
+                }
+                flag = !flag;
+            }
+        }
+```
+
+- **<font color='red'>这里，旋转动画在进行了一次后，就不会触发过渡了，这也是transition的第二个巨坑！</font>**
+
+```js
+        /**
+         * 在绝大多数的变换样式切换时候，如果变换函数的个数，位置不一样，transition效果会失效的
+        */
+```
+
+
+
+示例完整代码：
+```html
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #wrapper {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+        }
+
+        #wrapper>.inner {
+            height: 100%;
+        }
+
+        #wrapper>.inner>img {
+            /** 绝对定位后，所有的图片就都叠到一起了 */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #wrapper>.home {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(./飞轮.png) no-repeat center;
+            background-size: 100% 100%;
+            transition: 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="inner">
+            <img src="./消息.png" alt="" width="50" height="50">
+            <img src="./喜欢.png" alt="" width="50" height="50">
+            <img src="./点赞.png" alt="" width="50" height="50">
+            <img src="./踩.png" alt="" width="50" height="50">
+        </div>
+        <div class="home">
+        </div>
+    </div>
+    <script>
+        /**
+         * 在绝大多数的变换样式切换时候，如果变换函数的个数，位置不一样，transition效果会失效的
+        */
+        var home = document.querySelector('.home');
+        var imgs = document.querySelectorAll('#wrapper > .inner > img');
+        /** 1、旋转甩出的部分*/
+        window.onload = function () {
+
+            let c = 150
+            var flag = true;
+            home.onclick = function () {
+                console.log('已经执行');
+                if (flag) {
+                    this.style.transform = 'rotate(-720deg)';
+                    for (var i = 0; i < imgs.length; i++) {
+
+                        /** 设置不同的延迟效果 */
+                        imgs[i].style.transition = '1s ' + (i * 0.1) + 's';
+                        imgs[i].style.left = -getImgPoint(c, i * 90 / (imgs.length - 1)).left + 'px';
+                        imgs[i].style.top = -getImgPoint(c, i * 90 / (imgs.length - 1)).top + 'px';
+                        imgs[i].style.transform = 'rotate(360deg) scale(1)';
+                    }
+                } else {
+                    this.style.transform = 'rotate(0deg)';
+
+                    for (var i = 0; i < imgs.length; i++) {
+                        /** 设置不同的延迟效果 */
+                        imgs[i].style.transition = '1s ' + ((imgs.length - 1 - i) * 0.1) + 's';
+                        imgs[i].style.left = 0 + 'px';
+                        imgs[i].style.top = 0 + 'px';
+                        imgs[i].style.transform = 'rotate(0deg) scale(1)';
+                    }
+
+                }
+                flag = !flag;
+            }
+        }
+        /** 计算角度 */
+        function getImgPoint(c, deg) {
+            /** 知道了距离，求正弦长度和余弦长度 ，传进来的是角度，所以要转成弧度*/
+            var x = Math.round(c * Math.sin(deg * Math.PI / 180));
+            var y = Math.round(c * Math.cos(deg * Math.PI / 180));
+            return { left: x, top: y }
+        }
+
+
+        /** 2、点击放大部分*/
+        for (var i = 0; i < imgs.length; i++) {
+            imgs[i].onclick = function () {
+                //需要重置过渡动画的，因为前面设置过的，还有延迟。。。
+                this.style.transition = '.2s ';
+                this.style.transform = 'rotate(360deg) scale(2)';
+                this.style.opacity = '0.2';
+                this.addEventListener('transitionend', fn);
+            }
+
+        }
+
+        function fn() {
+            this.style.transform = 'rotate(360deg) scale(1)';
+            this.style.opacity = '1';
+            /*自己要移除这个过渡结束的事件的*/
+            this.removeEventListener('transitionend', fn);
+        }
+
+    </script>
+</body>
+
+</html>
+```
+
+**==<font color='red'>重点：1、addEventListenter可以添加和移除事件；2、各种属性的覆盖和tansform的对应（以后会把这个专门写成组件的函数，就比较方便了。）</font>==**
+
+![image-20220727213935237](Typora_images/CSS样式基础/image-20220727213935237.png)
 
 
 
 
 
 
-# CSS3flex布局
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ---CSS3flex布局
 
 教程：https://www.bilibili.com/video/BV1N54y1i7dG?from=search&seid=17813754073632202728&spm_id_from=333.337.0.0&vd_source=365d13057e58bb6a007cdd5275785229
 
@@ -3259,7 +3442,7 @@ y轴进行拉伸
 
 
 
-# 六个案例学会响应式布局
+# ---六个案例学会响应式布局
 
 教程：https://www.bilibili.com/video/BV1ov411k7sm/?spm_id_from=trigger_reload&vd_source=365d13057e58bb6a007cdd5275785229
 
