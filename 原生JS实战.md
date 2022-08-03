@@ -154,3 +154,313 @@ table {
 ![image-20220728065934512](Typora_images/原生JS实战/image-20220728065934512.png)
 
 **==<font color='deeppink'>这个老经典了，只要在hover的时候换一张背景图片就行了。</font>==**
+
+
+
+### part5、发光边框
+
+**<font color='red'>发光边框这个老经典了，也被公猪坑过，其实很简单的，发光的关键点在于box-shadow，嘻嘻</font>**
+
+```css
+border: 1px solid #ccc;
+box-shadow: 0 0 3px #999;
+```
+
+![image-20220731071609199](Typora_images/原生JS实战/image-20220731071609199.png)
+
+### part6、底部边框短横线
+
+![image-20220731071846314](Typora_images/原生JS实战/image-20220731071846314.png)
+
+**<font color='red'>a标签（display:inline-block），左右margin一下就行了</font>**
+
+
+
+### part7、挤出去形成下拉列表框
+
+
+
+![image-20220731072652009](Typora_images/原生JS实战/image-20220731072652009.png)
+
+**<font color='red'>下拉列表框是被a标签挤出去的</font>**
+
+```html
+                        <li>
+                            <a href="#" class="customer">客户服务</a>
+                            <ul>
+                                <li><a href="">帮助中心</a></li>
+                                <li><a href="">在线客服</a></li>
+                                <li class="phone">
+                                    <a href="">电话客服
+                                        <div>
+                                            <p>400-09-163</p>
+                                            <p>9:00-22:00</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><a href="">商务合作</a></li>
+                            </ul>
+                        </li>
+```
+
+
+
+### part8、显隐用display:none来显示
+
+
+
+tips：
+
+1、postion:absolute和relative需要设置宽高
+
+2、display:inlile-block后行内标签才可以设置宽高
+
+### part9、框框宽和高的设定
+
+- **<font color='red'>用font-size和line-height去撑开整个元素，而不是固定宽高后再对font-size和line-height调整！</font>**
+- **<font color='red'>用img撑开来</font>**
+
+
+
+## 2.2、第二节（固定式导航结构）
+
+**==<font color='red'>这一张主要要讲的是吸顶导航这个神奇的导航样式</font>==**
+
+![image-20220803072836682](Typora_images/原生JS实战/image-20220803072836682.png)
+
+这一部分的结构主要如下：
+
+```html
+        <nav class="nav">
+            <div class="center clearfix">
+                <a href="#" class="logo"><img src="img/logo.gif" alt=""></a>
+                <div class="navBar">
+                    <ul>
+                        <li><a href="#" class="active">首页</a> </li>
+                        <li><a href="#">居家</a> </li>
+                        <li><a href="#">餐厨</a> </li>
+                        <li><a href="#">配件</a> </li>
+                        <li><a href="#">服装</a> </li>
+                        <li><a href="#">洗护</a> </li>
+                        <li><a href="#">葵堂</a> </li>
+                        <li><a href="#">杂活</a> </li>
+                        <li><a href="#">饮食</a> </li>
+                        <li><a href="#">其他</a> </li>
+                        <li class="seprate">|</li>
+                        <li><a href="#">专题</a> </li>
+                        <li><a href="#">甄选家</a> </li>
+                    </ul>
+                </div>
+                <!-- 购物车 -->
+                <div class="cartWrap">
+                    <!-- 左上角数字部分 -->
+                    <i>0</i>
+                    <div class="cart">
+                        <div class="list">
+                            <ul>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                            </ul>
+                            <!-- *重要：自定义滚动条 -->
+                            <div class="scrollBar">
+                                <span class="topBtn"></span>
+                                <div class="scrollWrapper">
+                                    <div class="scroll">
+                                    </div>
+                                </div>
+                                <span class="bottomBtn"></span>
+                            </div>
+                        </div>
+                        <div class="total">
+                            商品合计:<span>$751.00</span><a href="">去购物车结算</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="login">
+                    <a href="">登录</a>
+                    <a href="">注册</a>
+                </div>
+            </div>
+            
+            ......
+```
+
+
+
+**<font color='deepred'>还是经典的 div > div.center的模式，最左边的a标签中是一张图片，不过因为这个图片在导航吸顶的时候才会显示，所以得先display:none，然后是ul>li列表，这个列表横向排列的方式很JB骚！他是通过display: inile-block进行横向排列的，我去</font>**
+
+**<font color='red'>横向布局的三种方法：</font>**
+
+- display: flex
+- float: left
+- display: inile-block
+
+**<font color='deeppink'>心得：个人以为，当你看到ui图的时候，应该要先规划好结构，然后再根据结构去写样式，有什么样的结构就有什么样的样式，这是一个不变的先后顺序吧，如果你反过来，根据样式去调整结构的话，那就必然会出现一个现象，就是冗余的结构！</font>**
+
+**<font color='blue'>样式表</font>**（部分）
+
+```css
+navBar {
+    /** 外级font-sieze:0px然后内部级别font-size:14px这样做，元素的间隔就完全消失了...*/
+    font-size: 0px;
+    text-align: center;
+}
+
+.navBar li {
+    display: inline-block; /*直接按照行来排列了，太tm的骚了! */
+    height: 50px;
+    font-size: 14px;
+    padding: 0px 30px;
+}
+
+.navBar li a {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.navBar li.seprate {
+    padding: 0px 0px;
+    color: #ccc;
+}
+
+.navBar li a:hover {
+    border-bottom: 3px solid #b4a073;
+}
+```
+
+- ***这里又涉及到一个小技巧，就是li标签是有间距的，通过外级的font-size: 0px然后设置li中字体的大小，才能把这个莫名奇妙的间距给无掉，这也是ul li 的特殊性吧...***
+
+
+
+### part1：竖线设置
+
+```css
+                        <li class="seprate">|</li>
+```
+
+**<font color='deeppink'>我们一般通过设置border来设置竖线，但是这样做有一个问题，就是竖线的长度和盒模型的边长是绑定的，这就导致想要调整border的长度很麻烦。。。所以就有了上面的方法，直接自己设置一个竖线，然后通过font-size来调整长度就行了，嘻嘻</font>**
+
+
+
+### part2：购物车样式
+
+![image-20220803082425488](Typora_images/原生JS实战/image-20220803082425488.png)
+
+它的结构如下：
+
+```html
+                <!-- 购物车 -->
+                <div class="cartWrap">
+                    <!-- 左上角数字部分 -->
+                    <i>0</i>
+                    <div class="cart">
+                        <div class="list">
+                            <ul>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                                <li>
+                                    <a href=""><img src="img/img_01-1.png" alt=""></a>
+                                    <div class="productInfo">
+                                        <p><a href="">领尖扣商务免烫衬衫</a></p>
+                                        <p>白色 Lx 1</p>
+                                    </div>
+                                    <div class="price">$230.89</div>
+                                    <div class="close">X</div>
+                                </li>
+                            </ul>
+                            <!-- *重要：自定义滚动条 -->
+                            <div class="scrollBar">
+                                <span class="topBtn"></span>
+                                <div class="scrollWrapper">
+                                    <div class="scroll">
+                                    </div>
+                                </div>
+                                <span class="bottomBtn"></span>
+                            </div>
+                        </div>
+                        <div class="total">
+                            商品合计:<span>$751.00</span><a href="">去购物车结算</a>
+                        </div>
+                    </div>
+                </div>
+```
+
+**要点就是cartWrap设置背景图片，然后i标签定位上去就行了。**
+

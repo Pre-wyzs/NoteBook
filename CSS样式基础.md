@@ -3285,9 +3285,162 @@ y轴进行拉伸
 
 
 
+# 10、3D变换（基础）
+
+![image-20220801220254505](Typora_images/CSS样式基础/image-20220801220254505.png)
 
 
 
+- 沿着y轴进行旋转
+
+```css
+        #wrapper:hover {
+            transform: rotateY(360deg);
+        }
+```
+
+上面的代码效果很一般，没有3d的效果，只是一张纸片的转动而已效果很不好，要想有3d的效果，需要了解景深的概念：
+![image-20220801222018292](Typora_images/CSS样式基础/image-20220801222018292.png)
+
+## 10.1、景深
+
+```css
+        #wrapper {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            margin-top: -100px;
+            margin-left: -100px;
+            border: 1px solid blueviolet;
+
+            /** 景深是作用于它的子级的元素的*/
+            perspective: 200px;
+        }
+        #inner {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -50px;
+            background-color: pink;
+            border-radius: 100px;
+            text-align: center;
+            line-height: 100px;
+            transition: 2s;
+        }
+
+
+        #wrapper:hover #inner{
+            transform: rotateY(360deg);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="inner">
+            许洁
+        </div>
+    </div>
+
+</body>
+</html>
+```
+
+
+
+**==<font color='red'>景深就是指屏幕到目标元素的z轴距离，现在元素的半径是50px，如果景深是49px的话，元素就会旋转出来，超过屏幕了！</font>==**
+
+
+
+![image-20220801223203264](Typora_images/CSS样式基础/image-20220801223203264.png)
+
+**==所以一般做3d效果都要进行外层的嵌套，因为最外层的嵌套是用来作为舞台使用的。==**
+
+```css
+        #wrapper:hover #inner{
+            transform: rotateY(-360deg);
+        }
+```
+
+
+
+- **<font color='red'>y轴旋转，正值就是逆时针旋转；x轴旋转，正值就是顺时针旋转。</font>**
+
+## 10.2、rotate3D()
+
+![image-20220802073911152](Typora_images/CSS样式基础/image-20220802073911152.png)
+
+```css
+        #wrapper:hover #inner{
+            transform: rotate3d(1,2,3,180deg);
+        }
+```
+
+**==<font color='red'>1,2,3是x,y,z空间坐标系上的一个点，元素的旋转就是绕着这个点和圆心连成的射线旋转的。（拿一根针按某一个角度捅破圆心，然后旋转这根针180deg就行了）</font>==**
+
+## 10.3、3D平移
+
+![image-20220802074759157](Typora_images/CSS样式基础/image-20220802074759157.png)
+
+```css
+        #wrapper:hover #inner{
+            transform: translateZ(100px);
+        }
+
+```
+
+**==<font color='deepred'>往z轴正方向（向着屏幕走）100px，如果景深小于100px，元素就会穿过屏幕不见了，哈哈，【注意：z这里是不能写百分比的值的，因为元素本身没有厚度，写百分比没有意义！】</font>==**
+
+
+
+```css
+        #wrapper:hover #inner{
+            transform: translate3D(-50%,-50%,-100px);/* 50%是相对于自己的宽和高的 */
+        }
+```
+
+- 往左上和屏幕内移动
+
+## 10.4、3D缩放
+
+![image-20220802075922701](Typora_images/CSS样式基础/image-20220802075922701.png)
+
+==因为元素没有厚度，所以单独缩放z轴是没有意义的==
+
+```css
+        #wrapper:hover #inner{
+            transform: scaleZ(2);/** 不会产生任何效果的*/
+        }
+```
+
+```css
+        #wrapper:hover #inner{
+            transform: scale3D(2,2,2);
+            /**和scale(2,2)的效果是完全一样的，z轴的缩放是不起作用的*/
+        }
+```
+
+
+
+```css
+        #wrapper:hover #inner{
+            transform: translateZ(100px) scaleZ(2);/**走了100px*/
+        }
+```
+
+```css
+        #wrapper:hover #inner{
+            transform: scaleZ(2) translateZ(100px) ;/**走了200px*/
+            transform: translateZ(200px) ; /**和上面是一样的*/
+        }
+```
+
+==scaleZ要和translateZ配合使用才行，简单理解就是拉伸了translateZ的长度，不然它也没谁好缩放的了...==
 
 
 

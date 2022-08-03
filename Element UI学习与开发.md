@@ -92,6 +92,40 @@ app.use(store).use(router).mount('#app')
 
 **==<font color='red'>组件注册到全局后，在任何地方都可以随意的调用了。</font>==**
 
+```css
+.my-button {
+    /**行内块，这个应该要好好看看 */
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #dedfe6;
+    color: #606266;
+
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+
+    transition: .1s;
+    font-weight: 500;
+    /**禁止元素中的文字被选中：就是不会选中和光标 */
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.my-button:hover,.my-button:focus {
+    color: #409eff;
+    border-color: #c6e2ff;
+    background-color: #ecf5ff;
+}
+```
+
 
 
 
