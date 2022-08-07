@@ -95,6 +95,107 @@ table {
 
 **<font color='deepred'>这里其实很有门道，1、img的vertical-align: middle;可以解决，img的外框底部缝隙的问题；2、然后是通过border-collapse: collapse;改变table表格的边框样式；3、公共类样式的抽离的思想，也很经典。</font>**
 
+## 要点总结：
+
+### part1：消除列表圆点
+
+这个东西很常见，但是我经常忘记，这回就好好的记下来，以备忘记！
+
+```css
+ul,ol {
+    /** 把列表的原点给去掉 */
+    list-style: none;
+}
+```
+
+### part2：消除图片边框以及底部空白
+
+```css
+img {
+    border: none; /** IE浏览器可能会有图片默认边框的效果啊，进行兼容性处理*/
+    vertical-align: middle;  /** 这就是用来解决一堆img后面的莫名奇妙的空隙的！*/
+}
+```
+
+### part3：消除a标签下划线
+
+```css
+a {
+    text-decoration: none;
+    color: #333;
+}
+```
+
+### part4：input框公共样式
+
+```css
+input {
+    vertical-align: middle;
+    border: none;
+    outline: none;
+}
+```
+
+**<font color='deepred'>把默认的边框去掉，到时候可以自己决定想要加什么样的边框；然后把outline去掉，点击的时候就不会弹出大的黑色框框了，哈哈</font>**
+
+### part5：清除表格的默认边框
+
+```css
+table {
+    /** 改变默认表格的边框样式*/
+    border-collapse: collapse;
+}
+```
+
+### part6：常用类
+
+#### 1、图片放大特效
+
+**<font color='deeppink'>有一种特效，就是鼠标hover到图片上的时候，图片就会自动放大了一点，这个我们可以把它做成常用类，如下所示</font>**
+
+```css
+/** 设置要放大缩小的图片，前面加一个标识类 ， 然后这个是初始的样式 */
+.scaleImg img {
+    transition: 1s ease-out;
+    transform: scale(1);
+}
+.scaleImg:hover img {
+    transform: scale(1.1);
+}
+```
+
+#### 2、图片懒加载
+
+**<font color='deeppink'>当图片有很多的时候，没有必要一次性把所有的图片都加载到页面上，那样很消耗带宽，当滚动到视口的时候再把图片的src赋值上去就行了</font>**
+
+```css
+/** 图片懒加载，只加载可视区域中的图片 */
+/**
+图片懒加载就是先放上一张背景图片，然后在滚动到视窗的时候，再把图片的src用js赋值上去就行了
+*/
+.original {
+    background: #f4f4f4 url(../img/original.png) center no-repeat;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # 2、页面头结构与样式
@@ -140,6 +241,11 @@ table {
 ### part2、竖线距离设计
 
 ![image-20220728064657834](Typora_images/原生JS实战/image-20220728064657834.png)
+
+- margin
+- padding
+
+**其实就是遇到空格的唯一处理办法嘛...**
 
 
 
@@ -220,7 +326,7 @@ tips：
 - **<font color='red'>用font-size和line-height去撑开整个元素，而不是固定宽高后再对font-size和line-height调整！</font>**
 - **<font color='red'>用img撑开来</font>**
 
-
+**==总的原则就是内撑外==**
 
 ## 2.2、第二节（固定式导航结构）
 
@@ -236,16 +342,16 @@ tips：
                 <a href="#" class="logo"><img src="img/logo.gif" alt=""></a>
                 <div class="navBar">
                     <ul>
-                        <li><a href="#" class="active">首页</a> </li>
-                        <li><a href="#">居家</a> </li>
-                        <li><a href="#">餐厨</a> </li>
-                        <li><a href="#">配件</a> </li>
-                        <li><a href="#">服装</a> </li>
-                        <li><a href="#">洗护</a> </li>
-                        <li><a href="#">葵堂</a> </li>
-                        <li><a href="#">杂活</a> </li>
-                        <li><a href="#">饮食</a> </li>
-                        <li><a href="#">其他</a> </li>
+                        <li><a href="#" class="active">首页</a></li>
+                        <li><a href="#">居家</a></li>
+                        <li><a href="#">餐厨</a></li>
+                        <li><a href="#">配件</a></li>
+                        <li><a href="#">服装</a></li>
+                        <li><a href="#">洗护</a></li>
+                        <li><a href="#">葵堂</a></li>
+                        <li><a href="#">杂活</a></li>
+                        <li><a href="#">饮食</a></li>
+                        <li><a href="#">其他</a></li>
                         <li class="seprate">|</li>
                         <li><a href="#">专题</a> </li>
                         <li><a href="#">甄选家</a> </li>
@@ -463,4 +569,18 @@ navBar {
 ```
 
 **要点就是cartWrap设置背景图片，然后i标签定位上去就行了。**
+
+### part3：换行
+
+![image-20220804070424757](Typora_images/原生JS实战/image-20220804070424757.png)
+
+- 怎么把文字换到下一行？
+
+```html
+                    <li> <a href=""><img src="img/nav_01.png" alt="">被子</a> </li>
+```
+
+**<font color='red'>这是它的结构，所以很简单，只要让img为display: block换行，文字就到下一行去了，哈哈</font>**
+
+
 

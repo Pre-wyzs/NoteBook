@@ -1054,6 +1054,10 @@ label {
     </div>
 ```
 
+**<font color='deepred'>知识点1：就是要引入新的字体样式，其实就是通过@font-face把新字体名和字体文件的url关联起来就行了</font>**
+
+**<font color='deepred'>知识点2：要使用新的字体样式，直接把新字体名怼上去就行了</font>**
+
 效果：
 ![image-20220703113817604](Typora_images/CSS样式基础/image-20220703113817604.png)
 
