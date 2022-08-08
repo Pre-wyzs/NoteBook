@@ -1300,3 +1300,226 @@ sytle标签中的scoped就是给元素加上一个唯一的随机属性
 **知识点3：不同预处理使用的样式穿透不同**
 
 ![image-20220808000751537](Typora_images/Element UI学习与开发/image-20220808000751537.png)
+
+
+
+# 3、input组件封装
+
+![image-20220808064130542](Typora_images/Element UI学习与开发/image-20220808064130542.png)
+
+
+
+实现了placeholder，type，disabled的封装
+
+```vue
+<template>
+    <div class="my-input">
+        <input class="my-input__inner" :class="[{ 'is-disabled': disabled }]" :placeholder="placeholder" :type="type"
+            :name="name" :disabled="disabled">
+    </div>
+</template>
+<script>
+export default {
+    name: 'MyInput',
+    props: {
+        placeholder: {
+            type: String,
+            default: ''
+        },
+        type: {
+            type: String,
+            default: ''
+        },
+        name: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        }
+    }
+}
+</script>
+<style>
+.my-input {
+    width: 100%;
+    position: relative;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.my-input__inner {
+    -webkit-appearance: none;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: none;
+    padding: 0 15px;
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    width: 100%;
+}
+
+.my-input__inner:focus {
+    outline: none;
+    border-color: #409eff;
+}
+
+.my-input .my-input__inner.is-disabled {
+      background-color: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+      cursor: not-allowed;
+}
+
+</style>
+```
+
+
+
+## 3.1、实现v-model
+
+要在自己封装的input组件中实现表单双向绑定，就要理解v-model的原理
+
+**<font color='red'>其实v-model是一个语法糖，它等价于：</font>**
+
+![image-20220808073227786](Typora_images/Element UI学习与开发/image-20220808073227786.png)
+
+**<font color='deepred'>知识点：通过input事件（或change事件），然后获取到事件对象中的value，然后重新赋值给username</font>**
+
+
+
+**vue2中的实现：**
+
+```vue
+<template>
+    <div class="my-input">
+        <input class="my-input__inner" 
+        :class="[{ 'is-disabled': disabled }]" 
+        :placeholder="placeholder" 
+        :type="type"
+        :name="name" 
+        :disabled="disabled"
+        :value="value"
+        @input="fn"
+        >
+    </div>
+</template>
+<script>
+export default {
+    name: 'MyInput',
+    props: {
+        placeholder: {
+            type: String,
+            default: ''
+        },
+        type: {
+            type: String,
+            default: ''
+        },
+        name: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        value: {
+            type: String,
+            default: ''
+        }
+    },
+    methods: {
+        fn (e) {
+            // const ev = e || this.$event
+            this.$emit('input', e.target.value)  //给父组件传递input事件
+        }
+    }
+}
+</script>
+<style>
+.my-input {
+    width: 100%;
+    position: relative;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.my-input__inner {
+    -webkit-appearance: none;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: none;
+    padding: 0 15px;
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    width: 100%;
+}
+
+.my-input__inner:focus {
+    outline: none;
+    border-color: #409eff;
+}
+
+.my-input .my-input__inner.is-disabled {
+      background-color: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+      cursor: not-allowed;
+}
+
+</style>
+```
+
+使用：
+
+```vue
+        <my-input placeholder="请输入用户名" name="zzw" type="text" v-model="username"></my-input>
+```
+
+**<font color='red'>问题：在vue3中，v-model已经不支持这种写法了...而且v-model的实现原理也有所变化了</font>**
+
+
+
+**vue3中的实现**
+
+只要做下面的一点修改就行了
+
+
+
+```vue
+        fn (e) {
+            // const ev = e || this.$event
+            this.$emit('my_input', e.target.value)
+        }
+```
+
+
+
+使用：
+
+```vue
+        <my-input placeholder="请输入用户名" name="zzw" type="text" :value="username" @my_input="handleSync"></my-input>
+```
+
+
+
+
+
+
+
