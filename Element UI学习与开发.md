@@ -1517,6 +1517,312 @@ export default {
         <my-input placeholder="请输入用户名" name="zzw" type="text" :value="username" @my_input="handleSync"></my-input>
 ```
 
+**==<font color='red'>注意：vue3中不允许组件注册@input事件，会报错！</font>==**
+
+## 3.2、input框清空&密码框显示
+
+- 添加clearble属性和show-password属性
+
+### 3.2.1、输入框清空
+
+```vue
+<template>
+    <div class="my-input" :class="[{'my-input--suffix': showSuffix}]">
+        <input class="my-input__inner" 
+        :class="[{ 'is-disabled': disabled }]" 
+        :placeholder="placeholder" 
+        :type="type"
+        :name="name" 
+        :disabled="disabled"
+        :value="value"
+        @input="fn"
+        >
+
+        <span class="my-input__suffix" v-if="showSuffix">
+            <i class="my-icon-cross" v-if="clearble && value" @click="clear"></i>
+            <i class="my-icon-eye" v-if="showPassword"></i>
+        </span>
+    </div>
+
+
+</template>
+<script>
+export default {
+    name: 'MyInput',
+    props: {
+        placeholder: {
+            type: String,
+            default: ''
+        },
+        type: {
+            type: String,
+            default: ''
+        },
+        name: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        value: {
+            type: String,
+            default: ''
+        },
+        clearble: {
+            type: Boolean,
+            default: false
+        },
+        showPassword: {
+            type: Boolean,
+            default: false
+        }
+    },
+    computed: {
+        showSuffix () {
+            return this.clearble || this.showPassword
+        }
+    },
+    methods: {
+        fn (e) {
+            // const ev = e || this.$event
+            this.$emit('my_input', e.target.value)
+        },
+        clear () {
+            this.$emit('my_input','')
+        }
+    }
+}
+</script>
+<style>
+.my-input {
+    width: 100%;
+    position: relative;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.my-input__inner {
+    -webkit-appearance: none;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: none;
+    padding: 0 15px;
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    width: 100%;
+}
+
+.my-input__inner:focus {
+    outline: none;
+    border-color: #409eff;
+}
+
+.my-input .my-input__inner.is-disabled {
+      background-color: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+      cursor: not-allowed;
+}
+
+.my-input--suffix .my-input__inner {
+    padding-right: 30px;
+}
+.my-input--suffix .my-input__suffix {
+    position: absolute;
+    height: 100%;
+    right: 10px;
+    top: 0;
+    line-height: 40px;
+    text-align: center;
+    color: #c0c4cc;
+    transition: all .3s;
+    z-index: 900;
+ }
+ .my-input--suffix .my-input__suffix i {
+    color: #c0c4cc;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color .2s cubic-bezier(.645,.045,.355,1);
+}
+
+
+</style>
+```
+
+==计算属性的妙用==
+
+**<font color='red'>这里的话主要是一些技巧方面的妙用！如果传递了clearable或者是showPassword的话，那么整个span标签就存在，并且在div大框框中启用my-input--suffix类，不然的话，整个span就不存在并且div中的my-input--suffix类也不使用。</font>**
+
+### 3.2.2、隐藏显示密码
+
+```vue
+<template>
+    <div class="my-input" :class="[{'my-input--suffix': showSuffix}]">
+        <input class="my-input__inner" 
+        :class="[{ 'is-disabled': disabled }]" 
+        :placeholder="placeholder" 
+        :type="showPassword? (_showPassword? 'input': 'password') : type"
+        :name="name" 
+        :disabled="disabled"
+        :value="value"
+        @input="fn"
+        >
+
+        <span class="my-input__suffix" v-if="showSuffix">
+            <i class="my-icon-cross" v-if="clearble && value" @click="clear"></i>
+            <i class="my-icon-eye"  :class="{'my-icon-eye-show': _showPassword }"   v-if="showPassword" @click="showPassFun"></i>
+        </span>
+    </div>
+
+
+</template>
+<script>
+export default {
+    name: 'MyInput',
+    data () {
+        return {
+            _showPassword: false
+        }
+    },
+    props: {
+        placeholder: {
+            type: String,
+            default: ''
+        },
+        type: {
+            type: String,
+            default: ''
+        },
+        name: {
+            type: String,
+            default: ''
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        value: {
+            type: String,
+            default: ''
+        },
+        clearble: {
+            type: Boolean,
+            default: false
+        },
+        showPassword: {
+            type: Boolean,
+            default: false
+        }
+    },
+    computed: {
+        showSuffix () {
+            return this.clearble || this.showPassword
+        }
+    },
+    methods: {
+        fn (e) {
+            // const ev = e || this.$event
+            this.$emit('my_input', e.target.value)
+        },
+        clear () {
+            this.$emit('my_input','')
+        },
+        showPassFun () {
+            this._showPassword = !this._showPassword
+        }
+    }
+}
+</script>
+<style>
+.my-input {
+    width: 100%;
+    position: relative;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.my-input__inner {
+    -webkit-appearance: none;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: none;
+    padding: 0 15px;
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    width: 100%;
+}
+
+.my-input__inner:focus {
+    outline: none;
+    border-color: #409eff;
+}
+
+.my-input .my-input__inner.is-disabled {
+      background-color: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+      cursor: not-allowed;
+}
+
+.my-input--suffix .my-input__inner {
+    padding-right: 30px;
+}
+.my-input--suffix .my-input__suffix {
+    position: absolute;
+    height: 100%;
+    right: 10px;
+    top: 0;
+    line-height: 40px;
+    text-align: center;
+    color: #c0c4cc;
+    transition: all .3s;
+    z-index: 900;
+ }
+ .my-input--suffix .my-input__suffix i {
+    color: #c0c4cc;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color .2s cubic-bezier(.645,.045,.355,1);
+}
+
+
+ .my-input--suffix .my-input__suffix i.my-icon-eye-show {
+    color: blue;
+ }
+
+</style>
+```
+
+**思路分析：他牛逼在什么地方呢，就是你看他要改变显示隐藏其实就是改变input框的type属性，但是input框的type属性是外面传进来的啊，总不能又自定义一个事件让父组件去改吧，如果是这样，那这个使用这个组件不就太JB麻烦了吗？而且密封性也不高啊。。。这里牛逼的操作在于用**
+
+​        **:type="showPassword? (_showPassword? 'input': 'password') : type"**
+
+**这样子就可以用自己组将内部的变量控制了，太骚了！！！**
+
+
+
+
+
+# 小结一：
+
+![image-20220810080829867](Typora_images/Element UI学习与开发/image-20220810080829867.png)
+
 
 
 
